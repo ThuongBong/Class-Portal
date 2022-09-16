@@ -30,12 +30,14 @@
         </div>
 
         <div class="well">
-            <h4>Class Code: {{$class->class_code}}</h4>
+            <span style="width: 20%; margin: 0; text-decoration: underline">Class Code: </span> <h4 style="margin-top: 10px; margin-left: 10px">{{$class->class_code}}</h4>
             {{--            <span>Join by link: <strong>{{url('class/'.$class1->id.$class->class_code)}}</strong></span>--}}
+
+            <span style="text-decoration: underline">Class Link: </span>
             <div class="row">
-                <div class="col-md-3 class-form" style="padding:2px;">
-                    <input type="text" id="copy_{{url('class/'.$class1->id.$class->class_code)}}" value="{{url('class/'.$class1->id.$class->class_code)}}">
-                    <button value="copy" onclick="copyToClipboard()">Copy link</button>
+                <div class="col-md-12 class-form" style="margin-bottom: 20px; margin-top: 5px">
+                    <input type="text" id="copy_{{url('class/'.$class1->id.$class->class_code)}}" value="{{url('class/'.$class1->id.$class->class_code)}}" style="margin-left: 10px; width: 280px;">
+                    <button value="copy" onclick="copyToClipboard()" style="margin-left: 20px">Copy link</button>
                 </div>
             </div>
             <a href="{{ url('/class/' . $class1->id . '/students') }}">
@@ -309,7 +311,7 @@
 
                                 <!-- Title -->
                                 <div class="form-group{{ $errors->has('description') ? ' has-error': '' }}">
-                                    <label class="col-md-4 control-label">description</label>
+                                    <label class="col-md-4 control-label">Description</label>
                                     <div class="col-md-5">
                                         <input type="text" class="form-control" name="description" value="{{ old('description') }}"
                                                placeholder="Easy">
@@ -381,7 +383,7 @@
                 </div>
                 <div class="panel-body">
                     <div>
-                        <a href="{{ route('teacher.assignment.create', ['class_id' => $class1->id]) }}" class="btn-add"><button type="button" class="btn btn-success">Add Assignment</button></a>
+                        <a href="{{ route('teacher.assignment.create', ['class_id' => $class1->id]) }}" class="btn-add"><button type="button" class="btn btn-success" style="float: right; margin-bottom: 10px">Add Assignment</button></a>
                         <div>
                             @include('pages.teacher.assignment.table-assignment', compact('assignments'))
                         </div>

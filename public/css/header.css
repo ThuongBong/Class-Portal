@@ -17376,3 +17376,7 @@ textarea.form-control {
     border: 1px solid #FAFAFA;
     color: white !important;
 }
+
+.btn-fix a {
+    margin-bottom: 10px; width: 60%
+}

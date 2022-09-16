@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('title', 'Assignments')
 @section('page-header', 'Assignments')
+
 @section('content')
     <div class="col-xs-12 col-md-12">
         @include('pages.teacher.session-data')

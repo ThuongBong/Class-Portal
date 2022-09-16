@@ -21,14 +21,16 @@
                 <td style="vertical-align: middle"><a href="{!! asset('uploads/assignments/' . $assignment->source) !!}" target="_blank">{{ $assignment->source }}</a></td>
                 <td style="vertical-align: middle">{{ !empty($assignment->due_date) ? convertDatetimeLocal($assignment->due_date) : '' }}</td>
                 <th style="vertical-align: middle">{{ isset($assignment->subject) ? $assignment->subject->name : ''  }}</th>
-                <td style="vertical-align: middle">
+                <td style="vertical-align: middle;" class="btn-fix">
+                    <a href="{{ route('teacher.assignment.answers', $assignment->id) }}" class="btn btn-success btn-sm"><i class="fa fa-fw fa-eye"></i></a>
+
                     <a class="btn btn-primary btn-sm" href="{{ route('teacher.assignment.update', $assignment->id) }}">
                         <i class="fas fa-pencil-alt"></i>
                     </a>
+
                     <a class="btn btn-danger btn-sm btn-delete btn-confirm-delete" href="{{ route('teacher.assignment.delete', $assignment->id) }}">
                         <i class="fas fa-trash"></i>
                     </a>
-                    <a href="{{ route('teacher.assignment.answers', $assignment->id) }}" class="btn btn-success btn-sm"><i class="fa fa-fw fa-eye"></i></a>
                 </td>
             </tr>
             @php $i++ @endphp

@@ -85,7 +85,16 @@
                             <button type="reset" name="reset" value="reset" class="btn btn-danger">
                                 <i class="fa fa-undo"></i> Reset
                             </button>
+                            <div class="pull-right">
+                                <a href="#">
+                                    <button class="btn btn-primary" style="width: 120px">
+                                        <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                                        Back List
+                                    </button>
+                                </a>
+                            </div>
                         </div>
+
                     </div>
                     <!-- /.card-body -->
                 </div>
