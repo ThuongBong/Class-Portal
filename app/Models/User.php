@@ -75,6 +75,30 @@ class User extends Authenticatable
         $this->attributes['email'] = strtolower($value);
     }
 
+    /**
+     * Capitalizes the first character of the string uppercase
+     * to keep consistency
+     *
+     * @param String $value
+     * @return string
+     */
+    public function setPhoneAttribute($value)
+    {
+        $this->attributes['phone'] = ucwords($value);
+    }
+
+    /**
+     * Capitalizes the first character of the string uppercase
+     * to keep consistency
+     *
+     * @param String $value
+     * @return string
+     */
+    public function setDateOfBirthAttribute($value)
+    {
+        $this->attributes['date_of_birth'] = ucwords($value);
+    }
+
 
 
     /**

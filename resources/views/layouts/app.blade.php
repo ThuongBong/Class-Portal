@@ -59,7 +59,7 @@
                         <div class="page-header" style="margin-bottom: 20px">
                             <h2 class="text-right">@yield('page-header')</h2>
                         </div>
-                        <div class="row">
+                        <div class="">
                             @yield('content')
                         </div>
                     </div>

@@ -87,7 +87,7 @@
                     <input style="display:none;" type="checkbox" id="toggle-user-block" name="toggle-user-block" />
                     <label class="label-user" for="toggle-user-block">
                         <span class="avatar-place-holder v4">
-                            <img src="{{(Auth::user()->avatar) ? asset(Auth::user()->avatar) : asset('uploads/avatar/user-default.png') }}" alt class="w-px-40 h-auto rounded-circle" />
+                            <img src="{{(Auth::user()->avatar) ? asset('uploads/avatar/'.Auth::user()->avatar) : asset('uploads/avatar/user-default.png') }}" alt="avatar user" class="w-px-40 h-auto rounded-circle" />
                         </span>
                     </label>
                     <ul class="user-action-box ui-v4">
@@ -98,8 +98,8 @@
                             <a href="{{ url('/profile') }}" title="{{ Auth::user()->email }}">
                                 <div class="user-box">
                                     <span class="avatar-place-holder in-action-box">
-                                        <img src="{{(Auth::user()->avatar) ? asset(Auth::user()->avatar) : asset('uploads/avatar/user-default.png') }}"
-                                             alt class="w-px-40 h-auto rounded-circle"
+                                        <img src="{{(Auth::user()->avatar) ? asset('uploads/avatar/'.Auth::user()->avatar) : asset('uploads/avatar/user-default.png') }}"
+                                             alt="avatar user" class="w-px-40 h-auto rounded-circle" style="border-radius: 50%"
                                         />
                                     </span>
                                     <div class="right">

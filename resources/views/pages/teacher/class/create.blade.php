@@ -14,7 +14,7 @@
                     @foreach (Auth::user()->classes()->get() as $class)
                         <a href="{{ url('class')}}/{{$class->id}}" class="list-group-item list-group-item-info">
                             <h4 class="list-group-item-heading">
-                                {{ $class->name }} {{ $class->room }}-{{ $class->section }}
+                                {{ $class->name }} {{ $class->room }} - {{ $class->section }}
                             </h4>
                             <p class="list-group-item-text">{{ $class->title }}</p>
                         </a>
@@ -83,7 +83,7 @@
 
                         <!-- Name -->
                         <div class="form-group{{ $errors->has('name') ? ' has-error': '' }}">
-                            <label class="col-md-4 control-label">Name</label>
+                            <label class="col-md-4 control-label">Name <sup class="text-danger">(*)</sup></label>
                             <div class="col-md-5">
                                 <input type="text" class="form-control" name="name" value="{{ old('name') }}"
                                        placeholder="T2108M">

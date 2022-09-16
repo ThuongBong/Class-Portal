@@ -13,7 +13,7 @@
                                 <div class="wrap-course-section">
                                     <div class="list-course row">
                                         @foreach (Auth::user()->classes()->get() as $class)
-                                            <article class="course-item col-md-4 col-sm-6 col-lg-3 publish" style="padding: 0 0 30px; margin: 0 15px;">
+                                            <article class="course-item col-md-4 col-sm-6 col-lg-3 publish" style="margin: 0 0 30px; padding: 0 15px;">
                                                 <div class="wrap-course-item">
                                                     <div class="course-infor" style="padding: 20px">
                                                         <h3 class="course-title mg-b-15 fs-18">
@@ -23,19 +23,23 @@
                                                         </h3>
                                                         <ul class="bottom-course-sum none-list mg-0 fs-14 mg-b-15">
                                                             <li>
-                                                                <i class="la la-user-circle"></i>
-                                                                <span title="{{ $class->title }}">{{ $class->title }}</span>
+                                                                <i class="la la-info-circle"></i>
+                                                                <span title="{{ $class->title }}">Title: {{ $class->title }}</span>
+                                                            </li>
+                                                            <li>
+                                                                <i class="la la-life-bouy"></i>
+                                                                <span title="{{ $class->room }}">Room: {{ $class->room }}</span>
                                                             </li>
                                                             <li>
                                                                 <i class="la la-user-circle"></i>
-                                                                <span title="HOATQ4@FPT.EDU.VN">HOATQ4@FPT.EDU.VN</span>
+                                                                <span title="HOATQ4@FPT.EDU.VN">Lecturers: HOATQ4@FPT.EDU.VN</span>
                                                             </li>
                                                             <li>
                                                                 <i class="las la-id-card"></i>
                                                                 <span title="Number of students: 16">Number of students: 16</span>
                                                             </li>
                                                         </ul>
-                                                        <a class="view-detail text-decoration-none fs-14 mg-b-5" href="/xyz" title="Go to course">
+                                                        <a class="view-detail text-decoration-none fs-14 mg-b-5" href="{{ url('class/' . $class->id) }}" title="Go to course">
                                                             Go to class <i class="las la-arrow-right"></i>
                                                         </a>
                                                     </div>
