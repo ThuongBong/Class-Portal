@@ -8,6 +8,7 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ClassController;
 use App\Http\Controllers\AssignmentController;
 use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\Auth\GoogleController;
 
 
 /*
@@ -23,6 +24,9 @@ use App\Http\Controllers\SubjectController;
 
 Auth::routes();
 
+Route::get('auth/google', [GoogleController::class, 'redirectToGoogle']);
+Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
+
 Route::get('/', function () {
     if (Auth::guest()) {
         return view('index');
@@ -31,7 +35,8 @@ Route::get('/', function () {
     }
 });
 
-Route::get('/home', [HomeController::class, 'index']);
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+
 Route::get('/about-us', function (){
     return view('pages.about');
 });
@@ -43,6 +48,9 @@ Route::get('/show-subject', function (){
 });
 Route::get('/show-assignment', function (){
     return view('pages.student.assignment.show');
+});
+Route::get('/assignment-details', function (){
+    return view('pages.student.assignment.show-details');
 });
 
 // User Routes
@@ -62,7 +70,6 @@ Route::post('/subject/save/', [ClassController::class, 'saveSubject']);
 Route::post('/subject/new/save', [ClassController::class, 'saveNewSubject']);
 
 Route::get('/delete/{id}','ClassController@delete')->name('user.delete');
-
 
 Route::post('/url/',[ClassController::class,'urlLink']);
 

@@ -22,6 +22,8 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/header.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/show-subject.css') }}">
+
     <!-- toastr -->
     <link rel="stylesheet" href="{!! asset('toastr/toastr.min.css') !!}">
 
@@ -45,62 +47,96 @@
 </head>
 
 <body>
-<!-- Include the navigation -->
-@include('layouts.navigation')
+    <!-- Include the navigation -->
+    @include('layouts.navigation')
 
-<!-- main content -->
-<main id="site-main" class="site-main" style="padding: 30px 60px 45px;">
-    <div class="container wrap-list-classes">
-        <div class="edn-tabs">
-            <div id="tab-home-page" class="group-head-tab-control">
-                @if(Auth::user()->role == 'teacher')
-                    <div class="page-header" style="margin-bottom: 20px">
-                        <h2 class="text-right">@yield('page-header')</h2>
+    <!-- main content -->
+    <main id="site-main" class="site-main" style="padding: 30px 60px 45px;">
+        <div class="container wrap-list-classes">
+            <div class="edn-tabs">
+                <div id="tab-home-page" class="group-head-tab-control">
+                    @if(Auth::user()->role == 'teacher')
+                        <div class="page-header" style="margin-bottom: 20px">
+                            <h2 class="text-right">@yield('page-header')</h2>
+                        </div>
+                    @endif
+                    <div class="row">
+                        @yield('content')
                     </div>
-                @endif
-                <div class="row">
-                    @yield('content')
                 </div>
             </div>
         </div>
-    </div>
-</main>
-<!-- end main content -->
+    </main>
+    <!-- end main content -->
+    <!-- main content -->
+    <main id="site-main" class="site-main" style="padding: 30px 0 40px">
+        @if(Auth::user()->role == 'teacher')
+            <div class="container wrap-list-classes">
+                <div class="edn-tabs">
+                    <div id="tab-home-page" class="group-head-tab-control">
+                        <div class="page-header" style="margin-bottom: 20px">
+                            <h2 class="text-right">@yield('page-header')</h2>
+                        </div>
+                        <div class="row">
+                            @yield('content')
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
 
-<!--footer-->
-@include('layouts.footer')
-<!--end-footer-->
+        @if(Auth::user()->role == 'student')
+            <div>
+                @yield('content')
+            </div>
+        @endif
+    </main>
+    <!-- end main content -->
 
-<!-- JavaScript -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <!--footer-->
+    @include('layouts.footer')
+    <!--end-footer-->
 
-<!-- JavaScript Files That May Be Needed For Specific Purposes -->
-<!-- toastr -->
-<script src="{!! asset('toastr/toastr.min.js') !!}"></script>
-<script>
-    toastr.options.closeButton = true;
-            @if(session('success'))
-    var message = "{{ session('success') }}";
-    toastr.success(message, {timeOut: 3000});
-            @endif
-            @if(session('error'))
-    var message = "{{ session('error') }}";
-    toastr.error(message, {timeOut: 3000});
-    @endif
-    setTimeout(function(){ toastr.clear() }, 3000);
-    $(document).ready(function () {
+    <!-- JavaScript -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
+    <!--ckeditor-->
+    <script src="//cdn.ckeditor.com/4.19.1/basic/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace('ckeditor');
+        CKEDITOR.replace('ckeditor1');
+        CKEDITOR.replace('ckeditor2');
+    </script>
+
+    <!-- JavaScript Files That May Be Needed For Specific Purposes -->
+    <!-- toastr -->
+    <script src="{!! asset('toastr/toastr.min.js') !!}"></script>
+    <script>
+        toastr.options.closeButton = true;
+                @if(session('success'))
+        var message = "{{ session('success') }}";
+        toastr.success(message, {timeOut: 3000});
+                @endif
+                @if(session('error'))
+        var message = "{{ session('error') }}";
+        toastr.error(message, {timeOut: 3000});
+        @endif
+        setTimeout(function(){ toastr.clear() }, 3000);
+        $(document).ready(function () {
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            //Initialize Select2 Elements
         });
+    </script>
 
-        //Initialize Select2 Elements
-    });
-</script>
-<script type="text/javascript" defer src="{{ asset('js/main.js') }}"></script>
-@stack('scripts')
+    <script type="text/javascript" defer src="{{ asset('js/main.js') }}"></script>
+
+    @stack('scripts')
 </body>
 </html>

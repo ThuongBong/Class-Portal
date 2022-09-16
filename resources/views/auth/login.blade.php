@@ -17,25 +17,24 @@
 
 <body class="identity-site">
 
-    <h1 id="site-logo"> <img src="{{ asset('uploads/logo/logo-login.png') }}" alt="ClassPortal" style="width: 380px; height: 144px"/></h1>
-    <main id="wrap-main-content">
+<h1 id="site-logo"> <img src="{{ asset('uploads/logo/logo-login.png') }}" alt="ClassPortal" style="width: 380px; height: 144px"/></h1>
+<main id="wrap-main-content">
 
     <div class="identity-tabs">
         <a class="btn btn-secondary active" href="#">Login</a>
     </div>
 
-    <ul class="list-social-login">
-
-        <li class="social-login-item">
-            <a class="btn btn-social-login google-login" href="#">
-                <img src="{{ asset('uploads/logo/google.png') }}" alt='Login with Google account'></img>
-                Sign in with @fpt.edu.vn
-            </a>
-        </li>
-    </ul>
-
     <form class="indentity-form" action="{{ url('/login') }}" method="post">
         @csrf
+
+        <ul class="list-social-login">
+            <li class="social-login-item">
+                <a class="btn-social-login google-login" style="font-size: 16px" href="{{ url('auth/google') }}">
+                    <img src="{{ asset('uploads/logo/google.png') }}" alt='Login with Google account'></img>
+                    Sign in with @fpt.edu.vn
+                </a>
+            </li>
+        </ul>
 
         <div class="wrap-form-field">
             <div class="form-group group-width-icon{{ $errors->has('email') ? ' has-error' : '' }}">
@@ -65,7 +64,7 @@
             <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" style="width: 15px;
             height: 15px;">
             <label class="form-check-label" for="flexCheckDefault" style="font-size: 16px; color: #373a3c">
-               Remember Me
+                Remember Me
                 <span style="margin-left: 170px"><a href="{{ route('register') }}">Sign up now?</a></span>
             </label>
         </div>
