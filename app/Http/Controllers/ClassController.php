@@ -36,7 +36,7 @@ class ClassController extends Controller
                 $join->on('classes_subjects.subject_id', '=', 'subjects.id');
             })
             ->get();;
-        $users = DB::table('classes_users')
+        $users = DB::table('classes_users')->select('classes_users.*', 'first_name', 'last_name')
             ->where('class_id', $id)
             ->join('users', function ($join) {
                 $join->on('classes_users.user_id', '=', 'users.id');
@@ -169,8 +169,8 @@ class ClassController extends Controller
         }
     }
     public function delete($id){
+
         $class_user = Classes_User::find($id);
-//        dd($class_user);
         if (!$class_user) {
             return redirect()->back()->with('error', 'Data does not exist');
         }
@@ -190,5 +190,51 @@ class ClassController extends Controller
         }
 
         return redirect('/class/' . $class_id)->with('status', 'Students added to the class successfully!');
+    }
+
+
+    public function joinClass($code)
+    {
+        $joinClass = Classes::where('class_code', $code)->first();
+
+        if (!$joinClass) {
+            return redirect()->back()->with('error', 'Data does not exist');
+        }
+
+        $userId = Auth::user()->id;
+
+        $classUser = Classes_User::where(['user_id' => $userId, 'class_id' => $joinClass->id])->first();
+        if (!$classUser) {
+            $classUser = new Classes_User();
+        }
+        \DB::beginTransaction();
+        try {
+            $classUser->user_id = $userId;
+            $classUser->class_id = $joinClass->id;
+            $classUser->save();
+            \DB::commit();
+            return redirect()->route('class.detail', $joinClass->id)->with('success', 'Successfully added new');
+        } catch (\Exception $exception) {
+            \DB::rollBack();
+            return redirect()->back()->with('error', 'An error occurred while saving data');
+        }
+    }
+
+    public function removeStudent($id)
+    {
+        $classUser = Classes_User::find($id);
+
+        if (!$classUser) {
+            return redirect()->back()->with('error', 'Data does not exist');
+        }
+        \DB::beginTransaction();
+        try {
+            $classUser->delete();
+            \DB::commit();
+            return redirect()->back()->with('success', 'Delete successfully');
+        } catch (\Exception $exception) {
+            \DB::rollBack();
+            return redirect()->back()->with('error', 'There was an error that could not be deleted');
+        }
     }
 }

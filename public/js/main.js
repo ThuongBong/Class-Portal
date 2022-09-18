@@ -54,4 +54,30 @@ $(function () {
             console.log(thrownError)
         });
     })
+
+    $(document).on('click', '.join-by-link', function () {
+        var link_join = $('.link-join-class').val();
+        if (isValidURL(link_join)) {
+            window.location.href = link_join
+        } else {
+            toastr.error('The link is not in the correct format', {timeOut: 3000});
+        }
+    })
+
+    function isValidURL(string) {
+        var res = string.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
+        return (res !== null)
+    }
+
+    $(document).on('click', '.join-by-code', function () {
+
+        var url = $(this).attr('url')
+        var code_join_class = $('.code-join-class').val();
+
+        if (code_join_class == '') {
+            toastr.error('Class code join is not empty', {timeOut: 3000});
+        } else {
+            window.location.href = url + '/' + code_join_class;
+        }
+    })
 })
