@@ -212,11 +212,13 @@ class AssignmentController extends Controller
         if (!$assignment) {
             return redirect()->back()->with('error', 'Data does not exist');
         }
-
+        \DB::beginTransaction();
         try {
             $assignment->delete();
+            \DB::commit();
             return redirect()->back()->with('success', 'Delete successfully');
         } catch (\Exception $exception) {
+            \DB::rollBack();
             return redirect()->back()->with('error', 'There was an error that could not be deleted');
         }
     }

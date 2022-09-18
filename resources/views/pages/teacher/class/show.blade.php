@@ -36,8 +36,8 @@
             <span style="text-decoration: underline">Class Link: </span>
             <div class="row">
                 <div class="col-md-12 class-form" style="margin-bottom: 20px; margin-top: 5px">
-                    <input type="text" id="copy_{{url('class/'.$class1->id.$class->class_code)}}" value="{{url('class/'.$class1->id.$class->class_code)}}" style="margin-left: 10px; width: 280px;">
-                    <button value="copy" onclick="copyToClipboard()" style="margin-left: 10px">Copy link</button>
+                    <input type="text" id="copy_link_join_class" value="{{ route('join.class', $class->class_code)}}" style="margin-left: 10px; width: 280px;">
+                    <button value="copy" onclick="copyToClipboard()" style="margin-left: 20px">Copy link</button>
                 </div>
             </div>
             <a href="{{ url('/class/' . $class1->id . '/students') }}">
@@ -48,7 +48,9 @@
                 <tr>
                     <th scope="col" style="width: 15%">STT</th>
                     <th scope="col">Name</th>
+                    @if (Auth::user()->role == 'teacher')
                     <th scope="col" style="width: 22%">Action</th>
+                    @endif
                 </tr>
                 </thead>
                 <tbody>
@@ -57,11 +59,13 @@
                     <tr>
                         <th scope="row" style="vertical-align: middle">{{ $loop->iteration }}</th>
                         <td style="vertical-align: middle">{{ $item->first_name }} {{ $item->last_name }}</td>
+                        @if (Auth::user()->role == 'teacher')
                         <td style="vertical-align: middle">
-                            <a class="btn btn-danger btn-sm btn-delete btn-confirm-delete" href="#">
+                            <a class="btn btn-danger btn-sm btn-delete btn-confirm-delete" href="{{ route('remove.student.class', $item->id) }}">
                                 <i class="fas fa-trash"></i>
                             </a>
                         </td>
+                        @endif
                     </tr>
                     {{--                        @php $i++ @endphp--}}
                 @endforeach
@@ -419,7 +423,7 @@
 
     <script>
         function copyToClipboard() {
-            document.getElementById("copy_{{url('class/'.$class1->id.$class->class_code)}}").select();
+            document.getElementById("copy_link_join_class").select();
             document.execCommand('copy');
         }
     </script>

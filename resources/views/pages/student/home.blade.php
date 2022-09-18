@@ -99,12 +99,12 @@
                                 Link to the classroom
                             </label>
                             <p>Ask your teacher for a link to the class, then enter the link here.</p>
-                            <input type="text" class="form-control" name="" placeholder="Enter your link here">
+                            <input type="text" class="form-control link-join-class" name="" placeholder="Enter your link here">
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" value="Accept" class="btn btn-primary">Join Class</button>
+                    <button type="button" value="Accept" class="btn btn-primary join-by-link">Join Class</button>
                 </div>
             </div>
         </div>
@@ -128,12 +128,12 @@
                                 Class code
                             </label>
                             <p>Ask your teacher for the class code, then enter it here.</p>
-                            <input type="text" class="form-control" name="" placeholder="Enter your code here">
+                            <input type="text" class="form-control code-join-class" name="" placeholder="Enter your code here">
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" value="Accept" class="btn btn-primary">Join Class</button>
+                    <button type="button" value="Accept" class="btn btn-primary join-by-code" url="{{ route('join.class') }}">Join Class</button>
                 </div>
             </div>
         </div>
