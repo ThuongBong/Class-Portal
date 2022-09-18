@@ -138,7 +138,7 @@
                 <div class="panel-heading" role="tab" id="headingOne">
                     <h4 class="panel-title">
                         <a role="button" data-toggle="collapse" href="#collapseOne" aria-expanded="true"
-                           aria-controls="collapseOne">Edit Class Information or Add Students</a>
+                           aria-controls="collapseOne">Edit Class Information</a>
                     </h4>
                 </div>
 
@@ -151,7 +151,7 @@
                             {{ method_field('PUT') }}
                             <!-- Name -->
                                 <div class="form-group{{ $errors->has('name') ? ' has-error': '' }}">
-                                    <label class="col-md-3 control-label">Name</label>
+                                    <label class="col-md-3 control-label">Class Name <sup class="text-danger">(*)</sup></label>
                                     <div class="col-md-6">
                                         <input type="text" class="form-control" name="name"
                                                value="{{ old('name') ? old('name') : $class1->name }}">
@@ -177,7 +177,7 @@
 
                                 <!-- Room -->
                                 <div class="form-group{{ $errors->has('room') ? ' has-error': '' }}">
-                                    <label class="col-md-3 control-label">Class</label>
+                                    <label class="col-md-3 control-label">Room</label>
                                     <div class="col-md-6">
                                         <input type="text" class="form-control" name="room"
                                                value="{{ old('room') ? old('room') : $class1->room }}">
@@ -274,7 +274,7 @@
                             <form class="form-horizontal" role="form" method="POST" action="{{ url('/subject/save/') }}">
                                 {{ csrf_field() }}
                                 <div class="form-group">
-                                    <label>Subject <span style="color: red">*</span></label>
+                                    <label>Subject</label>
                                     <input type="hidden" name="class_id" value="{{$class_id}}"/>
                                     <select name="subject_id" class="custom-select" required>
                                         <option value="">choose</option>
@@ -302,14 +302,15 @@
                                 <input type="hidden" name="class_id" value="{{$class_id}}"/>
                                 <!--Name-->
                                 <div class="form-group{{ $errors->has('name') ? ' has-error': '' }}">
-                                    <label class="col-md-4 control-label">Name</label>
+                                    <label class="col-md-4 control-label">Name <sup class="text-danger">(*)</sup></label>
                                     <div class="col-md-5">
                                         <input type="text" class="form-control" name="name" value="{{ old('name') }}"
                                                placeholder="HTML">
-
-                                        @if ($errors->has('name'))
-                                            <span class="help-block"><strong>{{ $errors->first('name') }}</strong></span>
-                                        @endif
+                                        <div>
+                                            @if ($errors->has('name'))
+                                                <span class="help-block"><strong>{{ $errors->first('name') }}</strong></span>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
 
@@ -319,10 +320,11 @@
                                     <div class="col-md-5">
                                         <input type="text" class="form-control" name="description" value="{{ old('description') }}"
                                                placeholder="Easy">
-
-                                        @if ($errors->has('description'))
-                                            <span class="help-block"><strong>{{ $errors->first('description') }}</strong></span>
-                                        @endif
+                                        <div>
+                                            @if ($errors->has('description'))
+                                                <span class="help-block"><strong>{{ $errors->first('description') }}</strong></span>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
 

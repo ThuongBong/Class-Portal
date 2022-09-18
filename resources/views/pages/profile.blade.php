@@ -20,11 +20,12 @@
                     </h4>
                 </div>
                 <div class="panel-body">
-                    <div class="col-xs-8 col-md-8">
+                    <div class="col-xs-12 col-md-12">
                         @if ($user->id == Auth::user()->id)
-                            <p><strong>Avatar:</strong> {{ $user->avatar }}</p>
                             <p><strong>First name:</strong> {{ $user->first_name }}</p>
                             <p><strong>Last name:</strong> {{ $user->last_name }}</p>
+                            <p><strong>Phone:</strong> {{ $user->phone }}</p>
+                            <p><strong>Date Of Birth:</strong> {{ $user->date_of_birth }}</p>
                             <p><strong>Role:</strong> {{ $user->role }}</p>
                             <p><strong>Email:</strong> {{ $user->email }}</p>
                             <p><strong>Updated:</strong> {{ $user->updated_at }}</p>
@@ -80,7 +81,7 @@
                             <hr>
 
                             <!-- Edit Form -->
-                            <form class="form-control" role="form" method="POST" action="{{ url('/profile/update') }}" enctype="multipart/form-data">
+                            <form class="form-horizontal" role="form" method="POST" action="{{ url('/profile/update') }}" enctype="multipart/form-data">
                                 {{ csrf_field() }}
                                 <!-- Avatar -->
                                 <div class="form-group{{ $errors->has('avatar') ? ' has-error': ''}}">
@@ -136,7 +137,7 @@
                                 <div class="form-group{{ $errors->has('date_of_birth') ? ' has-error': ''}}">
                                     <label class="col-md-3 col-md-offset-1 control-label">Date of birth</label>
                                     <div class="col-md-6">
-                                        <input type="text" class="form-control" name="date_of_birth"
+                                        <input type="date" class="form-control" name="date_of_birth"
                                                value="{{ $errors->has('date_of_birth') ? old('date_of_birth') : $user->date_of_birth }}">
 
                                         @if ($errors->has('date_of_birth'))
@@ -148,7 +149,7 @@
                                 <!-- Submit Button -->
                                 <div class="form-group">
                                     <div class="col-md-4 col-md-offset-8">
-                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                        <button type="submit" class="btn btn-primary" style="width: 120px">Submit</button>
                                     </div>
                                 </div>
                             </form>

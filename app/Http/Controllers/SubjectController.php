@@ -78,7 +78,7 @@ class SubjectController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
+        $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'string|max:255|nullable',   // Roadmap To Computing
         ]);
@@ -104,16 +104,16 @@ class SubjectController extends Controller
      */
     public function update(Subject $subject, Request $request, $id)
     {
-        $this->validate($request, [
+        $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'string|max:255|nullable',   // Roadmap To Computing
         ]);
 
-        $class = Subject::find($id);
-        $class->name = $request->input('name');
-        $class->description = $request->input('description');
+        $subject = Subject::find($id);
+        $subject->name = $request->input('name');
+        $subject->description = $request->input('description');
 
-        if ($class->save()) {
+        if ($subject->save()) {
             return redirect('/subject/' . $id)->with('status', 'Subject updated successfully!');
         }
     }

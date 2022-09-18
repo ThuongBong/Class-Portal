@@ -110,7 +110,7 @@
                 <div class="panel-heading" role="tab" id="headingOne">
                     <h4 class="panel-title">
                         <a role="button" data-toggle="collapse" href="#collapseOne" aria-expanded="true"
-                           aria-controls="collapseOne">Edit Class Information or Add Students</a>
+                           aria-controls="collapseOne">Edit Class Information</a>
                     </h4>
                 </div>
 

@@ -9,6 +9,7 @@ use App\Http\Controllers\ClassController;
 use App\Http\Controllers\AssignmentController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\Auth\GoogleController;
+use App\Http\Controllers\IssueController;
 
 
 /*
@@ -120,3 +121,5 @@ Route::group(['prefix' => 'student/assignments', 'namespace' => 'Student'], func
     Route::get('/detail/{id}', 'AssignmentController@detail')->name('student.assignment.detail');
     Route::post('/answer/{id}','AssignmentController@answer')->name('student.assignment.answer');
 });
+
+Route::post('/Issues', [IssueController::class, 'store']);
