@@ -67,10 +67,10 @@ class HomeController extends Controller
 
     public function joinClass(Request $request)
     {
-        $class = Classes::all();
+        $classes = Classes::all();
         $classCode = $request->input('classCode');;
 
-        if ($classCode != $class->class_code) {
+        if ($classCode != $classes->class_code) {
             return redirect()->back()->with('error', 'Data does not exist');
         }
 
