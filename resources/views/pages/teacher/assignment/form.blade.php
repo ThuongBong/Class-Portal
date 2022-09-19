@@ -86,8 +86,8 @@
                                 <i class="fa fa-undo"></i> Reset
                             </button>
                             <div class="pull-right">
-                                <a href="#">
-                                    <button class="btn btn-primary" style="width: 120px">
+                                <a href="{{route('class.detail', isset($classId))}}">
+                                    <button type="button" class="btn btn-primary" style="width: 120px">
                                         <i class="fa fa-arrow-left" aria-hidden="true"></i>
                                         Back List
                                     </button>
