@@ -65,12 +65,15 @@ class HomeController extends Controller
         }
     }
 
-    public function joinClass(Request $request)
+    public function joinClass(Request $request, $code)
     {
-        $classes = Classes::all();
+        $class_code = Classes::all();
         $classCode = $request->input('classCode');;
 
-        if ($classCode != $classes->class_code) {
+        dd($class_code);
+
+
+        if ($classCode != $class_code) {
             return redirect()->back()->with('error', 'Data does not exist');
         }
 

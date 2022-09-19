@@ -33,13 +33,13 @@ class IssueController extends Controller
             $attachments = $path.$fileName;
         }
 
-            Issue::create([
-                "phone" => $request->get('phone'),
-                "email" => $request->get('email'),
-                "describe" => $request->get('describe'),
-                "attachments" => $attachments,
-                "user_id" => $user_id
-            ]);
-            return back()->with('status', 'Assignment added successfully!');
+        Issue::create([
+            "phone" => $request->get('phone'),
+            "email" => $request->get('email'),
+            "describe" => $request->get('describe'),
+            "attachments" => $attachments,
+            "user_id" => $user_id
+        ]);
+        return back()->with('success', 'We have received your problem, we will respond as soon as possible!');
     }
 }
