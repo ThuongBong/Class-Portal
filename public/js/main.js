@@ -1,6 +1,6 @@
 $(function () {
     $('.select-class').change(function () {
-        var url = $(this).attr('url');
+        var url = $(this).attr('href');
         var class_id = $(this).val();
 
         $.ajax({
@@ -19,17 +19,14 @@ $(function () {
     })
     $('.detail_answer').click(function (event) {
         event.preventDefault();
-        var url = $(this).attr('url');
+        var url = $(this).data('url');
 
         $.ajax({
             url: url,
             type: 'POST',
-            dataType: 'json',
-            async: true,
+            async: false
         }).done(function (result) {
-            $('.modal-content').html(result.html)
-        }).fail(function (XMLHttpRequest, textStatus, thrownError) {
-            console.log(thrownError)
+             $('#detail_Answer_1').html(result.html.toString());
         });
     })
 

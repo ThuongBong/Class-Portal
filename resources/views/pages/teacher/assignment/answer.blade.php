@@ -38,9 +38,9 @@
                                 <td style="vertical-align: middle" class="result_mark_{{ $result->id }}">{{ $result->mark }}</td>
                                 <td style="vertical-align: middle" >{{ $result->status !== 0 ? 'Đã nộp' : 'Chưa nộp' }}</td>
                                 <td style="vertical-align: middle; width: 5%;">
-                                    <a class="btn btn-success btn-sm detail_answer" href="{{ route('get.detail.answer', $result->id) }}" data-toggle="modal" data-target=".bd-example-modal-lg">
+                                    <button class="btn btn-success btn-sm detail_answer" data-url="{{ route('get.detail.answer', $result->id) }}" data-toggle="modal" data-target=".bd-example-modal-lg">
                                         <i class="fa fa-fw fa-eye"></i>
-                                    </a>
+                                    </button>
                                 </td>
                             </tr>
                         @endforeach
@@ -53,7 +53,7 @@
 
     <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="margin-top: 50px">
         <div class="modal-dialog modal-lg">
-            <div class="modal-content">
+            <div class="modal-content" id="detail_Answer_1">
 
             </div>
         </div>
