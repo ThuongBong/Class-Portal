@@ -33,7 +33,7 @@
                             </a>
                         </li>
                         <li class="menu-item list-assignments {{request()->segment(1) == 'list-assignment' ? 'active' : '' }}">
-                            <a class="" href="/list-assignment" title="Assignments">
+                            <a class="" href="{{ Auth::user()->role == 'student' ? route('student.assignment.index') : route('teacher.assignment.index') }}" title="Assignments">
                                 <i class="las la-book"></i> Assignments
                             </a>
                         </li>

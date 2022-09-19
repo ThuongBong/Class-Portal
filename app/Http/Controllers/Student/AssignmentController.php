@@ -10,6 +10,7 @@ use App\Models\Assignment;
 use App\Models\Subject;
 use App\Models\Result;
 use App\Http\Requests\Student\AnswerAssignmentRequest;
+use Illuminate\Support\Facades\DB;
 
 class AssignmentController extends Controller
 {
@@ -27,8 +28,8 @@ class AssignmentController extends Controller
     {
         //
         $userId = Auth::user()->id;
-        $classIds = \DB::table('classes_users')->where('user_id', $userId)->pluck('class_id');
-        $subjectIds = \DB::table('classes_subjects')->whereIn('class_id', $classIds)->pluck('subject_id');
+        $classIds = DB::table('classes_users')->where('user_id', $userId)->pluck('class_id');
+        $subjectIds = DB::table('classes_subjects')->whereIn('class_id', $classIds)->pluck('subject_id');
         $assignments = Assignment::with('subject')->whereIn('subject_id', $subjectIds)->orderByDesc('id')->paginate(NUMBER_PAGINATION);
         return view('pages.student.assignment.index', compact('assignments'));
     }
@@ -53,7 +54,7 @@ class AssignmentController extends Controller
         $result = Result::where(['user_id' => $userId, 'assignment_id' => $id])->first();
         $assignment = Assignment::find($id);
 
-        \DB::beginTransaction();
+        DB::beginTransaction();
         try {
             if (!$result) {
                 $result = new Result();
@@ -74,10 +75,10 @@ class AssignmentController extends Controller
 
             $result->save();
 
-            \DB::commit();
+            DB::commit();
             return redirect()->back()->with('success', 'Answer is successful');
         } catch (\Exception $exception) {
-            \DB::rollBack();
+            DB::rollBack();
             return redirect()->back()->with('error', 'An error occurred while saving data');
         }
     }

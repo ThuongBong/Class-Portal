@@ -69,11 +69,8 @@
                     <br> by the teacher to get started
                 </p>
                 <div class="join">
-                    <button class="btn join-class" data-toggle="modal" data-target="#userJoinLink">
-                        Join by link
-                    </button>
                     <button class="btn btn-primary join-class2" data-toggle="modal" data-target="#userJoinCode">
-                        Join by code
+                        Join class by code
                     </button>
                 </div>
             </div>
@@ -91,21 +88,22 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <form action="" method="">
-                        {{ csrf_field() }}
+                <form action="{{ route('join.class', $classCode) }}">
+                    {{ csrf_field() }}
+                    <div class="modal-body">
                         <div class="form-group">
                             <label>
                                 Link to the classroom
                             </label>
                             <p>Ask your teacher for a link to the class, then enter the link here.</p>
-                            <input type="text" class="form-control link-join-class" name="" placeholder="Enter your link here">
+                            <input type="text" class="form-control link-join-class" name="classCode"
+                                   placeholder="Enter your link here">
                         </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" value="Accept" class="btn btn-primary join-by-link">Join Class</button>
-                </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" value="Accept" class="btn btn-primary join-by-link">Join Class</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

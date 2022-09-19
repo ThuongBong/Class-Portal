@@ -72,7 +72,7 @@ class Assignment extends Model
      *
      * @return Response
      */
-    public function classe()
+    public function classes()
     {
         return $this->belongsTo(Classes::class, 'class_id', 'id');
     }

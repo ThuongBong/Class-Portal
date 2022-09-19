@@ -31,12 +31,11 @@
 
         <div class="well">
             <span style="width: 20%; margin: 0; text-decoration: underline">Class Code: </span> <h4 style="margin-top: 10px; margin-left: 10px">{{$class->class_code}}</h4>
-            {{--            <span>Join by link: <strong>{{url('class/'.$class1->id.$class->class_code)}}</strong></span>--}}
 
             <span style="text-decoration: underline">Class Link: </span>
             <div class="row">
                 <div class="col-md-12 class-form" style="margin-bottom: 20px; margin-top: 5px">
-                    <input type="text" id="copy_link_join_class" value="{{ route('join.class', $class->class_code)}}" style="margin-left: 10px; width: 280px;">
+                    <input type="text" id="copy_link_join_class" value="{{ route('join.class', $class->class_code)}}" style="margin-left: 10px; width: 265px;">
                     <button value="copy" onclick="copyToClipboard()" style="margin-left: 20px">Copy link</button>
                 </div>
             </div>
@@ -61,7 +60,8 @@
                         <td style="vertical-align: middle">{{ $item->first_name }} {{ $item->last_name }}</td>
                         @if (Auth::user()->role == 'teacher')
                         <td style="vertical-align: middle">
-                            <a class="btn btn-danger btn-sm btn-delete btn-confirm-delete" href="{{ route('remove.student.class', $item->id) }}">
+                            <a class="btn btn-danger btn-sm btn-delete btn-confirm-delete" href="{{ route('remove.student.class', $item->id) }}"
+                               onclick="return confirm('You want delete student: {{$item->first_name}}')">
                                 <i class="fas fa-trash"></i>
                             </a>
                         </td>
@@ -114,7 +114,10 @@
                         {{ csrf_field() }}
                         {{ method_field('DELETE') }}
 
-                        <button type="submit" class="btn btn-danger btn-block" style="margin-top: 2px">Delete</button>
+                        <button type="submit" class="btn btn-danger btn-block" style="margin-top: 2px"
+                                onclick="return confirm('You want delete class: {{$class1->name}}')">
+                            Delete
+                        </button>
                     </form>
                 </div>
             @else
@@ -389,7 +392,9 @@
                 </div>
                 <div class="panel-body">
                     <div>
-                        <a href="{{ route('teacher.assignment.create', ['class_id' => $class1->id]) }}" class="btn-add"><button type="button" class="btn btn-success" style="float: right; margin-bottom: 10px">Add Assignment</button></a>
+                        <a href="{{ route('teacher.assignment.create', ['class_id' => $class1->id]) }}" class="btn-add">
+                            <button type="button" class="btn btn-success" style="float: right; margin: 0 15px 15px">Add Assignment</button>
+                        </a>
                         <div>
                             @include('pages.teacher.assignment.table-assignment', compact('assignments'))
                         </div>

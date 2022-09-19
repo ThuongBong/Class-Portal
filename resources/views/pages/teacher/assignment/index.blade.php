@@ -12,7 +12,9 @@
                 </h4>
             </div>
             <div class="col-md-12">
-                <a href="{{ route('teacher.assignment.create') }}" class="btn-add"><button type="button" class="btn btn-success">Add Assignment</button></a>
+                <a href="{{ route('teacher.assignment.create') }}" class="btn-add">
+                    <button type="button" class="btn btn-success" style="margin: 20px 15px; float: right">Add Assignment</button>
+                </a>
             </div>
             <div class="panel-body">
                 <div class="col-xs-12 col-md-12">

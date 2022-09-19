@@ -30,7 +30,7 @@ class AssignmentController extends Controller
     {
         //
         $userId = Auth::user()->id;
-        $assignments = Assignment::with('subject', 'classe')->where('teacher_id', $userId)->orderByDesc('id')->paginate(NUMBER_PAGINATION);
+        $assignments = Assignment::with('subject', 'classes')->where('teacher_id', $userId)->orderByDesc('id')->paginate(NUMBER_PAGINATION);
         return view('pages.teacher.assignment.index', compact('assignments'));
     }
 

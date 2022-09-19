@@ -140,7 +140,7 @@ class ClassController extends Controller
 
     public function saveNewSubject(Request $request){
 
-        \DB::beginTransaction();
+        DB::beginTransaction();
         try {
             $subject = new Subject();
             $subject->name = $request->name;
@@ -193,7 +193,7 @@ class ClassController extends Controller
     }
 
 
-    public function joinClass($code)
+    /*public function joinClass($code)
     {
         $joinClass = Classes::where('class_code', $code)->first();
 
@@ -207,18 +207,18 @@ class ClassController extends Controller
         if (!$classUser) {
             $classUser = new Classes_User();
         }
-        \DB::beginTransaction();
+        DB::beginTransaction();
         try {
             $classUser->user_id = $userId;
             $classUser->class_id = $joinClass->id;
             $classUser->save();
-            \DB::commit();
+            DB::commit();
             return redirect()->route('class.detail', $joinClass->id)->with('success', 'Successfully added new');
         } catch (\Exception $exception) {
-            \DB::rollBack();
+            DB::rollBack();
             return redirect()->back()->with('error', 'An error occurred while saving data');
         }
-    }
+    }*/
 
     public function removeStudent($id)
     {
@@ -227,13 +227,13 @@ class ClassController extends Controller
         if (!$classUser) {
             return redirect()->back()->with('error', 'Data does not exist');
         }
-        \DB::beginTransaction();
+        DB::beginTransaction();
         try {
             $classUser->delete();
-            \DB::commit();
+            DB::commit();
             return redirect()->back()->with('success', 'Delete successfully');
         } catch (\Exception $exception) {
-            \DB::rollBack();
+            DB::rollBack();
             return redirect()->back()->with('error', 'There was an error that could not be deleted');
         }
     }
