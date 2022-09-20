@@ -36,7 +36,8 @@ class ClassController extends Controller
                 $join->on('classes_subjects.subject_id', '=', 'subjects.id');
             })
             ->get();;
-        $users = DB::table('classes_users')->select('classes_users.*', 'first_name', 'last_name')
+        $users = DB::table('classes_users')
+            ->select('classes_users.*', 'avatar', 'first_name', 'last_name', 'phone', 'date_of_birth', 'email')
             ->where('class_id', $id)
             ->join('users', function ($join) {
                 $join->on('classes_users.user_id', '=', 'users.id');
@@ -51,18 +52,40 @@ class ClassController extends Controller
         // it was created
         $recent_activity = array();
         $userId = $instructor->id;
-        $assignments = Assignment::with('subject')->where(['teacher_id' => $userId, 'class_id' => $id])->orderByDesc('id')->paginate(10);
+        $assignments = Assignment::with('subject')
+            ->where(['teacher_id' => $userId, 'class_id' => $id])
+            ->orderByDesc('id')
+            ->paginate(10);
 
-        return view('pages.teacher.class.show', [
-            'class1' => $class,
-            'instructor' => $instructor,
-            'class_id' => $id,
-            'classes' => $classes,
-            'users' => $users,
-            'subjects' => $subjects,
-            'assignments' => $assignments,
-            'recent_activity' => $recent_activity
-        ]);
+        //get lecturer
+        $lecturer = $class->users()->where('role', 'teacher')->first();
+
+
+        if (Auth::user()->role == 'teacher'){
+            return view('pages.teacher.class.show', [
+                'class1' => $class,
+                'instructor' => $instructor,
+                'class_id' => $id,
+                'classes' => $classes,
+                'users' => $users,
+                'subjects' => $subjects,
+                'assignments' => $assignments,
+                'recent_activity' => $recent_activity,
+                'lecturer' => $lecturer
+            ]);
+        } else {
+            return view('pages.student.subject.show',[
+                'class1' => $class,
+                'instructor' => $instructor,
+                'class_id' => $id,
+                'classes' => $classes,
+                'users' => $users,
+                'subjects' => $subjects,
+                'assignments' => $assignments,
+                'lecturer' => $lecturer
+            ]);
+        }
+
     }
 
     /**
@@ -193,32 +216,32 @@ class ClassController extends Controller
     }
 
 
-    /*public function joinClass($code)
+    public function joinClass($classCode)
     {
-        $joinClass = Classes::where('class_code', $code)->first();
+        $classes = Classes::where('class_code', $classCode)->first();
 
-        if (!$joinClass) {
+        if (!$classes){
             return redirect()->back()->with('error', 'Data does not exist');
         }
 
         $userId = Auth::user()->id;
 
-        $classUser = Classes_User::where(['user_id' => $userId, 'class_id' => $joinClass->id])->first();
+        $classUser = Classes_User::where(['user_id' => $userId, 'class_id' => $classes->id])->first();
         if (!$classUser) {
             $classUser = new Classes_User();
         }
         DB::beginTransaction();
         try {
             $classUser->user_id = $userId;
-            $classUser->class_id = $joinClass->id;
+            $classUser->class_id = $classes->id;
             $classUser->save();
             DB::commit();
-            return redirect()->route('class.detail', $joinClass->id)->with('success', 'Successfully added new');
+            return redirect()->route('class.detail', $classes->id)->with('success', 'Successfully added new');
         } catch (\Exception $exception) {
             DB::rollBack();
             return redirect()->back()->with('error', 'An error occurred while saving data');
         }
-    }*/
+    }
 
     public function removeStudent($id)
     {

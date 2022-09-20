@@ -11,21 +11,23 @@
             </li>
             <li class="separator">/</li>
             <li>
-                <span title="Name Class">Name Class</span>
+                <span title="Name Class">{{ $class1->name }}</span>
             </li>
         </ul>
         <article class="course-detail-content">
             <div class="row">
                 <div class="col-12 col-lg-8 course-detail-content__main">
                     <section class="top-bar-courseDetail mg-b-16">
-                        <h1 class="course-name text-bold fs-34 white-space-pre-wrap">Name Class</h1>
+                        <h1 class="course-name text-bold fs-34 white-space-pre-wrap">Class: {{ $class1->name }}</h1>
                     </section>
                     {{--@if (Auth::user()->id != $instructor->id)--}}
                     <p class="course-code-title">
                         Lecturer:
-                        <span class="code">
-                                {{--<a href="{{ url('/profile/' . $instructor->id) }}">{{ $instructor->first_name }} {{ $instructor->last_name }}</a>--}}
-                            </span>
+                        <span class="lecturer-chat">
+                            <a href="{{ url('/profile/' . $instructor->id) }}">
+                                {{ $lecturer->first_name }} {{ $lecturer->last_name }}
+                            </a>
+                        </span>
                     </p>
                     {{--@endif--}}
                     <div class="wrap-course-detail-content_main">
@@ -35,24 +37,27 @@
                                 <!---lessons content--->
                                 <div id="lessons-content" class="edn-tabs ui-tabs ui-widget ui-widget-content">
                                     <div id="list-lessons" class="edn-tab-content ui-tabs-panel ui-widget-content" aria-labelledby="list-slots-tab" role="tabpanel" aria-hidden="false">
+                                        <h4>List Of Subjects: </h4>
                                         <ul class="list-slots none-list mg-0">
                                             <!--foreach()-->
-                                            <li class="slot-item">
-                                                <div class="slot-item__thumb">
-                                                    <div class="top-head-slot mg-b-12">
-                                                        <div class="left-top-head-slot">
-                                                            <b class="slot-label">Name subject</b>
-                                                            <time class="fs-14"><i class="la la-calendar fs-18"></i>08:00 30/05/2022 - 10:00 30/05/2022 (GMT+07)</time>
+                                            @foreach($classes as $item)
+                                                <li class="slot-item">
+                                                    <div class="slot-item__thumb">
+                                                        <div class="top-head-slot mg-b-12">
+                                                            <div class="left-top-head-slot">
+                                                                <b class="slot-label">{{$item->name}}</b>
+                                                                <time class="fs-14"><i class="la la-calendar fs-18"></i>{{$item->created_at}} (GMT+07)</time>
+                                                            </div>
+                                                            <div class="right-top-head-slot">
+                                                                <a href="/show-assignment" class="text-decoration-none text-lightbold">View detail</a>
+                                                            </div>
                                                         </div>
-                                                        <div class="right-top-head-slot">
-                                                            <a href="/show-assignment" class="text-decoration-none text-lightbold">View detail</a>
+                                                        <div class="wrap-slot-name">
+                                                            <div class="slot-name text-bold">{{!($item->description) ? '--' : $item->description}}</div>
                                                         </div>
                                                     </div>
-                                                    <div class="wrap-slot-name">
-                                                        <div class="slot-name text-bold">Description subject</div>
-                                                    </div>
-                                                </div>
-                                            </li>
+                                                </li>
+                                            @endforeach
                                             <!--end-foreach()-->
                                         </ul>
                                     </div>
@@ -80,18 +85,21 @@
                                         <div class="heading-lectures-section mg-b-20">
                                             <h4 class="fs-16 mg-0">Lecturer (1)</h4>
                                             <!--chat class-->
-                                            <i class='fas fa-comments' style='font-size:24px'></i>
-                                            <a href="{{--{{ url('/profile/' . $instructor->id) }}--}}" style="text-decoration: underline" title="Chat with lecturer">
-                                                Chat with lecturer
+                                            <a href="{{ url('/profile/' . $lecturer->id) }}" style="text-decoration: underline" title="Chat with lecturer">
+                                                <i class='fas fa-comments' style='font-size:20px'></i>
+                                                 Chat with lecturer
                                             </a>
                                         </div>
                                         <ul class="none-list mg-0">
                                             <li class="lecture-item mg-b-16">
                                                 <div class="user-acc">
-                                                    <img src=" {{ asset('uploads/avatar/user-default.png') }}" alt="HOATQ4@FPT.EDU.VN" class="user-avatar">
+                                                    <img src="{{($lecturer->avatar) ? asset('uploads/avatar/'.$lecturer->avatar) : asset('uploads/avatar/user-default.png') }}"
+                                                         alt="{{ $lecturer->email }}" class="user-avatar">
                                                     <div class="acc-content-right">
                                                         <div class="wrap-user-name">
-                                                            <span class="user-name text-semibold fs-14 is-email" title="HOATQ4@FPT.EDU.VN">HOATQ4@FPT.EDU.VN</span>
+                                                            <span class="user-name text-semibold fs-14 is-email" title="{{ $lecturer->email }}">
+                                                                {{ $lecturer->email }}
+                                                            </span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -100,20 +108,21 @@
                                         <div class="heading-lectures-section mg-b-20">
                                             <h4 class="fs-16 mg-0">Students (10)</h4>
                                         </div>
-                                        <!--foreach()-->
-                                        <ul class="none-list mg-0">
-                                            <li class="lecture-item mg-b-16">
-                                                <div class="user-acc">
-                                                    <img src=" {{ asset('uploads/avatar/user-default.png') }}" alt="THAONXTH2108014@FPT.EDU.VN" class="user-avatar">
-                                                    <div class="acc-content-right">
-                                                        <div class="wrap-user-name">
-                                                            <span class="user-name text-semibold fs-14 is-email" title="THAONXTH2108014@FPT.EDU.VN">THAONXTH2108014@FPT.EDU.VN</span>
+                                        @foreach($users as $item)
+                                            <ul class="none-list mg-0">
+                                                <li class="lecture-item mg-b-16">
+                                                    <div class="user-acc">
+                                                        <img src="{{($item->avatar) ? asset('uploads/avatar/'.$item->avatar) : asset('uploads/avatar/user-default.png') }}"
+                                                             alt="{{ $item->email }}" class="user-avatar">
+                                                        <div class="acc-content-right">
+                                                            <div class="wrap-user-name">
+                                                                <span class="user-name text-semibold fs-14 is-email" title="{{ $item->email }}">{{ $item->email }}</span>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                        <!--end-foreach()-->
+                                                </li>
+                                            </ul>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>

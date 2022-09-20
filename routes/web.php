@@ -39,7 +39,7 @@ Route::get('/', function () {
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 //join home student
-Route::get('/join/class/{code?}', [HomeController::class, 'joinClass'])->name('join.class');
+Route::get('/join/class/{classCode?}', [ClassController::class, 'joinClass'])->name('join.class');
 
 Route::get('/about-us', function (){
     return view('pages.about');

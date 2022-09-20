@@ -32,11 +32,11 @@
                                                             </li>
                                                             <li>
                                                                 <i class="la la-user-circle"></i>
-                                                                <span title="HOATQ4@FPT.EDU.VN">Lecturers: HOATQ4@FPT.EDU.VN</span>
+                                                                <span title="{{--{{$lecturer->email}}--}}">Lecturers: {{--{{$lecturer->email}}--}}</span>
                                                             </li>
                                                             <li>
                                                                 <i class="las la-id-card"></i>
-                                                                <span title="Number of students: 16">Number of students: 16</span>
+                                                                <span title="Number of students: ">Number of students: </span>
                                                             </li>
                                                         </ul>
                                                         <a class="view-detail text-decoration-none fs-14 mg-b-5" href="{{ url('class/' . $class->id) }}" title="Go to course">
@@ -79,6 +79,7 @@
     </div>
 
     <!--form link-->
+{{--
     <div class="modal fade" id="userJoinLink" role="dialog" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -107,35 +108,7 @@
             </div>
         </div>
     </div>
-
-    <!--form code-->
-    <div class="modal fade" id="userJoinCode" role="dialog" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Join class by code</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form action="" method="">
-                        {{ csrf_field() }}
-                        <div class="form-group">
-                            <label>
-                                Class code
-                            </label>
-                            <p>Ask your teacher for the class code, then enter it here.</p>
-                            <input type="text" class="form-control code-join-class" name="" placeholder="Enter your code here">
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" value="Accept" class="btn btn-primary join-by-code" url="{{ route('join.class') }}">Join Class</button>
-                </div>
-            </div>
-        </div>
-    </div>
+--}}
 @endsection
 
 

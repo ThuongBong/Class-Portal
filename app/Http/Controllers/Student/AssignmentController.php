@@ -26,7 +26,6 @@ class AssignmentController extends Controller
      */
     public function index()
     {
-        //
         $userId = Auth::user()->id;
         $classIds = DB::table('classes_users')->where('user_id', $userId)->pluck('class_id');
         $subjectIds = DB::table('classes_subjects')->whereIn('class_id', $classIds)->pluck('subject_id');

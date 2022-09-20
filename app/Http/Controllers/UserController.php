@@ -43,7 +43,7 @@ class UserController extends Controller
         $this->validate($request, [
             'avatar'=>'nullable',
             'first_name' => 'required|max:50',
-            'last_name' => 'required|max:50',
+            'last_name' => 'max:50',
             'phone' => 'nullable|min:10|max:15|',
             'date_of_birth' => 'nullable|before:today',
         ]);

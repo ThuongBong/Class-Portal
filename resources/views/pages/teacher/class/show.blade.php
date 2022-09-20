@@ -48,7 +48,7 @@
                     <th scope="col" style="width: 15%">STT</th>
                     <th scope="col">Name</th>
                     @if (Auth::user()->role == 'teacher')
-                    <th scope="col" style="width: 22%">Action</th>
+                        <th scope="col" style="width: 22%">Action</th>
                     @endif
                 </tr>
                 </thead>
@@ -59,12 +59,12 @@
                         <th scope="row" style="vertical-align: middle">{{ $loop->iteration }}</th>
                         <td style="vertical-align: middle">{{ $item->first_name }} {{ $item->last_name }}</td>
                         @if (Auth::user()->role == 'teacher')
-                        <td style="vertical-align: middle">
-                            <a class="btn btn-danger btn-sm btn-delete btn-confirm-delete" href="{{ route('remove.student.class', $item->id) }}"
-                               onclick="return confirm('You want delete student: {{$item->first_name}}')">
-                                <i class="fas fa-trash"></i>
-                            </a>
-                        </td>
+                            <td style="vertical-align: middle">
+                                <a class="btn btn-danger btn-sm btn-delete btn-confirm-delete" href="{{ route('remove.student.class', $item->id) }}"
+                                   onclick="return confirm('You want delete student: {{$item->first_name}}')">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </td>
                         @endif
                     </tr>
                     {{--                        @php $i++ @endphp--}}
@@ -94,9 +94,9 @@
 
     <!-- Display flashed session data on successful action -->
     <div class="col-xs-12 col-md-8">
-    @include('pages.teacher.session-data')
+        @include('pages.teacher.session-data')
 
-    <!-- Show class title and instructor's name -->
+        <!-- Show class title and instructor's name -->
         <div class="row">
             @if ($instructor->role == "teacher" && $class1 != null)
                 <div class="col-md-10">
@@ -134,9 +134,9 @@
             @endif
         </div>
 
-    {{--Edit + Add--}}
-    @if ($instructor->role == "teacher")
-        <!-- Edit Class Information -->
+        {{--Edit + Add--}}
+        @if ($instructor->role == "teacher")
+            <!-- Edit Class Information -->
             <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="headingOne">
                     <h4 class="panel-title">
@@ -150,9 +150,9 @@
                         <div class="col-xs-12 col-md-12">
                             <form class="form-horizontal" role="form" method="POST"
                                   action="{{ url('class/' . $class1->id) }}">
-                            {{ csrf_field() }}
-                            {{ method_field('PUT') }}
-                            <!-- Name -->
+                                {{ csrf_field() }}
+                                {{ method_field('PUT') }}
+                                <!-- Name -->
                                 <div class="form-group{{ $errors->has('name') ? ' has-error': '' }}">
                                     <label class="col-md-3 control-label">Class Name <sup class="text-danger">(*)</sup></label>
                                     <div class="col-md-6">
@@ -219,42 +219,42 @@
                     </div>
                 </div>
             </div>
-    @endif
+        @endif
 
 
-    {{--        --}}{{--chuyển phần này qua subjects--}}
+        {{--        --}}{{--chuyển phần này qua subjects--}}
 
-    {{--        --}}{{--Lich su assignment da tao--}}
-    {{--        @if (isset($recent_activity) && count($recent_activity) > 0)--}}
-    {{--            <div class="panel panel-default">--}}
-    {{--                <div class="panel-heading">--}}
-    {{--                    <h4 class="panel-title">--}}
-    {{--                        Recent Assignment Activity--}}
-    {{--                    </h4>--}}
-    {{--                </div>--}}
+        {{--        --}}{{--Lich su assignment da tao--}}
+        {{--        @if (isset($recent_activity) && count($recent_activity) > 0)--}}
+        {{--            <div class="panel panel-default">--}}
+        {{--                <div class="panel-heading">--}}
+        {{--                    <h4 class="panel-title">--}}
+        {{--                        Recent Assignment Activity--}}
+        {{--                    </h4>--}}
+        {{--                </div>--}}
 
-    {{--                <div class="panel-body">--}}
-    {{--                    <div class="col-xs-12 col-md-10 col-md-offset-1">--}}
-    {{--                        <div class="list-group">--}}
-    {{--                            @foreach ($recent_activity as $activity)--}}
-    {{--                                <a href="{{ url('/class/' . $activity->class_id . '/assignment/' . $activity->id) }}"--}}
-    {{--                                   class="list-group-item list-group-item-warning">--}}
-    {{--                                    <h4 class="list-group-item-heading">{{ $activity->title }}</h4>--}}
-    {{--                                    <p class="list-group-item-text">{{ $activity->description }}</p>--}}
-    {{--                                    <p class="list-group-item-text"><b>Due Date:</b>--}}
-    {{--                                        <u>{{ date('F jS Y \a\t h:i A', strtotime($activity->due_date)) }}</u>--}}
-    {{--                                    </p>--}}
-    {{--                                </a>--}}
-    {{--                            @endforeach--}}
-    {{--                        </div>--}}
-    {{--                    </div>--}}
-    {{--                </div>--}}
-    {{--            </div>--}}
-    {{--        @endif--}}
+        {{--                <div class="panel-body">--}}
+        {{--                    <div class="col-xs-12 col-md-10 col-md-offset-1">--}}
+        {{--                        <div class="list-group">--}}
+        {{--                            @foreach ($recent_activity as $activity)--}}
+        {{--                                <a href="{{ url('/class/' . $activity->class_id . '/assignment/' . $activity->id) }}"--}}
+        {{--                                   class="list-group-item list-group-item-warning">--}}
+        {{--                                    <h4 class="list-group-item-heading">{{ $activity->title }}</h4>--}}
+        {{--                                    <p class="list-group-item-text">{{ $activity->description }}</p>--}}
+        {{--                                    <p class="list-group-item-text"><b>Due Date:</b>--}}
+        {{--                                        <u>{{ date('F jS Y \a\t h:i A', strtotime($activity->due_date)) }}</u>--}}
+        {{--                                    </p>--}}
+        {{--                                </a>--}}
+        {{--                            @endforeach--}}
+        {{--                        </div>--}}
+        {{--                    </div>--}}
+        {{--                </div>--}}
+        {{--            </div>--}}
+        {{--        @endif--}}
 
-    {{-- add subject theo class--}}
-    @if (Auth::user()->role == 'teacher' && Auth::user()->id == $instructor->id)
-        <!-- Add Quizzes, Assignments, and Annoucements -->
+        {{-- add subject theo class--}}
+        @if (Auth::user()->role == 'teacher' && Auth::user()->id == $instructor->id)
+            <!-- Add Quizzes, Assignments, and Annoucements -->
             <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="headingOne">
                     <h4 class="panel-title">

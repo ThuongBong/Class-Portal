@@ -17380,3 +17380,28 @@ textarea.form-control {
 .btn-fix a {
     margin-bottom: 10px; width: 60%
 }
+
+
+/*
+.header-account .join-icon {
+    background: var(--bg-block);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 5px;
+    padding: 3px 5px;
+    transition: all 300ms;
+}
+*/
+
+.user-chat .chat-icon:hover {
+    background: var(--bg-block) !important;
+}
+
+.lecturer-chat a{
+    color: white;
+}
+.lecturer-chat a:hover{
+    text-decoration: none;
+}

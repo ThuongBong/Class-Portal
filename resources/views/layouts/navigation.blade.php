@@ -34,9 +34,17 @@
                         </li>
                         <li class="menu-item list-assignments {{request()->segment(1) == 'list-assignment' ? 'active' : '' }}">
                             <a class="" href="{{ Auth::user()->role == 'student' ? route('student.assignment.index') : route('teacher.assignment.index') }}" title="Assignments">
-                                <i class="las la-book"></i> Assignments
+                                <i class="la la-question"></i> Assignments
                             </a>
                         </li>
+                        <!-- Display appropriate links based on the user's role -->
+                        @if (Auth::user()->role == 'student')
+                            <li class="menu-item home">
+                                <a data-toggle="modal" data-target="#userJoinCode" href="" title="Join Class">
+                                    <i class="la la-share-square-o"></i>  Join +
+                                </a>
+                            </li>
+                        @endif
                         <li class="menu-item user-guide-link">
                             <a href="" data-toggle="modal" data-target="#userSupportModal" title="Support">
                                 <i class="la la-support"></i> Support
@@ -66,6 +74,16 @@
                     </a>
                 </div>
             </li>
+            @if(Auth::user()->role == 'student')
+                <li class="user-chat">
+                    <div class="chat-icon">
+                        <a href="" data-toggle="modal" data-target="#userJoinCode">
+                            <span class="total-message"></span>
+                            <i class="la la-plus"></i>
+                        </a>
+                    </div>
+                </li>
+            @endif
             <li class="user-notify">
                 <input type="checkbox" id="user-notify-cb" class="hidden" />
                 <div class="overlay-notify"><i class="las la-times"></i></div>

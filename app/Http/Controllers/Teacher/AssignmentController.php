@@ -30,7 +30,10 @@ class AssignmentController extends Controller
     {
         //
         $userId = Auth::user()->id;
-        $assignments = Assignment::with('subject', 'classes')->where('teacher_id', $userId)->orderByDesc('id')->paginate(NUMBER_PAGINATION);
+        $assignments = Assignment::with('subject', 'classes')
+            ->where('teacher_id', $userId)
+            ->orderByDesc('id')
+            ->paginate(NUMBER_PAGINATION);
         return view('pages.teacher.assignment.index', compact('assignments'));
     }
 
@@ -43,9 +46,9 @@ class AssignmentController extends Controller
     {
         //
         $userId = Auth::user()->id;
-        $classIds = \DB::table('classes_users')->where('user_id', $userId)->pluck('class_id');
+        $classIds = DB::table('classes_users')->where('user_id', $userId)->pluck('class_id');
         $class = Classes::whereIn('id', $classIds)->get();
-        $subjectIds = \DB::table('classes_subjects');
+        $subjectIds = DB::table('classes_subjects');
         $classId = $request->class_id;
 
         if ($classId) {
@@ -69,7 +72,7 @@ class AssignmentController extends Controller
     public function store(AssignmentRequest $request)
     {
         //
-        \DB::beginTransaction();
+        DB::beginTransaction();
         try {
             $data = $request->except('_token', 'submit');
             $data['teacher_id'] = Auth::user()->id;
@@ -85,7 +88,7 @@ class AssignmentController extends Controller
             $assignment = Assignment::create($data);
 
             if ($assignment) {
-                $userIds = \DB::table('classes_users')->where('class_id', $assignment->class_id)->pluck('user_id');
+                $userIds = DB::table('classes_users')->where('class_id', $assignment->class_id)->pluck('user_id');
 
                 foreach($userIds as $userId) {
                     $result = Result::where(['assignment_id' => $assignment->id, 'user_id' => $userId])->first();
@@ -101,10 +104,10 @@ class AssignmentController extends Controller
                 }
             }
 
-            \DB::commit();
+            DB::commit();
             return redirect()->route('class.detail', $assignment->class_id)->with('success', 'Successfully added new');
         } catch (\Exception $exception) {
-            \DB::rollBack();
+            DB::rollBack();
             return redirect()->back()->with('error', 'An error occurred while saving data');
         }
     }
@@ -121,9 +124,9 @@ class AssignmentController extends Controller
         $assignment = Assignment::findOrFail($id);
 
         $userId = Auth::user()->id;
-        $classIds = \DB::table('classes_users')->where('user_id', $userId)->pluck('class_id');
+        $classIds = DB::table('classes_users')->where('user_id', $userId)->pluck('class_id');
         $class = Classes::whereIn('id', $classIds)->get();
-        $subjectIds = \DB::table('classes_subjects');
+        $subjectIds = DB::table('classes_subjects');
         $classId = $assignment->class_id;
 
         if ($classId) {
@@ -154,7 +157,7 @@ class AssignmentController extends Controller
         //
         $userId = Auth::user()->id;
 
-        \DB::beginTransaction();
+        DB::beginTransaction();
         try {
             $data = $request->except('_token', 'submit');
 
@@ -170,7 +173,7 @@ class AssignmentController extends Controller
 
             $assignment = Assignment::find($id);
 
-            $userIds = \DB::table('classes_users')->where('class_id', $assignment->class_id)->pluck('user_id');
+            $userIds = DB::table('classes_users')->where('class_id', $assignment->class_id)->pluck('user_id');
 
             foreach($userIds as $userId) {
                 $result = Result::where(['assignment_id' => $assignment->id, 'user_id' => $userId])->first();
@@ -191,10 +194,10 @@ class AssignmentController extends Controller
             $assignment->update($data);
 
 
-            \DB::commit();
+            DB::commit();
             return redirect()->back()->with('success', 'Editing is successful');
         } catch (\Exception $exception) {
-            \DB::rollBack();
+            DB::rollBack();
             return redirect()->back()->with('error', 'An error occurred while saving data');
         }
     }
@@ -212,13 +215,13 @@ class AssignmentController extends Controller
         if (!$assignment) {
             return redirect()->back()->with('error', 'Data does not exist');
         }
-        \DB::beginTransaction();
+        DB::beginTransaction();
         try {
             $assignment->delete();
-            \DB::commit();
+            DB::commit();
             return redirect()->back()->with('success', 'Delete successfully');
         } catch (\Exception $exception) {
-            \DB::rollBack();
+            DB::rollBack();
             return redirect()->back()->with('error', 'There was an error that could not be deleted');
         }
     }
@@ -227,7 +230,7 @@ class AssignmentController extends Controller
     {
         if ($request->ajax() && !empty($request->class_id)) {
             $classId = $request->class_id;
-            $subjectIds = \DB::table('classes_subjects')->where('class_id', $classId)->pluck('subject_id');
+            $subjectIds = DB::table('classes_subjects')->where('class_id', $classId)->pluck('subject_id');
             $subjects = Subject::whereIn('id', $subjectIds)->get();
 
             $html =  view('pages.teacher.assignment.option_subject', compact('subjects'))->render();

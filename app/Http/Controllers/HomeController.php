@@ -51,7 +51,7 @@ class HomeController extends Controller
             });
         }
 
-        $classCode = $request->input('classCode');
+
 
 
         if (Auth::user()->role == 'teacher'){
@@ -60,41 +60,8 @@ class HomeController extends Controller
             ]);
         } else {
             return view('pages.student.home',[
-                'classCode' => $classCode
             ]);
         }
     }
-
-    public function joinClass(Request $request, $code)
-    {
-        $class_code = Classes::all();
-        $classCode = $request->input('classCode');;
-
-        dd($class_code);
-
-
-        if ($classCode != $class_code) {
-            return redirect()->back()->with('error', 'Data does not exist');
-        }
-
-        $userId = Auth::user()->id;
-
-        $classUser = Classes_User::where(['user_id' => $userId, 'class_id' => $classCode->id])->first();
-        if (!$classUser) {
-            $classUser = new Classes_User();
-        }
-        DB::beginTransaction();
-        try {
-            $classUser->user_id = $userId;
-            $classUser->class_id = $classCode->id;
-            $classUser->save();
-            DB::commit();
-            return redirect()->route('class.detail', $classCode->id)->with('success', 'Successfully added new');
-        } catch (\Exception $exception) {
-            DB::rollBack();
-            return redirect()->back()->with('error', 'An error occurred while saving data');
-        }
-    }
-
 
 }
