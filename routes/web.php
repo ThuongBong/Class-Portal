@@ -115,7 +115,7 @@ Route::group(['prefix' => 'teacher/assignments', 'namespace' => 'Teacher'], func
 
     Route::get('/answers/{id}', 'AssignmentController@answers')->name('teacher.assignment.answers');
 
-    Route::post('/get/detail/answer/{id}','AssignmentController@detailAnswer')->name('get.detail.answer');
+    Route::get('/get/detail/answer/{id}','AssignmentController@detailAnswer')->name('get.detail.answer');
     Route::post('/update/mark/answer/{id}','AssignmentController@updateMark')->name('update.mark.answer');
 });
 

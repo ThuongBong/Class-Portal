@@ -46,6 +46,9 @@
                         @if (!empty($result->mark))
                             <p>Mark : {{ $result->mark }}</p>
                         @endif
+                        @if (!empty($result->comments))
+                            <p>Comments : {!! $result->comments !!}</p>
+                        @endif
                     </div>
                 @else
                     <div class="col-xs-12 col-md-12">

@@ -33,6 +33,7 @@ $(function () {
     $(document).on('click', '.btn-save-mark', function () {
         var url = $(this).attr('url');
         var mark = $(this).parent().parent().find('#mark_assignment').val();
+        var comments = $(this).parent().parent().find('#comments').val();
 
         $.ajax({
             url: url,
@@ -40,7 +41,8 @@ $(function () {
             dataType: 'json',
             async: true,
             data: {
-                mark: mark
+                mark: mark,
+                comments: comments,
             }
         }).done(function (result) {
             if (result.code == 200) {

@@ -11,7 +11,7 @@ class Result extends Model
     protected $table = 'results';
 
     protected $fillable = [
-        'assignment_id', 'user_id', 'subject_id', 'description', 'source', 'mark', 'status'
+        'assignment_id', 'user_id', 'subject_id', 'description', 'source', 'mark', 'status', 'comments'
     ];
 
     public function user()
