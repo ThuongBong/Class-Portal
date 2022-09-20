@@ -249,22 +249,14 @@ class AssignmentController extends Controller
         }
 
         $results = Result::with('user')->where('assignment_id', $id)->get();
-//        dd($results);
 
         return view('pages.teacher.assignment.answer', compact('assignment', 'results'));
     }
 
     public function detailAnswer(Request $request, $id)
     {
-        if ($request->ajax()) {
-
-            $result = Result::with('user', 'assignment')->find($id);
-            $html =  view('pages.teacher.assignment.detail-answer', compact('result'))->render();
-
-            return response([
-                'html' => $html
-            ]);
-        }
+        $result = Result::with('user', 'assignment')->find($id);
+        return view('pages.teacher.assignment.detail-answer', compact('result'));
     }
 
     public function updateMark(Request $request, $id)
@@ -278,6 +270,7 @@ class AssignmentController extends Controller
                 ]);
             }
             $result->mark = $request->mark;
+            $result->comments = $request->comments;
 
             if ($result->save()) {
                 return response([
