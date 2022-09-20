@@ -123,7 +123,7 @@ class ClassController extends Controller
             $classes->user_id = $user_id;
             $classes->class_id = $class->id;
             $classes->save();
-            return redirect('/class/create')->with('status', 'Class added successfully!');
+            return redirect()->route('class.detail', $class->id)->with('status', 'Class added successfully!');
         }
     }
 

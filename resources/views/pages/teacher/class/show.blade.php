@@ -30,12 +30,12 @@
         </div>
 
         <div class="well">
-            <span style="width: 20%; margin: 0; text-decoration: underline">Class Code: </span> <h4 style="margin-top: 10px; margin-left: 10px">{{$class->class_code}}</h4>
+            <span style="width: 20%; margin: 0; text-decoration: underline">Class Code: </span> <h4 style="margin-top: 10px; margin-left: 10px">{{$class1->class_code}}</h4>
 
             <span style="text-decoration: underline">Class Link: </span>
             <div class="row">
                 <div class="col-md-12 class-form" style="margin-bottom: 20px; margin-top: 5px">
-                    <input type="text" id="copy_link_join_class" value="{{ route('join.class', $class->class_code)}}" style="margin-left: 10px; width: 265px;">
+                    <input type="text" id="copy_link_join_class" value="{{ route('join.class', $class1->class_code)}}" style="margin-left: 10px; width: 265px;">
                     <button value="copy" onclick="copyToClipboard()" style="margin-left: 20px">Copy link</button>
                 </div>
             </div>
