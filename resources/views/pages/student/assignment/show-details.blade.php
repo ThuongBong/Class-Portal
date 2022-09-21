@@ -8,25 +8,19 @@
             <ul class="breadcrumb none-list mg-0 mg-b-25 fs-16 text-normal"><li><a href="/home" class="text-decoration-none" title="Home">Home</a></li>
                 <li class="separator">/</li>
                 <li>
-                    <a href="/show-subject" class="text-decoration-none breadcum-subject-detail" title="Name Subject">
-                        Name Subject
+                    <a href="{{ route('student.assignment.show_all') }}" class="text-decoration-none" title="Assignment">
+                        Assignments
                     </a>
                 </li>
                 <li class="separator">/</li>
                 <li>
-                    <a href="/show-assignment" class="text-decoration-none" title="Assignment">
-                        Assignment
-                    </a>
-                </li>
-                <li class="separator">/</li>
-                <li>
-                    <span title="Bài tập nhanh">Title Assignment</span>
+                    <span title="{{ $assignment->title }}">{{ $assignment->title }}</span>
                 </li>
             </ul>
 
             <!--title-->
             <div class="entry-title edn-lesson-title fs-24 mg-b-16">
-                <h1 class="left wrap-activity-title mg-0 fs-24 text-semibold"><span class="mg-r-5">Title Assignment</span></h1>
+                <h1 class="left wrap-activity-title mg-0 fs-24 text-semibold"><span class="mg-r-5">{{ $assignment->title }}</span></h1>
             </div>
 
             <div id="main-content-lesson" class="main-content-lesson row">
@@ -38,11 +32,12 @@
                     <div id="live-stream-notify-section" class="mg-b-25 hidden">
                     </div>
                     <div class="entry-lesson-content">
-                        <!--description-->
                         <div class="wrap-main-activity">
                             <div class="wrap-entry-lesson-content">
                                 <h4 class="mg-b-8">Content</h4>
-                                <div class="wrap-activity-content"><p>Day la description assignment (if) else '--'</p></div>
+                                <div class="wrap-activity-content">
+                                    <p>{!! empty($assignment->description) ? '--' : $assignment->description !!}</p>
+                                </div>
                             </div>
                         </div>
 
@@ -51,15 +46,17 @@
                                 <div class="attach-teacher mg-b-16">
                                     <label class="text-semibold">Additional files:</label>
                                     <div class="attachment-teacher-wrap">
-                                        <a target="_blank" href="https://s3-sgn09.fptcloud.com/faistorage/files/attachfiles/Assignment-8_d535c18d6e5d42fa9e02e190429e2b1f.pdf"
-                                           title="Uploads - Source" class="text-decoration-none text-lightbold link-attach assignment-downloadable" download="">
-                                            Đây là file source từ teacher
+                                        <a target="_blank" href="{{ asset('uploads/assignments/' . $assignment->source) }}"
+                                           title="{{ $assignment->source }}" class="text-decoration-none text-lightbold link-attach assignment-downloadable" download="">
+                                            {{ !($assignment->source) ? '--' : $assignment->source }}
                                         </a>
                                     </div>
                                 </div>
                                 <div class="duedate mg-b-16">
                                     <label class="text-semibold">Due date:</label>
-                                    <span class="label-duedate">15/07/2022 10:00 (GMT+07)</span>
+                                    @if (!empty($assignment->due_date))
+                                        <span class="label-duedate">{{ formatTime($assignment->due_date) }}</span>
+                                    @endif
                                 </div>
                             </div>
                             <div class="hr-assignment mg-b-30"></div>
@@ -67,85 +64,175 @@
                             <div class="submit-for-student col-lg-8 col-xl-8">
                                 <h3 class="mg-0" >Your assignment: </h3>
                                 <br>
-                                <!--nếu đã có results-->
-                                    {{--<div class="submit-overview mg-b-30">
-                                    <div class="mg-b-10">
-                                        <p class="top text-lightbold">
-                                            Submission status:
-                                        </p>
-                                        --}}{{--nếu có thì trả về link, chưa có thì trả về 'chưa nộp' và trả về class danger--}}{{--
-                                        <span class="fs-14 text-lightbold my-submission-status submitted">Submitted</span>
+                                <!--nếu mà hết giờ or được add điểm-->
+                                @if (
+                                    (!empty($assignment->due_date) && checkTime($assignment->due_date) < 0 || $result && !empty($result->mark))
+                                    || (empty($assignment->due_date) && $result && !empty($result->mark))
+                                )
+                                    <div class="submit-overview">
+                                        <div class="mg-b-10">
+                                            <i class="la la-calendar-check-o"></i>
+                                            <span class="top text-lightbold">
+                                                Mark:
+                                            </span>
+                                            @if (!empty($result->mark))
+                                                <span class="fs-20 text-bold blue-02">
+                                                    {{ $result->mark }}
+                                                </span>
+                                            @else
+                                                <span class="fs-16 text-danger">
+                                                    __
+                                                </span>
+                                            @endif
+                                        </div>
+                                        <div class="mg-b-10">
+                                            <p class="top text-lightbold">
+                                                Lecturer comments:
+                                            </p>
+                                            <span class="my-submission-time text-lightbold"></span>
+                                        </div>
                                     </div>
-                                    <div class="mg-b-10">
-                                        <p class="top text-lightbold">
-                                            Submission time:
-                                        </p>
-                                        --}}{{--nếu có thì trả về link, chưa có thì trả về '--'--}}{{--
-                                        <span class="my-submission-time text-bold">15/07/2022 09:57 (GMT+07)</span>
-                                    </div>
-                                    <div class="mg-b-10">
-                                        <p class="top text-lightbold">
-                                            Link/file assignment:
-                                        </p>
-                                        --}}{{--nếu có thì trả về link, chưa có thì trả về '--'--}}{{--
-                                        <a target="_blank" href="https://s3-sgn09.fptcloud.com/faistorage/files/attachfiles/fsà_0ebe659b63dd48bc9e67fabe63961534_1240.png" title="" class="student-submitted-link text-lightbold text-decoration-none assignment-downloadable" download="true">
-                                            Đây là source từ student
-                                        </a>
-                                    </div>
-                                </div>--}}
-                                <!--chưa có-->
-                                <div>
-                                    {{--<div id="collapseTwo">
-                                        <select id="source_results" name="source_results" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <option value="">
-                                                Choose Source Option <i class="fa fa-caret-down" aria-hidden="true"></i>
-                                            </option>
-                                            <option value="file_uploads">File Uploads</option>
-                                            <option value="link">Link</option>
-                                        </select>
-                                    </div>--}}
 
+                                    <div class="submit-overview mg-b-30">
+                                        <div class="mg-b-10">
+                                            <p class="top text-lightbold">
+                                                Submission status:
+                                            </p>
+                                            <span class="fs-14 text-lightbold {{ ($result->status == 1) ? 'my-submission-status submitted' : 'my-submission-status' }}">
+                                                {{ ($result->status == 1) ? 'Submitted' : 'Not Submit'}}
+                                            </span>
+                                        </div>
+                                        <div class="mg-b-10">
+                                            <p class="top text-lightbold">
+                                                Submission time:
+                                            </p>
+                                            <span class="my-submission-time text-bold">{{ ($result->status == 1) ? 'thời gian nộp' : '--' }}</span>
+                                        </div>
+                                        <div class="mg-b-10">
+                                            <p class="top text-lightbold">
+                                                Link/file assignment:
+                                            </p>
+                                            @if (!empty($result->source))
+                                                <p>
+                                                    <a href="{!! asset('uploads/assignments/' . $result->source) !!}" target="_blank">
+                                                        {{ $result->source }}
+                                                    </a>
+                                                </p>
+                                            @else
+                                                <p>
+                                                    <a href="{!! asset('uploads/assignments/' . $result->source) !!}" target="_blank">
+                                                        --
+                                                    </a>
+                                                </p>
+                                            @endif
+                                        </div>
+                                    </div>
+                                @else
+                                    <!--da nop, nhung con time-->
+                                    @if( $result->status == 1)
+                                        <div class="submit-overview mg-b-30">
+                                            <div class="mg-b-10">
+                                                <p class="top text-lightbold">
+                                                    Submission status:
+                                                </p>
+                                                <span class="fs-14 text-lightbold my-submission-status submitted">Submitted</span>
+                                            </div>
+                                            <div class="mg-b-10">
+                                                <p class="top text-lightbold">
+                                                    Submission time:
+                                                </p>
+                                                <span class="my-submission-time text-bold">thời gian nộp</span>
+                                            </div>
+                                            <div class="mg-b-10">
+                                                <p class="top text-lightbold">
+                                                    Link/file assignment:
+                                                </p>
+                                                @if (!empty($result->source))
+                                                    <p>
+                                                        <a href="{!! asset('uploads/assignments/' . $result->source) !!}" target="_blank">
+                                                            {{ $result->source }}
+                                                        </a>
+                                                    </p>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    @endif
 
+                                    <!--chua nop, nhung con time-->
                                     <div class="form">
                                         <!--form-->
-                                        <form role="form" method="post" action="" enctype="multipart/form-data">
+                                        <form role="form" action="{{ route('student.assignment.answer', $assignment->id) }}" method="post" enctype="multipart/form-data">
                                             @csrf
                                             @method("post")
-                                            <div class="mb-3" id="file_uploads">
-                                                <input class="form-control" type="file" id="formFile" value="" name="source">
-                                                <div>
-                                                    @if ($errors->has('source'))
-                                                        <span class="help-block"><strong>{{ $errors->first('source') }}</strong></span>
+
+                                            <label for="inputEmail3" class="control-label default">Source <sup class="text-danger">(*)</sup></label>
+
+                                            <div class="mg-b-20">
+                                                <div style="margin-bottom: 10px">
+                                                    <span class="text-danger"> {{ $errors->first('source') }}</span>
+                                                </div>
+                                                <select id="mySource" class="form-select btn-more-actions"
+                                                        aria-label="Default select example" style="background-color: #c2d4f7">
+                                                    <option value="">--Choose a sending method--</option>
+                                                    <option value="upload">method: Uploads</option>
+                                                    <option value="link">method: Links</option>
+                                                </select>
+                                                <div style="margin-top: 10px">
+                                                    @if (!empty($result->source))
+                                                        <p><a href="{!! asset('uploads/assignments/' . $result->source) !!}" target="_blank">{{ $result->source }}</a></p>
                                                     @endif
                                                 </div>
                                             </div>
 
-                                            <div id="link" class="form-group">
-                                                <input class="form-control" type="text" value="" name="source" placeholder="url link">
-                                                <div>
-                                                    @if ($errors->has('source'))
-                                                        <span class="help-block"><strong>{{ $errors->first('source') }}</strong></span>
-                                                    @endif
-                                                </div>
-                                            </div>
 
-                                            <div class="form-group" style="margin-top: 20px">
-                                                <div>
-                                                    <textarea class="form-control" name="description" rows="3" placeholder="Description"></textarea>
+
+                                            <div id="uploadFiles" class="note" style="display: none">
+                                                <div class="form-group {{ $errors->first('source') ? 'has-error' : '' }} ">
+                                                    <input type="file" class="form-control" name="source" value="{{ old('source') }}">
                                                     <div>
-                                                        @if ($errors->has('description'))
-                                                            <span class="help-block"><strong>{{ $errors->first('description') }}</strong></span>
+                                                        @if ($errors->has('source'))
+                                                            <span class="help-block"><strong>{{ $errors->first('source') }}</strong></span>
                                                         @endif
                                                     </div>
                                                 </div>
                                             </div>
 
+                                            <div id="linkUrl" class="note" style="display: none">
+                                                <div class="form-group {{ $errors->first('source') ? 'has-error' : '' }} ">
+                                                    <input type="text" class="form-control" name="source" placeholder="https://..." value="{{ old('source') }}">
+                                                    <div>
+                                                        @if ($errors->has('source'))
+                                                            <span class="help-block"><strong>{{ $errors->first('source') }}</strong></span>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <!--ck editer-->
+                                            <div class="form-group {{ $errors->first('description') ? 'has-error' : '' }}">
+                                                <label for="inputEmail3" class="control-label default">Description</label>
+                                                <div>
+                                                    <textarea name="description" style="resize:vertical" id="description" class="form-control" placeholder="">
+                                                        {{ old('description', isset($result) ? $result->description : '') }}
+                                                    </textarea>
+                                                    <div>
+                                                        @if ($errors->has('description'))
+                                                            <span class="help-block"><strong>{{ $errors->first('description') }}</strong></span>
+                                                        @endif
+                                                    </div>
+
+                                                    <script>
+                                                        ckeditor(description);
+                                                    </script>
+                                                </div>
+                                            </div>
+
                                             <br>
 
-                                            {{--hết giờ thì disable button, chuyển qua re-submit--}}
                                             <div class="submit-area mg-b-20 align-right">
                                                 <div style="cursor: not-allowed; display: inline-block;">
-                                                    <button class="btn submit-results" type="button">Submit</button>
+                                                    <button class="btn submit-results white-color" type="submit">Submit</button>
                                                 </div>
                                             </div>
 
@@ -153,70 +240,32 @@
                                         <!--end form-->
                                     </div>
 
-                                </div>
-
+                                @endif
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!--tab-panel-->
-                {{--<aside class="col-12 col-lg-4 col-xl-4 course-sidebar hide-on-992">
-                    <div class="wrap-course-sidebar course-sidebar-sticky">
-                        <div class="top">
-                            <div class="course-thumb-wrap">
-                            </div>
-                            <div class="course-sumary-desktop pd-15">
-                                <div class="course-sumary">
-                                    <div class="lectures-section">
-                                        <div class="heading-lectures-section">
-                                            <h3 class="mg-0" >Your assignment</h3>
-                                        </div>
-                                        <hr>
-                                        <form role="form" method="post" action="" enctype="multipart/form-data">
-                                            @csrf
-                                            @method("post")
-
-                                            <div class="form-group">
-                                                <div class="">
-                                                    <input class="form-control" type="text" class="form-control" value="" name="" placeholder="url link">
-                                                </div>
-                                            </div>
-                                            <div class="mb-3">
-                                                <div>
-                                                    <input class="form-control" type="file" id="formFile" value="" name="">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div>
-                                                    <textarea class="form-control" name="" rows="3" placeholder="Description Result"></textarea>
-                                                </div>
-                                            </div>
-
-                                            <br>
-
-                                            --}}{{--hết giờ thì disable button, chuyển qua re-submit--}}{{--
-                                            <div class="submit-area mg-b-20">
-                                                <div style="cursor: not-allowed; display: inline-block;">
-                                                    <button class="btn submit-results" type="button">Submit</button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-
-                                <div class="row mg-t-10 update-button-detail" style="display: none;"></div>
-                                <div class="row mg-t-10 export-class-activity" style="display: none;"></div>
-                            </div>
-                            <!--End Case studying-->
-                        </div>
-                    </div>
-                </aside>--}}
-                <!--/tab-panel-->
-
             </div>
         </article>
     </div>
-
 @endsection
+
+@push('scripts')
+    <script>
+        $('.note').hide();
+        $('#mySource').change(function() {
+            value = $(this).val();
+            $('#uploadFiles').hide();
+            $('#linkUrl').hide();
+            if (value=="upload") {
+                $('#uploadFiles').show();
+            }else if (value == "link") {
+                $('#linkUrl').show();
+            }
+        });
+    </script>
+@endpush
+
+
 

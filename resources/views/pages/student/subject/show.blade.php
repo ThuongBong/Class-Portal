@@ -49,7 +49,7 @@
                                                                 <time class="fs-14"><i class="la la-calendar fs-18"></i>{{$item->created_at}} (GMT+07)</time>
                                                             </div>
                                                             <div class="right-top-head-slot">
-                                                                <a href="/show-assignment" class="text-decoration-none text-lightbold">View detail</a>
+                                                                <a href="/show-assignment" class="text-decoration-none text-lightbold">View assignments</a>
                                                             </div>
                                                         </div>
                                                         <div class="wrap-slot-name">

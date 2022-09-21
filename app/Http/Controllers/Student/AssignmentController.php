@@ -29,8 +29,11 @@ class AssignmentController extends Controller
         $userId = Auth::user()->id;
         $classIds = DB::table('classes_users')->where('user_id', $userId)->pluck('class_id');
         $subjectIds = DB::table('classes_subjects')->whereIn('class_id', $classIds)->pluck('subject_id');
-        $assignments = Assignment::with('subject')->whereIn('subject_id', $subjectIds)->orderByDesc('id')->paginate(NUMBER_PAGINATION);
-        return view('pages.student.assignment.index', compact('assignments'));
+        $assignments = Assignment::with('subject')
+            ->whereIn('subject_id', $subjectIds)
+            ->orderByDesc('id')
+            ->paginate(NUMBER_PAGINATION);
+        return view('pages.student.assignment.show_all', compact('assignments'));
     }
 
     public function detail($id)
@@ -44,7 +47,7 @@ class AssignmentController extends Controller
         $userId = Auth::user()->id;
         $result = Result::where(['user_id' => $userId, 'assignment_id' => $id])->first();
 
-        return view('pages.student.assignment.details', compact('assignment', 'result'));
+        return view('pages.student.assignment.show-details', compact('assignment', 'result'));
     }
 
     public function answer(AnswerAssignmentRequest $request, $id)

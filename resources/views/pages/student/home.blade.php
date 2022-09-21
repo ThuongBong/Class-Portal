@@ -32,7 +32,7 @@
                                                             </li>
                                                             <li>
                                                                 <i class="la la-user-circle"></i>
-                                                                <span title="{{--{{$lecturer->email}}--}}">Lecturers: {{--{{$lecturer->email}}--}}</span>
+                                                                <span title="{{--{{$lecturer->email}}--}}">Lecturers: </span>
                                                             </li>
                                                             <li>
                                                                 <i class="las la-id-card"></i>

@@ -44,7 +44,7 @@ class AssignmentController extends Controller
      */
     public function create(Request $request)
     {
-        //
+
         $userId = Auth::user()->id;
         $classIds = DB::table('classes_users')->where('user_id', $userId)->pluck('class_id');
         $class = Classes::whereIn('id', $classIds)->get();
@@ -103,6 +103,7 @@ class AssignmentController extends Controller
                     $result->save();
                 }
             }
+
 
             DB::commit();
             return redirect()->route('class.detail', $assignment->class_id)->with('success', 'Successfully added new');

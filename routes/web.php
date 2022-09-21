@@ -120,8 +120,8 @@ Route::group(['prefix' => 'teacher/assignments', 'namespace' => 'Teacher'], func
 });
 
 Route::group(['prefix' => 'student/assignments', 'namespace' => 'Student'], function(){
-    Route::get('/', 'AssignmentController@index')->name('student.assignment.index');
-    Route::get('/detail/{id}', 'AssignmentController@detail')->name('student.assignment.detail');
+    Route::get('/', 'AssignmentController@index')->name('student.assignment.show_all');
+    Route::get('/detail/{id}', 'AssignmentController@detail')->name('student.assignment.show-details');
     Route::post('/answer/{id}','AssignmentController@answer')->name('student.assignment.answer');
 });
 

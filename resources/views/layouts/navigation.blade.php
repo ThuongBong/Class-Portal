@@ -21,7 +21,7 @@
                         </li>
                         <!-- Display appropriate links based on the user's role -->
                         @if (Auth::user()->role == 'teacher')
-                            <li class="menu-item home {{request()->segment(1) == 'class' ? 'active' : '' }}">
+                            <li class="menu-item home {{request()->segment(2) == 'create' ? 'active' : '' }}">
                                 <a class="" href="{{ url('/class/create') }}" title="Add Class">
                                     <i class="las la-home"></i>  Add Class
                                 </a>
@@ -32,8 +32,8 @@
                                 <i class="las la-book"></i> Subjects
                             </a>
                         </li>
-                        <li class="menu-item list-assignments {{request()->segment(1) == 'list-assignment' ? 'active' : '' }}">
-                            <a class="" href="{{ Auth::user()->role == 'student' ? route('student.assignment.index') : route('teacher.assignment.index') }}" title="Assignments">
+                        <li class="menu-item list-assignments {{request()->segment(2) == 'assignments' ? 'active' : '' }}">
+                            <a class="" href="{{ Auth::user()->role == 'student' ? route('student.assignment.show_all') : route('teacher.assignment.index') }}" title="Assignments">
                                 <i class="la la-question"></i> Assignments
                             </a>
                         </li>

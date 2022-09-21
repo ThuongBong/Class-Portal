@@ -25,7 +25,7 @@ class AnswerAssignmentRequest extends FormRequest
     {
         return [
             //
-            'description'  => 'required',
+            'source'  => 'required',
         ];
     }
 }
