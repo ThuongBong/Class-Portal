@@ -236,7 +236,7 @@ class ClassController extends Controller
             $classUser->class_id = $classes->id;
             $classUser->save();
             DB::commit();
-            return redirect()->route('class.detail', $classes->id)->with('success', 'Successfully added new');
+            return redirect()->route('class.detail', $classes->id)->with('success', 'You have successfully joined the class');
         } catch (\Exception $exception) {
             DB::rollBack();
             return redirect()->back()->with('error', 'An error occurred while saving data');

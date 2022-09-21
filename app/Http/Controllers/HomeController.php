@@ -28,7 +28,6 @@ class HomeController extends Controller
         $recent_activity = array();
 
         $classes = Auth::user()->classes()->get();
-//        dd($classes);
 
         foreach ($classes as $class) {
             if ($class->get()) {

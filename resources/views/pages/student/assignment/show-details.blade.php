@@ -88,6 +88,11 @@
                                         <div class="mg-b-10">
                                             <p class="top text-lightbold">
                                                 Lecturer comments:
+                                                @if (!empty($result->comments))
+                                                    <p class="fs-14 text-bold">
+                                                        {{ $result->comments }}
+                                                    </p>
+                                                @endif
                                             </p>
                                             <span class="my-submission-time text-lightbold"></span>
                                         </div>
@@ -129,7 +134,7 @@
                                     </div>
                                 @else
                                     <!--da nop, nhung con time-->
-                                    @if( $result->status == 1)
+                                    @if( $result->status == 1 )
                                         <div class="submit-overview mg-b-30">
                                             <div class="mg-b-10">
                                                 <p class="top text-lightbold">
@@ -198,6 +203,13 @@
                                             </div>
 
                                             <div id="linkUrl" class="note" style="display: none">
+                                                <p>
+                                                    If you don't have a link to your exercise, please
+                                                    <a href="https://docs.google.com/document/d/1SwMoPeWEQX5KuUTZhSeA5FlMk-aIrUfEPW2uiUqvSYo/edit">
+                                                        click here
+                                                    </a>
+                                                    to create an answer. Then save the answer and output the link to paste in the box below. Thank you very muchhhh !!
+                                                </p>
                                                 <div class="form-group {{ $errors->first('source') ? 'has-error' : '' }} ">
                                                     <input type="text" class="form-control" name="source" placeholder="https://..." value="{{ old('source') }}">
                                                     <div>

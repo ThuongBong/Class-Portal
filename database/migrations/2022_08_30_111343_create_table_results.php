@@ -20,7 +20,8 @@ class CreateTableResults extends Migration
             $table->integer('subject_id')->unsigned();
             $table->text('description')->nullable();
             $table->text('source')->nullable();
-            $table->integer('mark')->nullable();
+            $table->unsignedTinyInteger('mark')->nullable();
+            $table->text('comments')->nullable();
             $table->tinyInteger('status')->default('0');
             $table->timestamps();
         });
