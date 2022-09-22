@@ -20,16 +20,15 @@
                     <section class="top-bar-courseDetail mg-b-16">
                         <h1 class="course-name text-bold fs-34 white-space-pre-wrap">Class: {{ $class1->name }}</h1>
                     </section>
-                    {{--@if (Auth::user()->id != $instructor->id)--}}
                     <p class="course-code-title">
                         Lecturer:
                         <span class="lecturer-chat">
-                            <a href="{{ url('/profile/' . $instructor->id) }}">
+                            <a href="" data-toggle="modal" data-target="#formChat">
                                 {{ $lecturer->first_name }} {{ $lecturer->last_name }}
                             </a>
                         </span>
                     </p>
-                    {{--@endif--}}
+
                     <div class="wrap-course-detail-content_main">
                         <div id="course-detail-main-content">
                             <!---Guide lines---->
@@ -85,7 +84,7 @@
                                         <div class="heading-lectures-section mg-b-20">
                                             <h4 class="fs-16 mg-0">Lecturer (1)</h4>
                                             <!--chat class-->
-                                            <a href="{{ url('/profile/' . $lecturer->id) }}" style="text-decoration: underline" title="Chat with lecturer">
+                                            <a href="" style="text-decoration: underline" title="Chat with lecturer" data-toggle="modal" data-target="#formChat">
                                                 <i class='fas fa-comments' style='font-size:20px'></i>
                                                  Chat with lecturer
                                             </a>
@@ -133,9 +132,57 @@
         </article>
     </div>
 
-    {{--@if (count(Auth::user()->classes()->subjects()->get()) > 0)--}}
-    {{--@else
-            <div class="alert alert-danger col-xs-12 col-md-12" role="alert">The teacher has not added any subjects to this class yet.</div>
-    @endif--}}
+    <!--form chat-->
+    <div class="modal fade" id="formChat" role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Mailbox Form</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form class="form-horizontal" role="form" method="POST"
+                      action="{{ url('/user/' . $lecturer->id . '/message') }}">
+                    {{ csrf_field() }}
+
+                    <div class="modal-body">
+                        <div class="form-group">
+                                                    <span>Please fill out the form below to discuss the matter with your teacher or student!
+                                                        <span class="red-color">Note:</span> Teacher can only reply if they receive a letter from a student,
+                                                        cannot actively send a letter first.
+                                                    </span>
+                        </div>
+
+                        <div class="form-group {{ $errors->first('title') ? 'has-error' : '' }}">
+                            <label>Title</label>
+                            <input type="text" class="form-control" name="title"
+                                   value="{{ $errors->has('title') ? old('title') : '' }}"
+                                   placeholder="Do you have a question you want to discuss?">
+
+                            @if ($errors->has('title'))
+                                <span class="help-block"><strong>{{ $errors->first('title') }}</strong></span>
+                            @endif
+                        </div>
+
+                        <div class="form-group {{ $errors->first('message') ? 'has-error' : '' }}">
+                            <label>Message</label>
+                            <textarea class="form-control" name="message" rows="4">
+                                                        {{ $errors->has('message') ? old('message') : '' }}
+                                                    </textarea>
+
+                            @if ($errors->has('message'))
+                                <span class="help-block"><strong>{{ $errors->first('message') }}</strong></span>
+                            @endif
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" value="Accept" class="btn btn-primary">Send Mail</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 

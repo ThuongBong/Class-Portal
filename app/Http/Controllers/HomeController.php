@@ -41,14 +41,21 @@ class HomeController extends Controller
             }
         }
 
-        if (count($recent_activity) > 0) {
+
+        /*$assignments = assignments()->orderBy('due_date', 'desc')->get();
+        if (count($assignments) > 0) {
+            foreach ($assignments as $assignment) {
+                $assignment->type = 'assignment';
+                array_push($recent_activity, $assignment);
+            }
+
             usort($recent_activity, function($a, $b) {
                 if ($a->created_at == $b->created_at) {
                     return 0;
                 }
                 return ($a->created_at > $b->created_at) ? -1 : 1;
             });
-        }
+        }*/
 
 
         if (Auth::user()->role == 'teacher'){
@@ -56,9 +63,7 @@ class HomeController extends Controller
                 'recent_activity' => $recent_activity
             ]);
         } else {
-            return view('pages.student.home',[
-
-            ]);
+            return view('pages.student.home');
         }
     }
 

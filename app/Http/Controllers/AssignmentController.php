@@ -35,7 +35,7 @@ class AssignmentController extends Controller
         $assignment->subject_id = $id;
 
       if ($assignment->save()) {
-        return redirect('/subject/' . $id)->with('status', 'Assignment added successfully!');
+        return redirect('/subject/' . $id)->with('success', 'Assignment added successfully!');
       }
     }
 
@@ -78,7 +78,7 @@ class AssignmentController extends Controller
         $assignment->due_date = $due_date;
 
       if ($assignment->save()) {
-        return redirect('/subject/' . $subject_id . '/assignment/' . $assignment_id)->with('status', 'Assignment updated successfully!');
+        return redirect('/subject/' . $subject_id . '/assignment/' . $assignment_id)->with('success', 'Assignment updated successfully!');
       }
     }
 
@@ -88,7 +88,7 @@ class AssignmentController extends Controller
     public function destroy($subject_id, $assignment_id)
     {
         if (Assignment::destroy($assignment_id)) {
-            return redirect('/subject/' . $subject_id)->with('status', 'Assignment deleted successfully!');
+            return redirect('/subject/' . $subject_id)->with('success', 'Assignment deleted successfully!');
         }
     }
 }

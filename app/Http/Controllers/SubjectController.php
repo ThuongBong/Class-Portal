@@ -86,7 +86,7 @@ class SubjectController extends Controller
 //            $class_subject->classes_id =$class_id;
 //            $class_subject->subject_id=$subject->id;
 //            $class_subject->save();
-            return redirect('/class/create')->with('status', 'Subject added successfully!');
+            return redirect('/class/create')->with('success', 'Subject added successfully!');
         }
     }
 
@@ -105,7 +105,7 @@ class SubjectController extends Controller
         $subject->description = $request->input('description');
 
         if ($subject->save()) {
-            return redirect('/subject/' . $id)->with('status', 'Subject updated successfully!');
+            return redirect('/subject/' . $id)->with('success', 'Subject updated successfully!');
         }
     }
 
@@ -115,7 +115,7 @@ class SubjectController extends Controller
     public function destroy(Subject $subject, $id)
     {
         if (Subject::destroy($id)) {
-            return redirect('/home')->with('status', 'Subject deleted successfully!');
+            return redirect('/home')->with('success', 'Subject deleted successfully!');
         }
     }
 }

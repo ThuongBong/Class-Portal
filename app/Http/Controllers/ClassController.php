@@ -123,7 +123,7 @@ class ClassController extends Controller
             $classes->user_id = $user_id;
             $classes->class_id = $class->id;
             $classes->save();
-            return redirect()->route('class.detail', $class->id)->with('status', 'Class added successfully!');
+            return redirect()->route('class.detail', $class->id)->with('success', 'Class added successfully!');
         }
     }
 
@@ -146,7 +146,7 @@ class ClassController extends Controller
         $class->section = $request->input('section');
 
         if ($class->save()) {
-            return redirect('/class/' . $id)->with('status', 'Class updated successfully!');
+            return redirect('/class/' . $id)->with('success', 'Class updated successfully!');
         }
     }
 
@@ -157,7 +157,7 @@ class ClassController extends Controller
         $class_subject->class_id = $request->input('class_id');
         $class_subject->subject_id = $request->input('subjects');
         $class_subject->save();
-        return back()->with('status', 'Class added successfully!');
+        return back()->with('success', 'Class added successfully!');
 
     }
 
@@ -175,7 +175,7 @@ class ClassController extends Controller
                 $class_subject->save();
             }
             DB::commit();
-            return redirect()->back()->with('success', 'Successfully added new');
+            return redirect()->back()->with('success', 'Subject added successfully!');
         } catch (\Exception $exception) {
             DB::rollback();
             return redirect()->back()->with('error', 'An error occurred while saving data');
@@ -188,7 +188,7 @@ class ClassController extends Controller
     public function destroy(Classes $class, $id)
     {
         if (Classes::destroy($id)) {
-            return redirect('/home')->with('status', 'Class deleted successfully!');
+            return redirect('/home')->with('success', 'Class deleted successfully!');
         }
     }
     public function delete($id){
@@ -212,7 +212,7 @@ class ClassController extends Controller
             Classes::find($class_id)->users()->attach($student_id);
         }
 
-        return redirect('/class/' . $class_id)->with('status', 'Students added to the class successfully!');
+        return redirect('/class/' . $class_id)->with('success', 'Students added to the class successfully!');
     }
 
 
@@ -236,7 +236,7 @@ class ClassController extends Controller
             $classUser->class_id = $classes->id;
             $classUser->save();
             DB::commit();
-            return redirect()->route('class.detail', $classes->id)->with('success', 'You have successfully joined the class');
+            return redirect()->route('class.detail', $classes->id)->with('success', 'Successfully joined the class!');
         } catch (\Exception $exception) {
             DB::rollBack();
             return redirect()->back()->with('error', 'An error occurred while saving data');
@@ -254,7 +254,7 @@ class ClassController extends Controller
         try {
             $classUser->delete();
             DB::commit();
-            return redirect()->back()->with('success', 'Delete successfully');
+            return redirect()->back()->with('success', 'Delete student successfully');
         } catch (\Exception $exception) {
             DB::rollBack();
             return redirect()->back()->with('error', 'There was an error that could not be deleted');

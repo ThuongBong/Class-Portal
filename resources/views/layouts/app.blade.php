@@ -56,7 +56,7 @@
             <div class="container wrap-list-classes">
                 <div class="edn-tabs">
                     <div id="tab-home-page" class="group-head-tab-control">
-                        <div class="page-header" style="margin-bottom: 20px">
+                        <div class="page-header" style="margin: 0 15px 20px !important;">
                             <h2 class="text-right">@yield('page-header')</h2>
                         </div>
                         <div class="">

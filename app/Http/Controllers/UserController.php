@@ -76,7 +76,7 @@ class UserController extends Controller
         //dd($request->all());
 
         if ($user->save()) {
-            return redirect('/profile')->with('status', 'Profile updated successfully!');
+            return redirect('/profile')->with('success', 'Profile updated successfully!');
         }
     }
 

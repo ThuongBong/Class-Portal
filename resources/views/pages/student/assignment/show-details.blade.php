@@ -95,7 +95,7 @@
                                             <p class="top text-lightbold">
                                                 Lecturer comments:
                                                 @if (!empty($result->comments))
-                                                    <p class="fs-14 text-bold">
+                                                    <p class="fs-14 text-lightbold blue-02">
                                                         {{ $result->comments }}
                                                     </p>
                                                 @endif
@@ -117,7 +117,7 @@
                                             <p class="top text-lightbold">
                                                 Submission time:
                                             </p>
-                                            <span class="my-submission-time text-bold">{{ ($result->status == 1) ? 'thời gian nộp' : '--' }}</span>
+                                            <span class="my-submission-time text-bold">{{ ($result->status == 1) ? $result->updated_at : '--' }}</span>
                                         </div>
                                         <div class="mg-b-10">
                                             <p class="top text-lightbold">
@@ -125,7 +125,7 @@
                                             </p>
                                             @if (!empty($result->source))
                                                 <p>
-                                                    <a href="{!! asset('uploads/assignments/' . $result->source) !!}" target="_blank">
+                                                    <a href="{!! asset('uploads/assignments/' . $result->source) !!}" target="_blank"  download="">
                                                         {{ $result->source }}
                                                     </a>
                                                 </p>
@@ -152,7 +152,7 @@
                                                 <p class="top text-lightbold">
                                                     Submission time:
                                                 </p>
-                                                <span class="my-submission-time text-bold">thời gian nộp</span>
+                                                <span class="my-submission-time text-bold">{{ $result->updated_at }}</span>
                                             </div>
                                             <div class="mg-b-10">
                                                 <p class="top text-lightbold">
@@ -160,7 +160,7 @@
                                                 </p>
                                                 @if (!empty($result->source))
                                                     <p>
-                                                        <a href="{!! asset('uploads/assignments/' . $result->source) !!}" target="_blank">
+                                                        <a href="{!! asset('uploads/assignments/' . $result->source) !!}" target="_blank" download="">
                                                             {{ $result->source }}
                                                         </a>
                                                     </p>
@@ -172,7 +172,7 @@
                                     <!--chua nop, nhung con time-->
                                     <div class="form">
                                         <!--form-->
-                                        <form role="form" action="{{ route('student.assignment.answer', $assignment->id) }}" method="post" enctype="multipart/form-data">
+                                        <form role="form" action="{{ route('student.assignment.result', $assignment->id) }}" method="post" enctype="multipart/form-data">
                                             @csrf
                                             @method("post")
 
@@ -295,7 +295,7 @@
             // If the count down is over, write some text
             if (distance < 0) {
                 clearInterval(x);
-                document.getElementById("demo").innerHTML = "EXPIRED !!";
+                document.getElementById("demo").innerHTML = "<span class='red-color'>EXPIRED !!</span>";
                 if(checkLoad>1)
                     window.location.reload();
             }

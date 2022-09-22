@@ -1,5 +1,5 @@
 <div class="container-fluid">
-    <form role="form" action="{{ route('student.assignment.answer', $assignment->id) }}" method="post" enctype="multipart/form-data">
+    <form role="form" action="{{ route('student.assignment.result', $assignment->id) }}" method="post" enctype="multipart/form-data">
         @csrf
         <div class="row">
             <div class="col-md-12">

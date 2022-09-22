@@ -94,7 +94,7 @@
                         </div>
                     @else
                         <div class="alert alert-danger">
-                            There is no recent activity. Please check back again later.
+                            There is no recent activity. Please check back again later!
                         </div>
                     @endif
                 </div>

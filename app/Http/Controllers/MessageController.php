@@ -38,13 +38,13 @@ class MessageController extends Controller
      */
     public function destroy($message_id)
     {
-      $message = Message::find($message_id);
+        $message = Message::find($message_id);
 
-      if ($message->delete()) {
-        $message->users()->detach([$message->from, $message->to]);
+        if ($message->delete()) {
+            $message->users()->detach([$message->from, $message->to]);
 
-        return redirect()->to('/message')->with('status', 'Message deleted successfully!');
-      }
+            return redirect()->to('/message')->with('success', 'Message deleted successfully!');
+        }
     }
 
     /**
@@ -52,26 +52,25 @@ class MessageController extends Controller
      */
     public function store(Request $request, $user_id)
     {
-      $from = Auth::user()->id;
+        $from = Auth::user()->id;
 
-      $this->validate($request, [
-        'title' => 'nullable',
-        'message' => 'required'
-      ]);
+        $this->validate($request, [
+            'title' => 'nullable',
+            'message' => 'required'
+        ]);
 
-      $message = new Message;
-      $message->title = $request->input('title');
-      $message->message = $request->input('message');
-      $message->from = $from;
-      $message->to = $user_id;
+        $message = new Message;
+        $message->title = $request->input('title');
+        $message->message = $request->input('message');
+        $message->from = $from;
+        $message->to = $user_id;
 
-      if ($message->save()) {
-        // Insert information into the pivot table
-        $message->users()->attach($from);
-        $message->users()->attach($user_id);
-
-        return redirect()->back()->with('status', 'Message sent successfully!');
-      }
+        if ($message->save()) {
+            // Insert information into the pivot table
+            $message->users()->attach($from);
+            $message->users()->attach($user_id);
+        }
+        return redirect()->back()->with('success', 'Message sent successfully!');
     }
 
 

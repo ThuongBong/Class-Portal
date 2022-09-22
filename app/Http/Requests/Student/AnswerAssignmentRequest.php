@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Student;
+namespace App\Http\Controllers;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AnswerAssignmentRequest extends FormRequest
+class ResultAssignmentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +25,8 @@ class AnswerAssignmentRequest extends FormRequest
     {
         return [
             //
-            'source'  => 'required',
+            'source'  => 'nullable',
+            'description'  => 'required',
         ];
     }
 }

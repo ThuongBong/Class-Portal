@@ -1,15 +1,16 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\MessageController;
-use App\Http\Controllers\ClassController;
 use App\Http\Controllers\AssignmentController;
-use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\Auth\GoogleController;
+use App\Http\Controllers\ClassController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\IssueController;
+use App\Http\Controllers\MessageController;
+use App\Http\Controllers\ResultController;
+use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 
 /*
@@ -113,8 +114,9 @@ Route::group(['prefix' => 'student/assignments', 'namespace' => 'Student'], func
     Route::get('/', 'AssignmentController@show')->name('student.assignment.show');
     Route::get('/showAll', 'AssignmentController@showAll')->name('student.assignment.show_all');
     Route::get('/detail/{id}', 'AssignmentController@detail')->name('student.assignment.show-details');
-    Route::post('/answer/{id}','AssignmentController@answer')->name('student.assignment.answer');
 });
+
+Route::post('/result/{id}',[ResultController::class, 'sendResult'])->name('student.assignment.result');
 
 Route::post('/Issues', [IssueController::class, 'store']);
 

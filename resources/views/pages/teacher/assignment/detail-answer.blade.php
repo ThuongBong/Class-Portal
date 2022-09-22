@@ -20,26 +20,29 @@
                     <div>
                         <h4 style="margin: 20px 0">Student's answer: </h4>
 
-                        <div class="wrap-main-activity">
-                            <div class="wrap-entry-lesson-content">
-                                <b class="mg-b-8">Source: </b>
-                                <div class="wrap-activity-content">
-                                    <p>
-                                        @if (!empty($result->source))
+                        @if ( !empty($result->source) || !empty($result->description) || (!empty($result->source) && !empty($result->description)) )
+                            <div class="wrap-main-activity">
+                                <div class="wrap-entry-lesson-content">
+                                    <b class="mg-b-8">Source: </b>
+                                    <div class="wrap-activity-content">
+                                        <p>
                                             <a href="{!! asset('uploads/assignments/' . $result->source) !!}" target="_blank">
                                                 {{ $result->source }}
                                             </a>
-                                        @endif
-                                    </p>
-                                </div>
-                                @if (!empty($result->description))
+                                        </p>
+                                    </div>
+
                                     <b>Description: </b>
                                     <span>{!! empty($result->description) ? '' : $result->description !!}</span>
-                                @else
 
-                                @endif
+                                    <span style="float: right">{!! empty($result->updated_at) ? '' : $result->updated_at !!}</span>
+                                </div>
                             </div>
-                        </div>
+                        @else
+                            <div class="alert alert-danger">
+                                No results have been submitted yet. Please check back again later!
+                            </div>
+                        @endif
                     </div>
 
                     <hr>
