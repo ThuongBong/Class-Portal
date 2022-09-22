@@ -2,7 +2,7 @@
 
 @section('title', 'Add Class')
 
-@section('page-header', 'Add New class')
+@section('page-header', 'Add new class')
 
 @section('content')
     <!--side-content-->

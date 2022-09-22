@@ -70,7 +70,7 @@ class MessageController extends Controller
         $message->users()->attach($from);
         $message->users()->attach($user_id);
 
-        return redirect()->to('/message')->with('status', 'Message sent successfully!');
+        return redirect()->back()->with('status', 'Message sent successfully!');
       }
     }
 

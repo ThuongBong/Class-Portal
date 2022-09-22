@@ -5,7 +5,9 @@
 @section('page-header', 'Chat Mailbox')
 
 @section('content')
-    <!-- Display flashed session data on successful action -->
+    <!-- Display flashed session data on successful update -->
+    @include('pages.teacher.session-data')
+
     <div class="container wrap-list-classes">
         <div class="edn-tabs">
             @if (isset($messages) && count($messages) > 0)
@@ -54,13 +56,18 @@
                                             {{ csrf_field() }}
 
                                             <div class="modal-body">
-                                                <p>Ask your teacher for the class code, then enter it here.</p>
+                                                <div class="form-group">
+                                                    <span>Please fill out the form below to discuss the matter with your teacher or student!
+                                                        <span class="red-color">Note:</span> Teacher can only reply if they receive a letter from a student,
+                                                        cannot actively send a letter first.
+                                                    </span>
+                                                </div>
 
                                                 <div class="form-group {{ $errors->first('title') ? 'has-error' : '' }}">
                                                     <label>Title</label>
                                                     <input type="text" class="form-control" name="title"
                                                            value="{{ $errors->has('title') ? old('title') : '' }}"
-                                                           placeholder="Question about this weeks homework...">
+                                                           placeholder="Do you have a question you want to discuss?">
 
                                                     @if ($errors->has('title'))
                                                         <span class="help-block"><strong>{{ $errors->first('title') }}</strong></span>
@@ -69,7 +76,7 @@
 
                                                 <div class="form-group {{ $errors->first('message') ? 'has-error' : '' }}">
                                                     <label>Message</label>
-                                                    <textarea class="form-control" name="message" rows="3">
+                                                    <textarea class="form-control" name="message" rows="4">
                                                         {{ $errors->has('message') ? old('message') : '' }}
                                                     </textarea>
 
