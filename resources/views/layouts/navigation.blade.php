@@ -27,8 +27,8 @@
                                 </a>
                             </li>
                         @endif
-                        <li class="menu-item list-slots {{request()->segment(1) == 'list-subject' ? 'active' : '' }}">
-                            <a class="" href="{{url('/list-subject')}}" title="Subjects">
+                        <li class="menu-item list-slots {{request()->segment(1) == 'subjects' ? 'active' : '' }}">
+                            <a class="" href="{{ Auth::user()->role == 'student' ? route('student.subjects.show_all') : '#' }}" title="Subjects">
                                 <i class="las la-book"></i> Subjects
                             </a>
                         </li>

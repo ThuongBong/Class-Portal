@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Home')
+@section('title', 'List Assignments')
 
 @section('content')
     <div class="container wrap-list-classes">
@@ -92,7 +92,7 @@
                 </p>
             </div>
             <div class="align-center" style="font-size: 13px;">
-                <img src="{{asset('uploads/landing/backgr-homepage.png')}}" style="height: 17rem"/>
+                <img src="{{asset('uploads/landing/box-no-data.png')}}" style="height: 17rem"/>
                 <p style="color: #6a6969; letter-spacing: 0.05rem; font-weight: 450; margin-top: 15px">
                     The exercise list is empty! <br>
                     Looks like your teacher hasn't assigned the assignment yet.

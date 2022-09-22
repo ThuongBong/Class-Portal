@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Assignments')
+@section('title', 'Assignments - Details')
 
 @section('content')
     <div class="container">
@@ -58,6 +58,12 @@
                                         <span class="label-duedate">{{ formatTime($assignment->due_date) }}</span>
                                     @endif
                                 </div>
+
+                                <div class="btn input-group-btn" style="font-size: 18px; width: 100%; border: #c2d4f7 1px dashed">
+                                    <i class="la la-clock-o" style="font-size: 20px"></i> Time remaining:
+                                    <p style="margin: 10px 0; font-size: 25px" id="demo"></p>
+                                </div>
+
                             </div>
                             <div class="hr-assignment mg-b-30"></div>
 
@@ -66,7 +72,7 @@
                                 <br>
                                 <!--nếu mà hết giờ or được add điểm-->
                                 @if (
-                                    (!empty($assignment->due_date) && checkTime($assignment->due_date) < 0 || $result && !empty($result->mark))
+                                    ((!empty($assignment->due_date) && checkTime($assignment->due_date) <= 0)  || ($result && !empty($result->mark)))
                                     || (empty($assignment->due_date) && $result && !empty($result->mark))
                                 )
                                     <div class="submit-overview">
@@ -261,6 +267,40 @@
             </div>
         </article>
     </div>
+
+    <!-- Display the countdown timer in an element -->
+    <script>
+        var countDownDate = {!! json_encode(formatTime($assignment->due_date)) !!};
+
+        var updated = {!! json_encode($assignment->updated_at) !!};
+
+        var checkLoad =0;
+
+        // Update the count down every 1 second
+        var x = setInterval(function() {
+            checkLoad++;
+            // Find the distance between now an the count down date
+            var distance = new Date(countDownDate) - new Date();
+
+            // Time calculations for days, hours, minutes and seconds
+            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Output the result in an element with id="demo"
+            document.getElementById("demo").innerHTML = days + "d : " + hours + "h : " +
+                minutes + "m : " + seconds + "s ";
+
+            // If the count down is over, write some text
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("demo").innerHTML = "EXPIRED !!";
+                if(checkLoad>1)
+                    window.location.reload();
+            }
+        }, 1000);
+    </script>
 @endsection
 
 @push('scripts')

@@ -6,6 +6,7 @@ use App\Models\Classes_Subject;
 use App\Models\Subject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class SubjectController extends Controller
 {
@@ -17,15 +18,19 @@ class SubjectController extends Controller
         $this->middleware('auth');
     }
 
-//    public function show($id)
-//    {
-//        //in ra list subjects ở trong class do
-//    }
+    public function showAll()
+    {
+        $userId = Auth::user()->id;
+        $subjects =  DB::table('subjects')
+            ->join('classes_subjects','subjects.id','=','classes_subjects.subject_id')
+            ->join('classes_users', 'classes_subjects.class_id','=','classes_users.class_id')
+            ->join('classes', 'classes_subjects.class_id','=','classes.id')
+            ->where('classes_users.user_id',$userId)
+            ->select('subjects.*', 'classes.name as className', 'classes.id as classId')
+            ->get();
 
-    //chuyển phần này qua subjects
-
-
-    //* Show details about a particular subjects - GET
+        return view('pages.student.subject.show_all', compact('subjects'));
+    }
 
     public function show($id)
     {
@@ -38,20 +43,6 @@ class SubjectController extends Controller
         // assignments and annoucement, then sort date that
         // it was created
         $recent_activity = array();
-//
-//        if (count($assignments) > 0 || count($assignments) > 0) {
-//            foreach ($assignments as $assignment) {
-//                $assignment->type = 'assignment';
-//                array_push($recent_activity, $assignment);
-//            }
-//
-//            usort($recent_activity, function($a, $b) {
-//                if ($a->created_at == $b->created_at) {
-//                    return 0;
-//                }
-//                return ($a->created_at > $b->created_at) ? -1 : 1;
-//            });
-        //   }
 
         return view('pages.teacher.subject.show', [
             'subject' => $subject,

@@ -14,17 +14,23 @@ use App\Models\User;
 class MessageController extends Controller
 {
     /**
-     * Shows details about a particular message
+     * Show all messages that the user has
      */
-    public function show($message_id)
+    public function show($user_id = NULL)
     {
-      $message = Message::find($message_id);
-      $from = User::find($message->from);
+        $user = User::find(Auth::user()->id);
+        $messages = $user->messages()->where('to', '=', Auth::user()->id)->orderBy('created_at', 'desc')->get();
 
-      return view('pages.teacher.message.show', [
-        'message' => $message,
-        'from' => $from
-      ]);
+        // Grab the sender's first and last name
+        foreach ($messages as $message) {
+            $from = User::find($message->from);
+            $fullname = $from->first_name . ' ' . $from->last_name;
+            $message->from_fullname = $fullname;
+        }
+
+        //dd($messages->from);
+
+        return view('pages.teacher.message.show', ['messages' => $messages]);
     }
 
     /**
@@ -37,7 +43,7 @@ class MessageController extends Controller
       if ($message->delete()) {
         $message->users()->detach([$message->from, $message->to]);
 
-        return redirect('/profile/')->with('status', 'Message deleted successfully!');
+        return redirect()->to('/message')->with('status', 'Message deleted successfully!');
       }
     }
 
@@ -49,7 +55,7 @@ class MessageController extends Controller
       $from = Auth::user()->id;
 
       $this->validate($request, [
-        'title' => 'required',
+        'title' => 'nullable',
         'message' => 'required'
       ]);
 
@@ -64,27 +70,9 @@ class MessageController extends Controller
         $message->users()->attach($from);
         $message->users()->attach($user_id);
 
-        return redirect('/profile/' . $user_id)->with('status', 'Message sent successfully!');
+        return redirect()->to('/message')->with('status', 'Message sent successfully!');
       }
     }
 
-    /**
-     * Show all messages that the user has
-     */
-    public function showAll()
-    {
-      $user = User::find(Auth::user()->id);
-      $messages = $user->messages()->where('to', '=', Auth::user()->id)->orderBy('created_at', 'desc')->get();
 
-      // Grab the sender's first and last name
-      foreach ($messages as $message) {
-        $from = User::find($message->from);
-        $fullname = $from->first_name . ' ' . $from->last_name;
-        $message->from_fullname = $fullname;
-      }
-
-      return view('pages.teacher.message.show_all', [
-        'messages' => $messages
-      ]);
-    }
 }

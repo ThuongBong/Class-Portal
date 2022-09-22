@@ -102,9 +102,11 @@
                 <div class="col-md-10">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
+                            <h3 class="white-color fs-20">{{ $class1->name }}</h3>
                             <h4 class="panel-title">
-                                {{ $class1->name }} - {{ $class1->section }} - {{ $class1->title }} - {{ $class1->room }} -
-                                <a href="{{ url('/profile/' . $instructor->id) }}"> {{ $instructor->first_name }} {{ $instructor->last_name }}</a>
+                                Title: {{ !($class1->title) ? 'null' : $class1->title}} -
+                                Section: {{ !($class1->section) ? 'null' : $class1->section}} -
+                                Room: {{ !($class1->room) ? 'null' : $class1->room}}
                             </h4>
                         </div>
                     </div>
@@ -364,18 +366,10 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($classes as $item)
+                @foreach($subjects1 as $item)
                     <tr>
                         <td>{{$item->name}}</td>
                         <td>{{$item->description}}</td>
-                        {{--                                    <td><a href="{{url('/admin/student-edit',['id'=>$item->studentID])}}"><button type="button" class="btn btn-info">Edit</button></a></td>--}}
-                        {{--                                    <td>--}}
-                        {{--                                        <form action="{{url("/admin/student-delete",['student'=>$item->studentID])}}" method="post">--}}
-                        {{--                                            @csrf--}}
-                        {{--                                            @method("delete")--}}
-                        {{--                                            <button type="submit" onclick="return confirm('delete Student {{$item->studentName}}?')" class="btn btn-outline-danger">Delete</button>--}}
-                        {{--                                        </form>--}}
-                        {{--                                    </td>--}}
                     </tr>
                 @endforeach
                 </tbody>

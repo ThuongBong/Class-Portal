@@ -47,15 +47,6 @@ Route::get('/about-us', function (){
 Route::get('/terms', function (){
     return view('pages.terms');
 });
-Route::get('/show-subject', function (){
-    return view('pages.student.subject.show');
-});
-Route::get('/show-assignment', function (){
-    return view('pages.student.assignment.show');
-});
-Route::get('/assignment-details', function (){
-    return view('pages.student.assignment.show-details');
-});
 
 // User Routes
 Route::get('/profile', [UserController::class, 'show']);
@@ -75,8 +66,6 @@ Route::post('/subject/new/save', [ClassController::class, 'saveNewSubject']);
 
 Route::get('/remove/student/class/{id}', [ClassController::class, 'removeStudent'])->name('remove.student.class');
 
-/*Route::get('/join/class/{code?}', [ClassController::class, 'joinClass'])->name('join.class');*/
-
 Route::get('/delete/{id}','ClassController@delete')->name('user.delete');
 
 Route::post('/url/',[ClassController::class,'urlLink']);
@@ -88,6 +77,8 @@ Route::post('/subject', [SubjectController::class, 'store']);
 Route::put('/subject/{id}', [SubjectController::class, 'update']);
 Route::delete('/subject/{id}', [SubjectController::class, 'destroy']);
 
+Route::get('/subjects/showAll', [SubjectController::class, 'showAll'])->name('student.subjects.show_all');
+
 // Assignment Routes
 Route::post('/subject/{id}/assignment', [AssignmentController::class, 'store']);
 Route::get('/subject/{subject_id}/assignment/{assignment_id}', [AssignmentController::class, 'show']);
@@ -96,9 +87,8 @@ Route::put('/subject/{subject_id}/assignment/{assignment_id}', [AssignmentContro
 
 // Message Routes
 Route::post('/user/{user_id}/message', [MessageController::class, 'store']);
-Route::get('/message/{message_id}', [MessageController::class, 'show']);
 Route::delete('/message/{message_id}', [MessageController::class, 'destroy']);
-Route::get('/message/', [MessageController::class, 'showAll']);
+Route::get('/message/', [MessageController::class, 'show']);
 
 
 Route::group(['prefix' => 'teacher/assignments', 'namespace' => 'Teacher'], function(){
@@ -120,9 +110,11 @@ Route::group(['prefix' => 'teacher/assignments', 'namespace' => 'Teacher'], func
 });
 
 Route::group(['prefix' => 'student/assignments', 'namespace' => 'Student'], function(){
-    Route::get('/', 'AssignmentController@index')->name('student.assignment.show_all');
+    Route::get('/', 'AssignmentController@show')->name('student.assignment.show');
+    Route::get('/showAll', 'AssignmentController@showAll')->name('student.assignment.show_all');
     Route::get('/detail/{id}', 'AssignmentController@detail')->name('student.assignment.show-details');
     Route::post('/answer/{id}','AssignmentController@answer')->name('student.assignment.answer');
 });
 
 Route::post('/Issues', [IssueController::class, 'store']);
+

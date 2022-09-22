@@ -40,7 +40,7 @@
                                         <h4>List Of Subjects: </h4>
                                         <ul class="list-slots none-list mg-0">
                                             <!--foreach()-->
-                                            @foreach($classes as $item)
+                                            @foreach($subjects1 as $item)
                                                 <li class="slot-item">
                                                     <div class="slot-item__thumb">
                                                         <div class="top-head-slot mg-b-12">
@@ -49,7 +49,7 @@
                                                                 <time class="fs-14"><i class="la la-calendar fs-18"></i>{{$item->created_at}} (GMT+07)</time>
                                                             </div>
                                                             <div class="right-top-head-slot">
-                                                                <a href="/show-assignment" class="text-decoration-none text-lightbold">View assignments</a>
+                                                                <a href="{{ route('student.assignment.show') }}" class="text-decoration-none text-lightbold">View assignments</a>
                                                             </div>
                                                         </div>
                                                         <div class="wrap-slot-name">

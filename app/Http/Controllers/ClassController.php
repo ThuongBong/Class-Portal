@@ -30,12 +30,12 @@ class ClassController extends Controller
         $class = Classes::find($id);
         $subjects = Subject::all();
 
-        $classes = DB::table('classes_subjects')
+        $subjects1 = DB::table('classes_subjects')
             ->where('class_id', $id)
             ->join('subjects', function ($join) {
                 $join->on('classes_subjects.subject_id', '=', 'subjects.id');
             })
-            ->get();;
+            ->get();
         $users = DB::table('classes_users')
             ->select('classes_users.*', 'avatar', 'first_name', 'last_name', 'phone', 'date_of_birth', 'email')
             ->where('class_id', $id)
@@ -66,7 +66,7 @@ class ClassController extends Controller
                 'class1' => $class,
                 'instructor' => $instructor,
                 'class_id' => $id,
-                'classes' => $classes,
+                'subjects1' => $subjects1,
                 'users' => $users,
                 'subjects' => $subjects,
                 'assignments' => $assignments,
@@ -78,7 +78,7 @@ class ClassController extends Controller
                 'class1' => $class,
                 'instructor' => $instructor,
                 'class_id' => $id,
-                'classes' => $classes,
+                'subjects1' => $subjects1,
                 'users' => $users,
                 'subjects' => $subjects,
                 'assignments' => $assignments,

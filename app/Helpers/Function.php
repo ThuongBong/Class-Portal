@@ -163,7 +163,7 @@ function convertDatetimeLocal($value)
 function checkTime($dateTime) {
     $currentTime = Carbon::now();
     $time = new Carbon($dateTime);
-    $checkTime = Carbon::parse($currentTime)->diffInMinutes($time, false);
+    $checkTime = Carbon::parse($currentTime)->diffInSeconds($time, false);
 
     return $checkTime;
 }

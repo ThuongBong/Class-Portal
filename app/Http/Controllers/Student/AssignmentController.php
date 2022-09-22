@@ -19,12 +19,25 @@ class AssignmentController extends Controller
         view()->share([]);
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function show($id){
+        $subjects = Subject::find($id);
+
+        $assignments = DB::table('subjects')
+            ->where('subject_id', $id)
+            ->join('assignments', function ($join) {
+                $join->on('assignments.id', '=', 'subjects.id');
+            })
+            ->get();
+
+        dd($assignments);
+
+
+        return view('pages.student.assignment.show',[
+
+        ]);
+    }
+
+    public function showAll()
     {
         $userId = Auth::user()->id;
         $classIds = DB::table('classes_users')->where('user_id', $userId)->pluck('class_id');

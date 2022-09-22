@@ -1,40 +1,103 @@
 @extends('layouts.app')
 
-@section('title', 'Message Details')
+@section('title', 'Messages')
 
-@section('page-header', 'Message Details')
+@section('page-header', 'Chat Mailbox')
 
 @section('content')
+    <!-- Display flashed session data on successful action -->
+    <div class="container wrap-list-classes">
+        <div class="edn-tabs">
+            @if (isset($messages) && count($messages) > 0)
+                @foreach ($messages as $message)
+                    <div class="wrap-main-activity">
+                        <div class="wrap-entry-lesson-content">
+                            <b class="mg-b-8 fs-18">From: <span style="color: var(--accent-color);">{{ $message->from_fullname }}</span></b>
+                            <br>
+                            <span>{{ $message->created_at }}</span>
+                            <form role="form" method="POST" action="{{ url('/message/' . $message->id) }}">
+                                {{ csrf_field() }}
+                                {{ method_field('DELETE') }}
 
-    @include('pages.teacher.session-data')
+                                <button class="btn btn-study-now" style="float: right; margin-top: -50px;"
+                                        onclick="return confirm('You want delete message from: {{ $message->from_fullname }}')">
+                                    <i class="la la-trash" style="font-size: 17px; color: red"></i>
+                                </button>
+                            </form>
 
-    <div class="col-xs-12 col-md-12">
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <h4 class="panel-title">
-                    Details About The Message
-                </h4>
-            </div>
+                            <div class="wrap-activity-content" style="margin-top: 20px">
+                                <b>Title: </b>{{ $message->title }} <br>
+                                <b>Message: </b>{{ $message->message }} <br>
 
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-md-10">
-                        <h4>{{ $message->title }} from {{ $from->first_name }} {{ $from->last_name }}</h4>
-                        <hr>
-                        <p>{{ $message->message }}</p>
+
+                                <div style="float: right">
+                                    <a data-toggle="modal" data-target="#replyMail" title="Reply Mail">
+                                        <button class="btn btn-study-now" style="width: 120px">
+                                            <span class="fs-16 text-bold"><i class="la la-mail-reply fs-18"></i> Reply</span>
+                                        </button>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!--form reply-->
+                            <div class="modal fade" id="replyMail" role="dialog" tabindex="-1">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLongTitle">Mailbox Form</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <form class="form-horizontal" role="form" method="POST"
+                                              action="{{ url('/user/' . $message->from . '/message') }}">
+                                            {{ csrf_field() }}
+
+                                            <div class="modal-body">
+                                                <p>Ask your teacher for the class code, then enter it here.</p>
+
+                                                <div class="form-group {{ $errors->first('title') ? 'has-error' : '' }}">
+                                                    <label>Title</label>
+                                                    <input type="text" class="form-control" name="title"
+                                                           value="{{ $errors->has('title') ? old('title') : '' }}"
+                                                           placeholder="Question about this weeks homework...">
+
+                                                    @if ($errors->has('title'))
+                                                        <span class="help-block"><strong>{{ $errors->first('title') }}</strong></span>
+                                                    @endif
+                                                </div>
+
+                                                <div class="form-group {{ $errors->first('message') ? 'has-error' : '' }}">
+                                                    <label>Message</label>
+                                                    <textarea class="form-control" name="message" rows="3">
+                                                        {{ $errors->has('message') ? old('message') : '' }}
+                                                    </textarea>
+
+                                                    @if ($errors->has('message'))
+                                                        <span class="help-block"><strong>{{ $errors->first('message') }}</strong></span>
+                                                    @endif
+                                                </div>
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <button type="submit" value="Accept" class="btn btn-primary">Send Mail</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
-                    <div class="col-md-2">
-                        <form role="form" method="POST" action="{{ url('/message/' . $message->id) }}">
-                            {{ csrf_field() }}
-                            {{ method_field('DELETE') }}
-
-                            <button type="submit" class="btn btn-danger btn-block">Delete</button>
-                        </form>
+                @endforeach
+            @else
+                <div class="wrap-main-activity">
+                    <div class="wrap-entry-lesson-content">
+                        <div class="alert alert-danger">You don't have any messages at the moment.</div>
                     </div>
-
                 </div>
-
-            </div>
+            @endif
         </div>
     </div>
+
 @endsection
