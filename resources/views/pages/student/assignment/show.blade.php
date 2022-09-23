@@ -43,7 +43,8 @@
             </li>
         </ul>
 
-        <article class="session-detail-content row">
+        @if (!$assignments->isEmpty())
+            <article class="session-detail-content row">
             <!--question-->
             <div class="col-12 col-lg-10 col-xl-10 session-main-content">
                 <div class="edn-tabs ui-tabs ui-widget ui-widget-content">
@@ -52,7 +53,7 @@
                         <ul class="session-activities mg-0 none-list">
                             <li class="group-lessons active current-section" data-id="748">
                                 <ul class="lesson" style="display:block">
-                                    <!--foreach()-->
+                                    @foreach($assignments as $assignment)
                                     <li class="lessons-item  activity-item-border activity-864 pending" data-subid="864">
                                         <div class="lessons-summary">
                                             <div class="lesson-item-thumb fs-14 text-lightbold">
@@ -73,15 +74,15 @@
                                                 </i>
                                                 <!--end-icon-->
                                                 <div class="lessons-title lessons-title-sub acivity-sub-item text-normal">
-                                                    <a class="activity-sum text-decoration-none" href="/assignment-details" title="Title Assignment">
+                                                    <a class="activity-sum text-decoration-none" href="{{route('student.assignment.show-details', $assignment->id)}}" title="Title Assignment">
                                                         <span class="activity-name text-semibold mg-b-10">
-                                                            Title
+                                                            {{$assignment->title}}
                                                         </span>
                                                         <span class="activity-state-label fs-12 pending">
-                                                            Description
+                                                            {!! $assignment->description !!}
                                                         </span>
                                                         <span class="activity-state-label fs-12 pending">
-                                                            Source
+                                                            {{$assignment->source}}
                                                         </span>
                                                     </a>
                                                 </div>
@@ -91,7 +92,7 @@
                                             Cannot start this question when students are not grouped!
                                         </span>
                                     </li>
-                                    <!--end-foreach()-->
+                                    @endforeach
                                 </ul>
                             </li>
                         </ul>
@@ -101,6 +102,9 @@
             <!--/question-->
 
         </article>
+        @else
+            <div class="alert alert-danger" role="alert">You do not have any assignments assigned in this subject.</div>
+        @endif
     </div>
 @endsection
 

@@ -28,7 +28,6 @@ class AssignmentController extends Controller
      */
     public function index()
     {
-        //
         $userId = Auth::user()->id;
         $assignments = Assignment::with('subject', 'classes')
             ->where('teacher_id', $userId)

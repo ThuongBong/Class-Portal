@@ -29,41 +29,20 @@ class HomeController extends Controller
 
         $classes = Auth::user()->classes()->get();
 
-        foreach ($classes as $class) {
-            if ($class->get()) {
-                foreach ($class->orderBy('created_at', 'desc')->get() as $classes) {
-                    $class = $classes->get();
-                    $class_info = $class[0]->name . ' ' . $class[0]->tittle . ' - ' . $class[0]->room . ' - ' . $class[0]->section;
-                    $classes->type = 'assignment';
-                    $classes->class_info = $class_info;
-                    array_push($recent_activity, $classes);
-                }
-            }
-        }
-
-
-        /*$assignments = assignments()->orderBy('due_date', 'desc')->get();
-        if (count($assignments) > 0) {
-            foreach ($assignments as $assignment) {
-                $assignment->type = 'assignment';
-                array_push($recent_activity, $assignment);
-            }
-
-            usort($recent_activity, function($a, $b) {
-                if ($a->created_at == $b->created_at) {
-                    return 0;
-                }
-                return ($a->created_at > $b->created_at) ? -1 : 1;
-            });
-        }*/
+        /*$class1 = Classes::whereHas('users', function ($query){
+            $query->where('user_id', '=', Auth::user()->id);
+        });*/
 
 
         if (Auth::user()->role == 'teacher'){
             return view('pages.teacher.home', [
-                'recent_activity' => $recent_activity
+                'recent_activity' => $recent_activity,
+                'classes' => $classes,
             ]);
         } else {
-            return view('pages.student.home');
+            return view('pages.student.home',[
+                'classes' => $classes,
+            ]);
         }
     }
 

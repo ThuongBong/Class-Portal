@@ -59,10 +59,17 @@
                                     @endif
                                 </div>
 
-                                <div class="btn input-group-btn" style="font-size: 18px; width: 100%; border: #c2d4f7 1px dashed">
-                                    <i class="la la-clock-o" style="font-size: 20px"></i> Time remaining:
-                                    <p style="margin: 10px 0; font-size: 25px" id="demo"></p>
-                                </div>
+                                @if (
+                                    ((!empty($assignment->due_date) && checkTime($assignment->due_date) <= 0)  || ($result && !empty($result->mark)))
+                                    || (empty($assignment->due_date) && $result && !empty($result->mark))
+                                )
+
+                                @else
+                                    <div class="btn input-group-btn" style="font-size: 18px; width: 100%; border: #c2d4f7 1px dashed">
+                                        <i class="la la-clock-o" style="font-size: 20px"></i> Time remaining:
+                                        <p style="margin: 10px 0; font-size: 25px" id="demo"></p>
+                                    </div>
+                                @endif
 
                             </div>
                             <div class="hr-assignment mg-b-30"></div>
@@ -83,24 +90,23 @@
                                             </span>
                                             @if (!empty($result->mark))
                                                 <span class="fs-20 text-bold blue-02">
-                                                    {{ $result->mark }}
+                                                    {{ $result->mark . '/100'}}
                                                 </span>
                                             @else
                                                 <span class="fs-16 text-danger">
-                                                    __
+                                                    __/100
                                                 </span>
                                             @endif
                                         </div>
                                         <div class="mg-b-10">
-                                            <p class="top text-lightbold">
+                                            <label class="top text-lightbold">
                                                 Lecturer comments:
-                                                @if (!empty($result->comments))
-                                                    <p class="fs-14 text-lightbold blue-02">
-                                                        {{ $result->comments }}
-                                                    </p>
-                                                @endif
-                                            </p>
-                                            <span class="my-submission-time text-lightbold"></span>
+                                            </label>
+                                            @if (!empty($result->comments))
+                                                <p class="fs-14 text-lightbold blue-02">
+                                                    {{ $result->comments }}
+                                                </p>
+                                            @endif
                                         </div>
                                     </div>
 
@@ -125,8 +131,11 @@
                                             </p>
                                             @if (!empty($result->source))
                                                 <p>
-                                                    <a href="{!! asset('uploads/assignments/' . $result->source) !!}" target="_blank"  download="">
+                                                    <a href="{!! asset('uploads/assignments/' . $result->source) !!}" target="_blank">
                                                         {{ $result->source }}
+                                                        <a href="{!! asset('uploads/assignments/' . $result->source) !!}" download="">
+                                                            <i class="la la-download" style="font-size: 27px"></i>
+                                                        </a>
                                                     </a>
                                                 </p>
                                             @else
@@ -138,6 +147,7 @@
                                             @endif
                                         </div>
                                     </div>
+
                                 @else
                                     <!--da nop, nhung con time-->
                                     @if( $result->status == 1 )
@@ -160,8 +170,11 @@
                                                 </p>
                                                 @if (!empty($result->source))
                                                     <p>
-                                                        <a href="{!! asset('uploads/assignments/' . $result->source) !!}" target="_blank" download="">
+                                                        <a href="{!! asset('uploads/assignments/' . $result->source) !!}" target="_blank">
                                                             {{ $result->source }}
+                                                            <a href="{!! asset('uploads/assignments/' . $result->source) !!}" download="">
+                                                                <i class="la la-download" style="font-size: 27px"></i>
+                                                            </a>
                                                         </a>
                                                     </p>
                                                 @endif
@@ -182,8 +195,8 @@
                                                 <div style="margin-bottom: 10px">
                                                     <span class="text-danger"> {{ $errors->first('source') }}</span>
                                                 </div>
-                                                <select id="mySource" class="form-select btn-more-actions"
-                                                        aria-label="Default select example" style="background-color: #c2d4f7">
+                                                <select id="mySource" class="form-select btn-more-actions {{ $errors->first('source') ? 'btn-danger' : '' }}"
+                                                        aria-label="Default select example" style="background-color: #c2d4f7; color: black !important;">
                                                     <option value="">--Choose a sending method--</option>
                                                     <option value="upload">method: Uploads</option>
                                                     <option value="link">method: Links</option>
@@ -194,8 +207,6 @@
                                                     @endif
                                                 </div>
                                             </div>
-
-
 
                                             <div id="uploadFiles" class="note" style="display: none">
                                                 <div class="form-group {{ $errors->first('source') ? 'has-error' : '' }} ">
@@ -211,12 +222,12 @@
                                             <div id="linkUrl" class="note" style="display: none">
                                                 <p>
                                                     If you don't have a link to your exercise, please
-                                                    <a href="https://docs.google.com/document/d/1SwMoPeWEQX5KuUTZhSeA5FlMk-aIrUfEPW2uiUqvSYo/edit">
+                                                    <a href="https://docs.google.com/document/d/1SwMoPeWEQX5KuUTZhSeA5FlMk-aIrUfEPW2uiUqvSYo/edit" target="_blank">
                                                         click here
                                                     </a>
                                                     to create an answer. Then save the answer and output the link to paste in the box below. Thank you very muchhhh !!
                                                 </p>
-                                                <div class="form-group {{ $errors->first('source') ? 'has-error' : '' }} ">
+                                                <div class="form-group {{ $errors->first('source') ? 'has-error' : '' }}">
                                                     <input type="text" class="form-control" name="source" placeholder="https://..." value="{{ old('source') }}">
                                                     <div>
                                                         @if ($errors->has('source'))

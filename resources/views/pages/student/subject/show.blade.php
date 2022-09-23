@@ -48,7 +48,7 @@
                                                                 <time class="fs-14"><i class="la la-calendar fs-18"></i>{{$item->created_at}} (GMT+07)</time>
                                                             </div>
                                                             <div class="right-top-head-slot">
-                                                                <a href="{{ route('student.assignment.show') }}" class="text-decoration-none text-lightbold">View assignments</a>
+                                                                <a href="{{ route('student.assignment.show', $item->id) }}" class="text-decoration-none text-lightbold">View assignments</a>
                                                             </div>
                                                         </div>
                                                         <div class="wrap-slot-name">
@@ -74,9 +74,7 @@
                                 <div class="mg-b-16 filter-class">
                                     <span class="pd-r-5">Class</span>
                                     <select class="slot-by-class">
-                                        <option value="{{--id class--}}" {{--check selected--}}>T2108M-APHL-Year2022</option>
-                                        <option value="" selected="">T2108M-APHL-Year2022</option>
-                                        <option value="" selected="">T2108M-APHL-Year2022</option>
+                                        <option value="{{--id class--}}" {{--check selected--}}>{{$class1->name}}</option>
                                     </select>
                                 </div>
                                 <div class="course-sumary">

@@ -56,6 +56,7 @@
                     </div>
                 </div>
             </div>
+
         @else
             <div class="align-right">
                 <img src="{{ asset('uploads/landing/arrow.png') }}" style="height: 5rem;"/>

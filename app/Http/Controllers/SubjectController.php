@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Classes;
 use App\Models\Classes_Subject;
 use App\Models\Subject;
 use Illuminate\Http\Request;
@@ -29,7 +30,13 @@ class SubjectController extends Controller
             ->select('subjects.*', 'classes.name as className', 'classes.id as classId')
             ->get();
 
-        return view('pages.student.subject.show_all', compact('subjects'));
+        //dd($subjects->id);
+
+        if (Auth::user()->role == 'student'){
+            return view('pages.student.subject.show_all', compact('subjects'));
+        } else{
+            return view('pages.teacher.subject.show_all', compact('subjects'));
+        }
     }
 
     public function show($id)
@@ -53,41 +60,42 @@ class SubjectController extends Controller
         ]);
     }
 
-    /**
-     * Show a form to create a new class - GET
-     */
-    public function create()
+
+    public function form()
     {
-        $subjects = Subject::all();
-        return view('pages.teacher.subject.create', [
-            'subjects'=>$subjects
+        $classesList = Classes::all();
+        return view('pages.teacher.subject.form', [
+            'classesList'=>$classesList
         ]);
     }
 
-    /**
-     * Save a newly created class - POST
-     */
-    public function store(Request $request)
+    public function create(Request $request, $class_id)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'string|max:255|nullable',   // Roadmap To Computing
-        ]);
-
-//        $class_id = Auth::user()->classes()->id;
-
-        $subject = new Subject;
-        $class_subject = new Classes_Subject();
-        $subject->name = $request->input('name');
-        $subject->description = $request->input('description');
-
-        if ($subject->save()) {
-            // Insert information into the pivot table for users and classes
-//            $class_subject->classes_id =$class_id;
-//            $class_subject->subject_id=$subject->id;
-//            $class_subject->save();
-            return redirect('/class/create')->with('success', 'Subject added successfully!');
+        DB::beginTransaction();
+        try {
+            $subject = new Subject();
+            $subject->name = $request->name;
+            $subject->description = $request->description;
+            if ($subject->save()) {
+                $class_subject =  new Classes_Subject();
+                $class_subject->class_id = $request->class_id;
+                $class_subject->subject_id = $subject->id;
+                $class_subject->save();
+            }
+            DB::commit();
+            return redirect()->route('subject.show_all')->with('Success', 'Subject added successfully!');
+        } catch (\Exception $exception) {
+            DB::rollback();
+            return redirect()->back()->with('error', 'An error occurred while saving data');
         }
+    }
+
+    public function edit($id)
+    {
+        $subjects = Subject::find($id);
+        $classes = Classes::with('subjects');
+
+        return view('pages.teacher.subject.edit', compact('subjects','classes'));
     }
 
     /**
@@ -112,10 +120,20 @@ class SubjectController extends Controller
     /**
      * Delete a particular class - DELETE
      */
-    public function destroy(Subject $subject, $id)
+    public function destroy($id)
     {
-        if (Subject::destroy($id)) {
-            return redirect('/home')->with('success', 'Subject deleted successfully!');
+        $subject = Subject::find($id);
+        if (!$subject) {
+            return redirect()->back()->with('error', 'Data does not exist');
+        }
+        DB::beginTransaction();
+        try {
+            $subject->delete();
+            DB::commit();
+            return redirect()->back()->with('success', 'Delete subject successfully');
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            return redirect()->back()->with('error', 'There was an error that could not be deleted');
         }
     }
 }

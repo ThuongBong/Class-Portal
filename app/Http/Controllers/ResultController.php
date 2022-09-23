@@ -13,8 +13,8 @@ class ResultController extends Controller
     public function sendResult(Request $request, $id)
     {
         $request->validate([
-            'source'  => 'nullable',
-            'description'  => 'required',
+            'source'  => 'required',
+            'description'  => 'nullable',
         ]);
 
         $userId = Auth::user()->id;

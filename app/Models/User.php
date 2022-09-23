@@ -27,7 +27,6 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-
     /**
      * Capitalizes the first character of the string uppercase
      * to keep consistency

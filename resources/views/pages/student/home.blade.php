@@ -12,7 +12,7 @@
                             <div class="wrap-slider-content">
                                 <div class="wrap-course-section">
                                     <div class="list-course row">
-                                        @foreach (Auth::user()->classes()->get() as $class)
+                                        @foreach ($classes as $class)
                                             <article class="course-item col-md-4 col-sm-6 col-lg-3 publish" style="margin: 0 0 30px; padding: 0 15px;">
                                                 <div class="wrap-course-item">
                                                     <div class="course-infor" style="padding: 20px">
@@ -32,11 +32,15 @@
                                                             </li>
                                                             <li>
                                                                 <i class="la la-user-circle"></i>
-                                                                <span title="{{--{{$lecturer->email}}--}}">Lecturers: </span>
+                                                                <span title="{{--{{$lecturer->email}}--}}">
+                                                                    Lecturers: {{--{{ $class1->users->email }}--}}
+                                                                </span>
                                                             </li>
                                                             <li>
                                                                 <i class="las la-id-card"></i>
-                                                                <span title="Number of students: ">Number of students: </span>
+                                                                <span title="Number of students: ">Number of students:
+                                                                {{$class->lecturers->filter(function ($item) { return $item->role === 'student';})->map(function ($item) {return $item->fullname;})->join(' - ')}}
+                                                                </span>
                                                             </li>
                                                         </ul>
                                                         <a class="view-detail text-decoration-none fs-14 mg-b-5" href="{{ url('class/' . $class->id) }}" title="Go to course">

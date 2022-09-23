@@ -150,19 +150,8 @@ class ClassController extends Controller
         }
     }
 
-    public function saveSubject(Request $request)
-    {
-        $class_subject = new Classes_Subject();
-        // Insert information into the pivot table for users and classes
-        $class_subject->class_id = $request->input('class_id');
-        $class_subject->subject_id = $request->input('subjects');
-        $class_subject->save();
-        return back()->with('success', 'Class added successfully!');
-
-    }
-
+    //add subject in home
     public function saveNewSubject(Request $request){
-
         DB::beginTransaction();
         try {
             $subject = new Subject();
@@ -236,7 +225,7 @@ class ClassController extends Controller
             $classUser->class_id = $classes->id;
             $classUser->save();
             DB::commit();
-            return redirect()->route('class.detail', $classes->id)->with('success', 'Successfully joined the class!');
+            return redirect('/class/'. $classes->id)->with('success', 'Successfully joined the class!');
         } catch (\Exception $exception) {
             DB::rollBack();
             return redirect()->back()->with('error', 'An error occurred while saving data');

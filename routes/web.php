@@ -62,7 +62,7 @@ Route::post('/class', [ClassController::class, 'store']);
 Route::put('/class/{id}', [ClassController::class, 'update']);
 Route::delete('/class/{id}', [ClassController::class, 'destroy']);
 Route::post('/class/{class_id}/student', [ClassController::class, 'addStudents']);
-Route::post('/subject/save/', [ClassController::class, 'saveSubject']);
+/*Route::post('/subject/save/', [ClassController::class, 'saveSubject']);*/
 Route::post('/subject/new/save', [ClassController::class, 'saveNewSubject']);
 
 Route::get('/remove/student/class/{id}', [ClassController::class, 'removeStudent'])->name('remove.student.class');
@@ -72,13 +72,13 @@ Route::get('/delete/{id}','ClassController@delete')->name('user.delete');
 Route::post('/url/',[ClassController::class,'urlLink']);
 
 // Subjects Routes
-Route::get('/subject/create', [SubjectController::class, 'create']);
-Route::get('/subject/{id}', [SubjectController::class, 'show']);
-Route::post('/subject', [SubjectController::class, 'store']);
-Route::put('/subject/{id}', [SubjectController::class, 'update']);
-Route::delete('/subject/{id}', [SubjectController::class, 'destroy']);
+Route::get('subject/create', [SubjectController::class, 'form'])->name('form.subject');
+Route::post('subject/create', [SubjectController::class, 'create'])->name('create.subject');
+Route::get('subject/edit/{id}', [SubjectController::class, 'edit'])->name('edit.subject');
+Route::put('subject/update/{id}', [SubjectController::class, 'update'])->name('update.subject');
+Route::get('delete/{id}', [SubjectController::class, 'destroy'])->name('delete.subject');
 
-Route::get('/subjects/showAll', [SubjectController::class, 'showAll'])->name('student.subjects.show_all');
+Route::get('/subjects/showAll', [SubjectController::class, 'showAll'])->name('subjects.show_all');
 
 // Assignment Routes
 Route::post('/subject/{id}/assignment', [AssignmentController::class, 'store']);
@@ -111,7 +111,7 @@ Route::group(['prefix' => 'teacher/assignments', 'namespace' => 'Teacher'], func
 });
 
 Route::group(['prefix' => 'student/assignments', 'namespace' => 'Student'], function(){
-    Route::get('/', 'AssignmentController@show')->name('student.assignment.show');
+    Route::get('/show/{id}', 'AssignmentController@show')->name('student.assignment.show');
     Route::get('/showAll', 'AssignmentController@showAll')->name('student.assignment.show_all');
     Route::get('/detail/{id}', 'AssignmentController@detail')->name('student.assignment.show-details');
 });

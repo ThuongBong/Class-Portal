@@ -28,6 +28,9 @@
                                         <p>
                                             <a href="{!! asset('uploads/assignments/' . $result->source) !!}" target="_blank">
                                                 {{ $result->source }}
+                                                <a href="{!! asset('uploads/assignments/' . $result->source) !!}" download="">
+                                                    <i class="la la-download" style="font-size: 27px"></i>
+                                                </a>
                                             </a>
                                         </p>
                                     </div>
@@ -49,13 +52,19 @@
 
                     <div style="">
                         <div class="row">
-                            <div class="col-md-10">
+                            <div class="col-md-10 {{ $errors->first('mark') ? 'has-error' : '' }}">
                                 <label>Mark: </label>
                                 <input type="number" class="form-control" id="mark_assignment" name="mark" placeholder="Mark" value="{{ isset($result) && !empty($result->mark) ? $result->mark : '' }}">
+                                @if ($errors->has('mark'))
+                                    <span class="help-block"><strong>{{ $errors->first('mark') }}</strong></span>
+                                @endif
                             </div>
-                            <div class="col-md-10" style="margin: 15px 0">
+                            <div class="col-md-10 {{ $errors->first('comments') ? 'has-error' : '' }}" style="margin: 15px 0">
                                 <label>Comments: </label>
                                 <textarea class="form-control" name="comments" id="comments" rows="5" placeholder="Teacher comments">{{ isset($result) && !empty($result->comments) ? $result->comments : '' }}</textarea>
+                                @if ($errors->has('comments'))
+                                    <span class="help-block"><strong>{{ $errors->first('comments') }}</strong></span>
+                                @endif
                             </div>
                             <div class="col-md-10">
                                 <button type="button" class="btn btn-success btn-save-mark" style="width: 8rem" url="{{ route('update.mark.answer', $result->id) }}">Save</button>

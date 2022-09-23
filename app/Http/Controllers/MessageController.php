@@ -55,7 +55,7 @@ class MessageController extends Controller
         $from = Auth::user()->id;
 
         $this->validate($request, [
-            'title' => 'nullable',
+            'title' => 'required',
             'message' => 'required'
         ]);
 

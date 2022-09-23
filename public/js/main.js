@@ -42,12 +42,12 @@ $(function () {
             async: true,
             data: {
                 mark: mark,
-                comments: comments,
+                comments: comments
             }
         }).done(function (result) {
             if (result.code == 200) {
                 $('.result_mark_'+ result.result_id).text(result.mark);
-                toastr.success('Update success', {timeOut: 3000});
+                toastr.success('Update resulted success', {timeOut: 3000});
             }
         }).fail(function (XMLHttpRequest, textStatus, thrownError) {
             console.log(thrownError)
