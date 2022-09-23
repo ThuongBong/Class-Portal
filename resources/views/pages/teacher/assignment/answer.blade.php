@@ -22,7 +22,9 @@
                             <th scope="col">Mark</th>
                             <th scope="col">Submission time</th>
                             <th scope="col">Status</th>
+                            @if (Auth::user()->role == 'teacher')
                             <th scope="col" style="width: 8%">Action</th>
+                            @endif
                         </tr>
                         </thead>
                         <tbody>
@@ -43,11 +45,13 @@
                                 <td style="vertical-align: middle;" class="{{ $result->status !== 0 ? 'text-green-v4': 'red-color'}}">
                                     {{ $result->status !== 0 ? 'Submitted' : "Haven't submitted" }}
                                 </td>
+                                @if (Auth::user()->role == 'teacher')
                                 <td style="vertical-align: middle; width: 5%;">
                                     <a class="btn btn-success btn-sm {{ $result->status !== 0 ? '' : "hidden" }}" href="{{ route('get.detail.answer', $result->id) }}">
                                         <i class="fa fa-fw fa-eye"></i>
                                     </a>
                                 </td>
+                                @endif
                             </tr>
                         @endforeach
                         </tbody>
