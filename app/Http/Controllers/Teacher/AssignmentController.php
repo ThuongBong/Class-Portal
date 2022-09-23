@@ -248,7 +248,9 @@ class AssignmentController extends Controller
             return redirect()->back()->with('error', 'Data does not exist');
         }
 
-        $results = Result::with('user')->where('assignment_id', $id)->get();
+        $results = Result::with(['user' => function($query) {
+            $query->where('role', 'student');
+        }])->where('assignment_id', $id)->get();
 
         return view('pages.teacher.assignment.answer', compact('assignment', 'results'));
     }

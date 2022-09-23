@@ -69,6 +69,14 @@
                             <div class="col-md-10">
                                 <button type="button" class="btn btn-success btn-save-mark" style="width: 8rem" url="{{ route('update.mark.answer', $result->id) }}">Save</button>
                             </div>
+                            <div class="pull-right">
+                                <a href="{{route('teacher.assignment.answers', $result->assignment)}}">
+                                    <button type="button" class="btn btn-primary" style="width: 120px">
+                                        <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                                        Back List
+                                    </button>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>

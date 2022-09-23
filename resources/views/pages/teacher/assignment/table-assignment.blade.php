@@ -7,7 +7,9 @@
         <th scope="col">Source</th>
         <th scope="col">Due date</th>
         <th scope="col">Subject</th>
+        @if (Auth::user()->role == 'teacher')
         <th scope="col" style="width: 12%">Action</th>
+        @endif
     </tr>
     </thead>
     <tbody>
@@ -21,6 +23,7 @@
                 <td style="vertical-align: middle"><a href="{!! asset('uploads/assignments/' . $assignment->source) !!}" target="_blank">{{ $assignment->source }}</a></td>
                 <td style="vertical-align: middle">{{ !empty($assignment->due_date) ? convertDatetimeLocal($assignment->due_date) : '' }}</td>
                 <th style="vertical-align: middle">{{ isset($assignment->subject) ? $assignment->subject->name : ''  }}</th>
+                @if (Auth::user()->role == 'teacher')
                 <td style="vertical-align: middle;" class="btn-fix">
                     <a href="{{ route('teacher.assignment.answers', $assignment->id) }}" class="btn btn-success btn-sm"><i class="fa fa-fw fa-eye"></i></a>
 
@@ -35,6 +38,7 @@
                         <i class="fas fa-trash"></i>
                     </a>
                 </td>
+                @endif
             </tr>
             @php $i++ @endphp
         @endforeach
