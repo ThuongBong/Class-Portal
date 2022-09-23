@@ -29,30 +29,32 @@
                         </thead>
                         <tbody>
                         @foreach($results as $key => $result)
-                            <tr>
-                                <td style="vertical-align: middle">
-                                    {{ $key + 1 }}
-                                </td>
-                                <td style="vertical-align: middle">
-                                    {{ isset($result->user) ? $result->user->first_name . ' '. $result->user->last_name : '' }}
-                                </td>
-                                <td style="vertical-align: middle" class="result_mark_{{ $result->id }} {{ $result->status !== 0 ? '': 'red-color'}}">
-                                    {{ !($result->mark) ? "__" :  $result->mark }}
-                                </td>
-                                <td style="vertical-align: middle" class="{{ $result->status !== 0 ? '': 'red-color'}}">
-                                    {{ $result->status !== 0 ? $result->updated_at : "__" }}
-                                </td>
-                                <td style="vertical-align: middle;" class="{{ $result->status !== 0 ? 'text-green-v4': 'red-color'}}">
-                                    {{ $result->status !== 0 ? 'Submitted' : "Haven't submitted" }}
-                                </td>
-                                @if (Auth::user()->role == 'teacher')
-                                <td style="vertical-align: middle; width: 5%;">
-                                    <a class="btn btn-success btn-sm {{ $result->status !== 0 ? '' : "hidden" }}" href="{{ route('get.detail.answer', $result->id) }}">
-                                        <i class="fa fa-fw fa-eye"></i>
-                                    </a>
-                                </td>
-                                @endif
-                            </tr>
+                            @if (isset($result->user))
+                                <tr>
+                                    <td style="vertical-align: middle">
+                                        {{ $key + 1 }}
+                                    </td>
+                                    <td style="vertical-align: middle">
+                                        {{ isset($result->user) ? $result->user->first_name . ' '. $result->user->last_name : '' }}
+                                    </td>
+                                    <td style="vertical-align: middle" class="result_mark_{{ $result->id }} {{ $result->status !== 0 ? '': 'red-color'}}">
+                                        {{ !($result->mark) ? "__" :  $result->mark }}
+                                    </td>
+                                    <td style="vertical-align: middle" class="{{ $result->status !== 0 ? '': 'red-color'}}">
+                                        {{ $result->status !== 0 ? $result->updated_at : "__" }}
+                                    </td>
+                                    <td style="vertical-align: middle;" class="{{ $result->status !== 0 ? 'text-green-v4': 'red-color'}}">
+                                        {{ $result->status !== 0 ? 'Submitted' : "Haven't submitted" }}
+                                    </td>
+                                    @if (Auth::user()->role == 'teacher')
+                                        <td style="vertical-align: middle; width: 5%;">
+                                            <a class="btn btn-success btn-sm {{ $result->status !== 0 ? '' : "hidden" }}" href="{{ route('get.detail.answer', $result->id) }}">
+                                                <i class="fa fa-fw fa-eye"></i>
+                                            </a>
+                                        </td>
+                                    @endif
+                                </tr>
+                            @endif
                         @endforeach
                         </tbody>
                     </table>
