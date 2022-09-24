@@ -28,7 +28,7 @@ class AssignmentController extends Controller
             ->select('assignments.*', 'classes.name as [className]', 'classes.title as [classTitle]', 'classes.room')
             ->where('subject_id',$id)
             ->get();
-//        dd($assignments);
+//      dd($assignments);
 
 
         return view('pages.student.assignment.show',[
