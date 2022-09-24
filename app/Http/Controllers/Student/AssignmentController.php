@@ -21,11 +21,15 @@ class AssignmentController extends Controller
     public function show($id){
         $assignments = DB::table('assignments')
             ->where('subject_id',$id)
+            ->where('class_id',$id)
             ->join('subjects', function ($join) {
-                $join->on('assignments.id', '=', 'subjects.id');
+                $join->on('assignments.subject_id', '=', 'subjects.id');
             })
+            ->join('classes','assignments.class_id','=','classes.id')
+            ->select('assignments.*', 'subjects.name', 'subjects.description as [subjectDescription]')
+            ->select('assignments.*', 'classes.name as [className]', 'classes.title as [classTitle]', 'classes.room')
             ->get();
-        //dd($assignments);
+//        dd($assignments);
 
 
         return view('pages.student.assignment.show',[

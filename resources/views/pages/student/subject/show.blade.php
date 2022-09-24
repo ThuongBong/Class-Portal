@@ -80,7 +80,11 @@
                                 <div class="course-sumary">
                                     <div class="lectures-section mg-t-20">
                                         <div class="heading-lectures-section mg-b-20">
-                                            <h4 class="fs-16 mg-0">Lecturer (1)</h4>
+                                            <h4 class="fs-16 mg-0">Lecturer
+                                                @if (Auth::user()->role == 'teacher')
+                                                    ({{count($users)}})
+                                                @endif
+                                            </h4>
                                             <!--chat class-->
                                             <a href="" style="text-decoration: underline" title="Chat with lecturer" data-toggle="modal" data-target="#formChat">
                                                 <i class='fas fa-comments' style='font-size:20px'></i>
@@ -103,7 +107,9 @@
                                             </li>
                                         </ul>
                                         <div class="heading-lectures-section mg-b-20">
-                                            <h4 class="fs-16 mg-0">Students (10)</h4>
+                                            <h4 class="fs-16 mg-0">Students
+                                                    ({{count($users)}})
+                                            </h4>
                                         </div>
                                         @foreach($users as $item)
                                             <ul class="none-list mg-0">

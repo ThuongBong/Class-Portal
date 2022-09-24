@@ -82,7 +82,7 @@
                                                             {!! $assignment->description !!}
                                                         </span>
                                                         <span class="activity-state-label fs-12 pending">
-                                                            {{$assignment->source}}
+                                                            {{$assignment->due_date}}
                                                         </span>
                                                     </a>
                                                 </div>
