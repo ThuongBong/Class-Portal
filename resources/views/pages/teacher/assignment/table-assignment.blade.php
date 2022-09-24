@@ -20,7 +20,7 @@
                 <th scope="row" style="vertical-align: middle">{{ $i }}</th>
                 <td style="vertical-align: middle">{{ $assignment->title }}</td>
                 <td style="vertical-align: middle">{{ isset($assignment->classes) ? $assignment->classes->name : '' }}</td>
-                <td style="vertical-align: middle"><a href="{!! asset('uploads/assignments/' . $assignment->source) !!}" target="_blank">{{ $assignment->source }}</a></td>
+                <td style="vertical-align: middle"><a href="{!! asset('uploads/assignments/' . $assignment->source) !!}" target="_blank">{!! $assignment->source !!}</a></td>
                 <td style="vertical-align: middle">{{ !empty($assignment->due_date) ? convertDatetimeLocal($assignment->due_date) : '' }}</td>
                 <th style="vertical-align: middle">{{ isset($assignment->subject) ? $assignment->subject->name : ''  }}</th>
                 @if (Auth::user()->role == 'teacher')

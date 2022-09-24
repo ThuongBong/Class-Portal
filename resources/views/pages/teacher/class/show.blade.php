@@ -112,7 +112,7 @@
                     </div>
                 </div>
                 <div class="col-md-2">
-                    <form role="form" method="POST" action="{{ url('/class/' . $class1->id) }}">
+                    <form role="form" method="POST" action="{{ url('/class/delete/' . $class1->id) }}">
                         {{ csrf_field() }}
                         {{ method_field('DELETE') }}
 
@@ -151,7 +151,7 @@
                     <div class="panel-body">
                         <div class="col-xs-12 col-md-12">
                             <form class="form-horizontal" role="form" method="POST"
-                                  action="{{ url('class/' . $class1->id) }}">
+                                  action="{{ url('class/update/' . $class1->id) }}">
                                 {{ csrf_field() }}
                                 {{ method_field('PUT') }}
                                 <!-- Name -->

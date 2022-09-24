@@ -222,7 +222,7 @@
                 </div>
                 <ul class="row">
                     <li class="col-12 col-md-6 col-lg-3">
-                        <div class="cnt-block equal-hight" style="height: 349px;">
+                        <div class="cnt-block equal-hight" style="height: 349px; padding: 20px 20px">
                             <figure><img src="http://www.webcoderskull.com/img/team4.png" class="img-responsive" alt=""></figure>
                             <h3><a href="https://github.com/phomit03">Nguyen Xuan Thao</a></h3>
                             <b>Team Leader</b>
@@ -236,7 +236,7 @@
                         </div>
                     </li>
                     <li class="col-12 col-md-6 col-lg-3">
-                        <div class="cnt-block equal-hight" style="height: 349px;">
+                        <div class="cnt-block equal-hight" style="height: 349px; padding: 20px 20px">
                             <figure><img src="https://i.pinimg.com/564x/fa/73/34/fa733470fdc612f6b8945c3cd681d3b1.jpg" class="img-responsive" alt=""></figure>
                             <h3><a href="https://github.com/thuongbong">Khong Thi Thuong</a></h3>
                             <b>Team Leader</b>
@@ -249,7 +249,7 @@
                         </div>
                     </li>
                     <li class="col-12 col-md-6 col-lg-3">
-                        <div class="cnt-block equal-hight" style="height: 349px;">
+                        <div class="cnt-block equal-hight" style="height: 349px; padding: 20px 20px">
                             <figure><img src="http://www.webcoderskull.com/img/team1.png" class="img-responsive" alt=""></figure>
                             <h3><a href="https://github.com/Nhatanhn36">Nguyen Nhat Anh</a></h3>
                             <b>Team Member</b>
@@ -262,7 +262,7 @@
                         </div>
                     </li>
                     <li class="col-12 col-md-6 col-lg-3">
-                        <div class="cnt-block equal-hight" style="height: 349px;">
+                        <div class="cnt-block equal-hight" style="height: 349px; padding: 20px 20px">
                             <figure><img src="http://www.webcoderskull.com/img/team2.png" class="img-responsive" alt=""></figure>
                             <h3><a href="http://www.webcoderskull.com/">Do Quang Minh</a></h3>
                             <b>Team Member</b>

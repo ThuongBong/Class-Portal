@@ -32,7 +32,7 @@
                                 <i class="las la-book"></i> Subjects
                             </a>
                         </li>
-                        <li class="menu-item list-assignments {{request()->segment(2) == 'assignments' ? 'active' : '' }}">
+                        <li class="menu-item list-assignments {{request()->segment(1) == 'assignments' ? 'active' : '' }}">
                             <a class="" href="{{ Auth::user()->role == 'student' ? route('student.assignment.show_all') : route('teacher.assignment.index') }}" title="Assignments">
                                 <i class="la la-question"></i> Assignments
                             </a>

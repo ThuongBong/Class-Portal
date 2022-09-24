@@ -85,7 +85,7 @@ class UserController extends Controller
      */
     public function showAll($class_id)
     {
-        return view('pages.teacher.students/show_all', [
+        return view('pages.teacher.students.show_all', [
             'users' => User::all(),
             'class_id' => $class_id
         ]);

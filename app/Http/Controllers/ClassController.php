@@ -180,7 +180,8 @@ class ClassController extends Controller
             return redirect('/home')->with('success', 'Class deleted successfully!');
         }
     }
-    public function delete($id){
+
+    /*public function delete($id){
 
         $class_user = Classes_User::find($id);
         if (!$class_user) {
@@ -193,7 +194,7 @@ class ClassController extends Controller
         } catch (\Exception $exception) {
             return redirect()->back()->with('error', 'There was an error that could not be deleted');
         }
-    }
+    }*/
 
     public function addStudents(Request $request, $class_id)
     {

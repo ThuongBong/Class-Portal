@@ -39,7 +39,7 @@
                                                             <li>
                                                                 <i class="las la-id-card"></i>
                                                                 <span title="Number of students: ">Number of students:
-                                                                {{$class->lecturers->filter(function ($item) { return $item->role === 'student';})->map(function ($item) {return $item->fullname;})->join(' - ')}}
+                                                                {{--{{$class->lecturers->filter(function ($item) { return $item->role === 'student';})->map(function ($item) {return $item->fullname;})->join(' - ')}}--}}
                                                                 </span>
                                                             </li>
                                                         </ul>

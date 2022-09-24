@@ -74,13 +74,13 @@ class Classes extends Model
         return $this->belongsToMany(User::class,"classes_users","class_id","user_id" );
     }
 
-    public function class_user(){
+    /*public function class_user(){
         return $this->hasOne(classes_user::class, 'class_id', 'id');
     }
 
     public function lecturers(){
         return $this->hasManyThrough(User::class, Assignment::class, 'teacher_id','id');
-    }
+    }*/
     /**
      * Subject that has many to this class
      *

@@ -26,9 +26,20 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
+//sign in google
 Route::get('auth/google', [GoogleController::class, 'redirectToGoogle']);
 Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
 
+//middleware and import router for teacher, student
+Route::middleware(["auth","is_teacher"])->group(function (){
+    include_once "teacher.php";
+});
+
+Route::middleware(["auth"])->group(function (){
+    include_once "student.php";
+});
+
+//check login
 Route::get('/', function () {
     if (Auth::guest()) {
         return view('index');
@@ -37,86 +48,24 @@ Route::get('/', function () {
     }
 });
 
+//home
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-//join home student
-Route::get('/join/class/{classCode?}', [ClassController::class, 'joinClass'])->name('join.class');
-
+//about us
 Route::get('/about-us', function (){
     return view('pages.about');
 });
+
+//terms
 Route::get('/terms', function (){
     return view('pages.terms');
 });
 
-// User Routes
-Route::get('/profile', [UserController::class, 'show']);
-Route::post('/profile/update', [UserController::class, 'update']);
-Route::get('/profile/{user_id}', [UserController::class, 'show']);
-Route::get('/class/{class_id}/students', [UserController::class, 'showAll']);
-
-// Class Routes
-Route::get('/class/create', [ClassController::class, 'create']);
-Route::get('/class/{id}', [ClassController::class, 'show'])->name('class.detail');
-Route::post('/class', [ClassController::class, 'store']);
-Route::put('/class/{id}', [ClassController::class, 'update']);
-Route::delete('/class/{id}', [ClassController::class, 'destroy']);
-Route::post('/class/{class_id}/student', [ClassController::class, 'addStudents']);
-/*Route::post('/subject/save/', [ClassController::class, 'saveSubject']);*/
-Route::post('/subject/new/save', [ClassController::class, 'saveNewSubject']);
-
-Route::get('/remove/student/class/{id}', [ClassController::class, 'removeStudent'])->name('remove.student.class');
-
-Route::get('/delete/{id}','ClassController@delete')->name('user.delete');
-
-Route::post('/url/',[ClassController::class,'urlLink']);
-
-// Subjects Routes
-Route::get('subject/create', [SubjectController::class, 'form'])->name('form.subject');
-Route::post('subject/create', [SubjectController::class, 'create'])->name('create.subject');
-Route::get('subject/edit/{id}', [SubjectController::class, 'edit'])->name('edit.subject');
-Route::put('subject/update/{id}', [SubjectController::class, 'update'])->name('update.subject');
-Route::get('delete/{id}', [SubjectController::class, 'destroy'])->name('delete.subject');
-
-Route::get('/subjects/showAll', [SubjectController::class, 'showAll'])->name('subjects.show_all');
-
-// Assignment Routes
-Route::post('/subject/{id}/assignment', [AssignmentController::class, 'store']);
-Route::get('/subject/{subject_id}/assignment/{assignment_id}', [AssignmentController::class, 'show']);
-Route::delete('/subject/{subject_id}/assignment/{assignment_id}', [AssignmentController::class, 'destroy']);
-Route::put('/subject/{subject_id}/assignment/{assignment_id}', [AssignmentController::class, 'update']);
-
-// Message Routes
-Route::post('/user/{user_id}/message', [MessageController::class, 'store']);
-Route::delete('/message/{message_id}', [MessageController::class, 'destroy']);
-Route::get('/message/', [MessageController::class, 'show']);
 
 
-Route::group(['prefix' => 'teacher/assignments', 'namespace' => 'Teacher'], function(){
-    Route::get('/', 'AssignmentController@index')->name('teacher.assignment.index');
-    Route::get('/create','AssignmentController@create')->name('teacher.assignment.create');
-    Route::post('/create','AssignmentController@store');
 
-    Route::get('/update/{id}','AssignmentController@edit')->name('teacher.assignment.update');
-    Route::post('/update/{id}','AssignmentController@update');
 
-    Route::get('/delete/{id}','AssignmentController@delete')->name('teacher.assignment.delete');
 
-    Route::post('/get/subject/by/class','AssignmentController@getsSubjectByClass')->name('get.subject.by.class');
 
-    Route::get('/answers/{id}', 'AssignmentController@answers')->name('teacher.assignment.answers');
 
-    Route::get('/get/detail/answer/{id}','AssignmentController@detailAnswer')->name('get.detail.answer');
-    Route::post('/update/mark/answer/{id}','AssignmentController@updateMark')->name('update.mark.answer');
-});
-
-Route::group(['prefix' => 'student/assignments', 'namespace' => 'Student'], function(){
-    Route::get('/show/{id}', 'AssignmentController@show')->name('student.assignment.show');
-    Route::get('/showAll', 'AssignmentController@showAll')->name('student.assignment.show_all');
-    Route::get('/detail/{id}', 'AssignmentController@detail')->name('student.assignment.show-details');
-});
-
-Route::post('/result/{id}',[ResultController::class, 'sendResult'])->name('student.assignment.result');
-
-Route::post('/Issues', [IssueController::class, 'store']);
 

@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\CheckRole;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use Illuminate\Auth\Middleware\Authorize;
 
@@ -50,5 +51,8 @@ class Kernel extends HttpKernel
         'can' => Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+
+        //khai bao middleware la IsAdmin
+        'is_teacher'=>CheckRole::class,
     ];
 }

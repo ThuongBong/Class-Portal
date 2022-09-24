@@ -147,7 +147,7 @@
                     </button>
                 </div>
                 <form class="form-horizontal" role="form" method="POST"
-                      action="{{ url('/user/' . $lecturer->id . '/message') }}">
+                      action="{{ url('message/user/' . $lecturer->id) }}">
                     {{ csrf_field() }}
 
                     <div class="modal-body">
