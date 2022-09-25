@@ -84,38 +84,6 @@
 
         @endif
     </div>
-
-    <!--form link-->
-{{--
-    <div class="modal fade" id="userJoinLink" role="dialog" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Join class by link</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form action="{{ route('join.class', $classCode) }}">
-                    {{ csrf_field() }}
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label>
-                                Link to the classroom
-                            </label>
-                            <p>Ask your teacher for a link to the class, then enter the link here.</p>
-                            <input type="text" class="form-control link-join-class" name="classCode"
-                                   placeholder="Enter your link here">
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" value="Accept" class="btn btn-primary join-by-link">Join Class</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
---}}
 @endsection
 
 

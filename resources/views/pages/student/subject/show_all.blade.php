@@ -17,7 +17,7 @@
                                                 <div class="wrap-course-item">
                                                     <div class="course-infor" style="padding: 20px">
                                                         <h3 class="course-title mg-b-15 fs-18">
-                                                            <a href="#" title="{{ $subject->name }}" style="font-size: 16px">
+                                                            <a href="{{'class/'. $subject->classes->first()->id}}" title="{{ $subject->name }}" style="font-size: 16px">
                                                                 {{ $subject->name }}
                                                             </a>
                                                         </h3>
