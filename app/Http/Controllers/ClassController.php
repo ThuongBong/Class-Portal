@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Classes_Subject;
 use App\Models\Classes_User;
+use App\Models\ClassesUser;
 use App\Models\Subject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -216,9 +217,9 @@ class ClassController extends Controller
 
         $userId = Auth::user()->id;
 
-        $classUser = Classes_User::where(['user_id' => $userId, 'class_id' => $classes->id])->first();
+        $classUser = ClassesUser::where(['user_id' => $userId, 'class_id' => $classes->id])->first();
         if (!$classUser) {
-            $classUser = new Classes_User();
+            $classUser = new ClassesUser();
         }
         DB::beginTransaction();
         try {

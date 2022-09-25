@@ -92,7 +92,9 @@ class AssignmentController extends Controller
             if ($assignment) {
                 $users = ClassesUser::with(['student' => function($query) {
                     $query->where('role', 'student');
-                }])->where('class_id', $assignment->class_id)->get();
+                }])->whereIn('user_id', function ($query) {
+                    $query->select('id')->from('users')->where('role', 'student');
+                })->where('class_id', $assignment->class_id)->get();
 
                 foreach($users as $user) {
                     $result = Result::where(['assignment_id' => $assignment->id, 'user_id' => $user->user_id])->first();
@@ -109,7 +111,7 @@ class AssignmentController extends Controller
                     if (isset($user->student)) {
                         $dataMail = [
                             'email' => isset($user->student) ? $user->student->email : '',
-                            'name'  => isset($user->student) ? $user->student->name : '',
+                            'name'  => isset($user->student) ? $user->student->first_name . ' ' . $user->student->last_name : '',
                             'title' => $data['title'],
                             'due_date' => !empty($data['due_date']) ? formatTime($data['due_date']) : '',
                             'teacher' => $currentUser->name
@@ -121,6 +123,7 @@ class AssignmentController extends Controller
             }
 
             DB::commit();
+            return redirect()->route('class.detail', $assignment->class_id)->with('success', 'Successfully added new');
         } catch (\Exception $exception) {
             DB::rollBack();
             return redirect()->back()->with('error', 'An error occurred while saving data');
@@ -190,7 +193,9 @@ class AssignmentController extends Controller
 
             $users = ClassesUser::with(['student' => function($query) {
                 $query->where('role', 'student');
-            }])->where('class_id', $assignment->class_id)->get();
+            }])->whereIn('user_id', function ($query) {
+                $query->select('id')->from('users')->where('role', 'student');
+            })->where('class_id', $assignment->class_id)->get();
 
             foreach($users as $user) {
                 $result = Result::where(['assignment_id' => $assignment->id, 'user_id' => $user->user_id])->first();
@@ -207,7 +212,7 @@ class AssignmentController extends Controller
                 if (isset($user->student)) {
                     $dataMail = [
                         'email' => isset($user->student) ? $user->student->email : '',
-                        'name'  => isset($user->student) ? $user->student->name : '',
+                        'name'  => isset($user->student) ? $user->student->first_name . ' ' . $user->student->last_name : '',
                         'title' => $data['title'],
                         'due_date' => !empty($data['due_date']) ? formatTime($data['due_date']) : '',
                         'teacher' => $currentUser->name

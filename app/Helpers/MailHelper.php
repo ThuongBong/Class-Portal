@@ -12,7 +12,7 @@ class MailHelper
 {
     /**
      * Send mail sign up
-     * 
+     *
      * @param Transaction $transaction
      */
     public static function sendMail($data)
@@ -24,7 +24,7 @@ class MailHelper
 
         $mailJob = new GeneralMail();
         $mailJob->setFromDefault()
-                ->setView('emails.assignment')
+                ->setView('emails.assignment', $data)
                 ->setSubject($data['subject'])
                 ->setTo($data['email']);
         dispatch(new SendMailJob($mailJob));
