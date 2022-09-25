@@ -112,7 +112,7 @@ class ClassController extends Controller
         $user_id = Auth::user()->id;
 
         $class = new Classes;
-        $classes = new Classes_User();
+        $classes = new ClassesUser();
         $class->name = $request->input('name');
         $class->title = $request->input('title');
         $class->room = $request->input('room');
@@ -221,7 +221,7 @@ class ClassController extends Controller
 
     public function removeStudent($id)
     {
-        $classUser = Classes_User::find($id);
+        $classUser = ClassesUser::find($id);
 
         if (!$classUser) {
             return redirect()->back()->with('error', 'Data does not exist');

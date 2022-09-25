@@ -30,6 +30,7 @@ class AssignmentController extends Controller
             ->select('assignments.*', 'classes.name as className', 'classes.title as classTitle', 'classes.room as classRoom')
             ->where('subject_id',$id)
             ->get();
+        dd($assignments);
         $subject = Subject::find($id);
 
         return view('pages.student.assignment.show',[
