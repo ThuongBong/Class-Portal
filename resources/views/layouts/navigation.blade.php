@@ -146,63 +146,6 @@
 </header>
 <!---End Site Header-->
 
-<!--form-support-->
-<div class="modal fade" id="userSupportModal" role="dialog" tabindex="-1" aria-labelledby="supportModal">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Contact Us</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form class="form-horizontal" role="form" method="POST" action="{{url('/Issues')}}" enctype="multipart/form-data">
-                    {{ csrf_field() }}
-                    <div class="form-group">
-                        <label>Phone number: </label>
-                        <input type="text" class="form-control" value="{{ old('phone') }}" name="phone" placeholder="Enter your phone here">
-                        @if ($errors->has('phone'))
-                            <span class="help-block"><strong>{{ $errors->first('phone') }}</strong></span>
-                        @endif
-                    </div>
-                    <div class="form-group">
-                        <label>Email: </label>
-                        <input type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="Enter your email here">
-                        @if ($errors->has('email'))
-                            <span class="help-block"><strong>{{ $errors->first('email') }}</strong></span>
-                        @endif
-                    </div>
-                    <div class="form-group">
-                        <label>Description: </label>
-                        <textarea rows="5" class="form-control" name="describe" placeholder="Enter your description here">{{ old('describe') }}</textarea>
-                        @if ($errors->has('describe'))
-                            <span class="help-block"><strong>{{ $errors->first('describe') }}</strong></span>
-                        @endif
-                    </div>
-                    <div class="form-group">
-                        <label>Attachments (if possible): </label>
-                        <input class="custom-file-input" type="file" name="attachments" value="{{ old('attachments') }}" placeholder="Enter your attachments here">
-                        @if ($errors->has('attachments'))
-                            <span class="help-block"><strong>{{ $errors->first('attachments') }}</strong></span>
-                        @endif
-                    </div>
-                    <input  class="custom-file-input" type="hidden" name="user_id">
-                    <div class="modal-footer">
-{{--                <span class="info-contact">In case of urgent support, please contact us via:<br>--}}
-{{--                    <span style="color: #007bff;">--}}
-{{--                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone-forward-fill" viewBox="0 0 16 16">--}}
-{{--                            <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511zm10.761.135a.5.5 0 0 1 .708 0l2.5 2.5a.5.5 0 0 1 0 .708l-2.5 2.5a.5.5 0 0 1-.708-.708L14.293 4H9.5a.5.5 0 0 1 0-1h4.793l-1.647-1.646a.5.5 0 0 1 0-.708z"/>--}}
-{{--                        </svg>--}}
-{{--                        +84 123 456 789--}}
-{{--                    </span>--}}
-{{--                </span>--}}
-                        <button type="submit" value="Accept" class="btn btn-primary" style="width: 120px">Submit</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+
 
 

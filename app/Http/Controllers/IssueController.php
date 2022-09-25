@@ -18,9 +18,9 @@ class IssueController extends Controller
     {
         $this->validate($request, [
             'phone' => 'required|string|max:255',
-            'email' => 'string|max:255|nullable',   // Roadmap To Computing
-            'describe' => 'string|max:255|nullable', // 01
-            'attachments' => 'file|mimes:jpg,jpeg,png' // 01
+            'email' => 'required|string|max:255|',
+            'describe' => 'required|string|max:255',
+            'attachments' => 'file|mimes:jpg,jpeg,png|nullable'
         ]);
 
         $attachments = null;

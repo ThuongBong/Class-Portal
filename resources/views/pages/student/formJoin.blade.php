@@ -16,7 +16,7 @@
                             Class code
                         </label>
                         <p>Ask your teacher for the class code, then enter it here.</p>
-                        <input type="text" class="form-control code-join-class" name="" placeholder="Enter your code here">
+                        <input type="text" class="form-control code-join-class" placeholder="Enter your code here">
                     </div>
                 </form>
             </div>
