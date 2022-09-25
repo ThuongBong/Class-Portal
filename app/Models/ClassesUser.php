@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class classes_user extends Model
+class ClassesUser extends Model
 {
     use HasFactory;
     protected $table = 'classes_users';
@@ -15,4 +15,9 @@ class classes_user extends Model
     protected $fillable = [
         'user_id', 'class_id'
     ];
+
+    public function student()
+    {
+        return $this->hasOne(User::class, 'id', 'user_id');
+    }
 }

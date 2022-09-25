@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Teacher;
 
-use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -11,8 +10,10 @@ use App\Models\Assignment;
 use App\Models\Subject;
 use App\Models\Classes;
 use App\Models\Result;
+use App\Models\ClassesUser;
 use App\Http\Requests\Teacher\AssignmentRequest;
 use Illuminate\Support\Facades\DB;
+use App\Helpers\MailHelper;
 
 
 class AssignmentController extends Controller
@@ -66,43 +67,60 @@ class AssignmentController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(AssignmentRequest $request)
     {
         //
+        $currentUser = Auth::user();
         DB::beginTransaction();
         try {
             $data = $request->except('_token', 'submit');
             $data['teacher_id'] = Auth::user()->id;
 
-            if ($request->hasfile('source')) {
+            if($request->hasfile('source'))
+            {
                 $file = $request->file('source');
-                $data['source'] = date('YmdHms') . $data['teacher_id'] . $file->getClientOriginalName();
-                $file->move(public_path() . '/uploads/assignments/', $data['source']);
+                $data['source'] = date('YmdHms'). $data['teacher_id'] .$file->getClientOriginalName();
+                $file->move(public_path().'/uploads/assignments/', $data['source']);
 
             }
 
             $assignment = Assignment::create($data);
 
             if ($assignment) {
-                $userIds = DB::table('classes_users')->where('class_id', $assignment->class_id)->pluck('user_id');
+                $users = ClassesUser::with(['student' => function($query) {
+                    $query->where('role', 'student');
+                }])->whereIn('user_id', function ($query) {
+                    $query->select('id')->from('users')->where('role', 'student');
+                })->where('class_id', $assignment->class_id)->get();
 
-                foreach ($userIds as $userId) {
-                    $result = Result::where(['assignment_id' => $assignment->id, 'user_id' => $userId])->first();
+                foreach($users as $user) {
+                    $result = Result::where(['assignment_id' => $assignment->id, 'user_id' => $user->user_id])->first();
 
                     if (!$result) {
                         $result = new Result();
                     }
 
-                    $result->assignment_id = $assignment->id;
-                    $result->user_id = $userId;
-                    $result->subject_id = $assignment->subject_id;
+                    $result->assignment_id  = $assignment->id;
+                    $result->user_id  = $user->user_id;
+                    $result->subject_id  = $assignment->subject_id;
                     $result->save();
+
+                    if (isset($user->student)) {
+                        $dataMail = [
+                            'email' => isset($user->student) ? $user->student->email : '',
+                            'name'  => isset($user->student) ? $user->student->first_name . ' ' . $user->student->last_name : '',
+                            'title' => $data['title'],
+                            'due_date' => !empty($data['due_date']) ? formatTime($data['due_date']) : '',
+                            'teacher' => $currentUser->name
+                        ];
+
+                        MailHelper::sendMail($dataMail);
+                    }
                 }
             }
-
 
             DB::commit();
             return redirect()->route('class.detail', $assignment->class_id)->with('success', 'Successfully added new');
@@ -115,7 +133,7 @@ class AssignmentController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param int $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function edit(Request $request, $id)
@@ -148,14 +166,14 @@ class AssignmentController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(AssignmentRequest $request, $id)
     {
         //
-        $userId = Auth::user()->id;
+        $currentUser = Auth::user();
 
         DB::beginTransaction();
         try {
@@ -163,36 +181,51 @@ class AssignmentController extends Controller
 
             $data['teacher_id'] = Auth::user()->id;
 
-            if ($request->hasfile('source')) {
+            if($request->hasfile('source'))
+            {
                 $file = $request->file('source');
-                $data['source'] = date('YmdHms') . $userId . $file->getClientOriginalName();
-                $file->move(public_path() . '/uploads/assignments/', $data['source']);
+                $data['source'] = date('YmdHms'). $currentUser->id .$file->getClientOriginalName();
+                $file->move(public_path().'/uploads/assignments/', $data['source']);
 
             }
 
             $assignment = Assignment::find($id);
 
-            $userIds = DB::table('classes_users')->where('class_id', $assignment->class_id)->pluck('user_id');
+            $users = ClassesUser::with(['student' => function($query) {
+                $query->where('role', 'student');
+            }])->whereIn('user_id', function ($query) {
+                $query->select('id')->from('users')->where('role', 'student');
+            })->where('class_id', $assignment->class_id)->get();
 
-            foreach ($userIds as $userId) {
-                $result = Result::where(['assignment_id' => $assignment->id, 'user_id' => $userId])->first();
+            foreach($users as $user) {
+                $result = Result::where(['assignment_id' => $assignment->id, 'user_id' => $user->user_id])->first();
 
                 if (!$result) {
                     $result = new Result();
                 }
 
-                $result->assignment_id = $assignment->id;
-                $result->user_id = $userId;
-                $result->subject_id = $assignment->subject_id;
+                $result->assignment_id  = $assignment->id;
+                $result->user_id  = $user->user_id;
+                $result->subject_id  = $assignment->subject_id;
                 $result->save();
+
+                if (isset($user->student)) {
+                    $dataMail = [
+                        'email' => isset($user->student) ? $user->student->email : '',
+                        'name'  => isset($user->student) ? $user->student->first_name . ' ' . $user->student->last_name : '',
+                        'title' => $data['title'],
+                        'due_date' => !empty($data['due_date']) ? formatTime($data['due_date']) : '',
+                        'teacher' => $currentUser->name
+                    ];
+
+                    MailHelper::sendMail($dataMail);
+                }
             }
 
             if (!$assignment) {
                 return redirect()->back()->with('error', 'Data does not exist');
             }
             $assignment->update($data);
-
-
             DB::commit();
             return redirect()->back()->with('success', 'Editing is successful');
         } catch (\Exception $exception) {
@@ -204,7 +237,7 @@ class AssignmentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function delete($id)
@@ -232,7 +265,7 @@ class AssignmentController extends Controller
             $subjectIds = DB::table('classes_subjects')->where('class_id', $classId)->pluck('subject_id');
             $subjects = Subject::whereIn('id', $subjectIds)->get();
 
-            $html = view('pages.teacher.assignment.option_subject', compact('subjects'))->render();
+            $html =  view('pages.teacher.assignment.option_subject', compact('subjects'))->render();
 
             return response([
                 'html' => $html

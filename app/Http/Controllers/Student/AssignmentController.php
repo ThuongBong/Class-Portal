@@ -61,6 +61,7 @@ class AssignmentController extends Controller
 
         $userId = Auth::user()->id;
         $result = Result::where(['user_id' => $userId, 'assignment_id' => $id])->first();
+//        dd($result);
 
         //dd($assignment);
 
