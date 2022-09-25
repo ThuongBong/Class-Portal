@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Teacher;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -65,7 +66,7 @@ class AssignmentController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(AssignmentRequest $request)
@@ -76,11 +77,10 @@ class AssignmentController extends Controller
             $data = $request->except('_token', 'submit');
             $data['teacher_id'] = Auth::user()->id;
 
-            if($request->hasfile('source'))
-            {
+            if ($request->hasfile('source')) {
                 $file = $request->file('source');
-                $data['source'] = date('YmdHms'). $data['teacher_id'] .$file->getClientOriginalName();
-                $file->move(public_path().'/uploads/assignments/', $data['source']);
+                $data['source'] = date('YmdHms') . $data['teacher_id'] . $file->getClientOriginalName();
+                $file->move(public_path() . '/uploads/assignments/', $data['source']);
 
             }
 
@@ -89,16 +89,16 @@ class AssignmentController extends Controller
             if ($assignment) {
                 $userIds = DB::table('classes_users')->where('class_id', $assignment->class_id)->pluck('user_id');
 
-                foreach($userIds as $userId) {
+                foreach ($userIds as $userId) {
                     $result = Result::where(['assignment_id' => $assignment->id, 'user_id' => $userId])->first();
 
                     if (!$result) {
                         $result = new Result();
                     }
 
-                    $result->assignment_id  = $assignment->id;
-                    $result->user_id  = $userId;
-                    $result->subject_id  = $assignment->subject_id;
+                    $result->assignment_id = $assignment->id;
+                    $result->user_id = $userId;
+                    $result->subject_id = $assignment->subject_id;
                     $result->save();
                 }
             }
@@ -115,7 +115,7 @@ class AssignmentController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit(Request $request, $id)
@@ -148,8 +148,8 @@ class AssignmentController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(AssignmentRequest $request, $id)
@@ -163,11 +163,10 @@ class AssignmentController extends Controller
 
             $data['teacher_id'] = Auth::user()->id;
 
-            if($request->hasfile('source'))
-            {
+            if ($request->hasfile('source')) {
                 $file = $request->file('source');
-                $data['source'] = date('YmdHms'). $userId .$file->getClientOriginalName();
-                $file->move(public_path().'/uploads/assignments/', $data['source']);
+                $data['source'] = date('YmdHms') . $userId . $file->getClientOriginalName();
+                $file->move(public_path() . '/uploads/assignments/', $data['source']);
 
             }
 
@@ -175,16 +174,16 @@ class AssignmentController extends Controller
 
             $userIds = DB::table('classes_users')->where('class_id', $assignment->class_id)->pluck('user_id');
 
-            foreach($userIds as $userId) {
+            foreach ($userIds as $userId) {
                 $result = Result::where(['assignment_id' => $assignment->id, 'user_id' => $userId])->first();
 
                 if (!$result) {
                     $result = new Result();
                 }
 
-                $result->assignment_id  = $assignment->id;
-                $result->user_id  = $userId;
-                $result->subject_id  = $assignment->subject_id;
+                $result->assignment_id = $assignment->id;
+                $result->user_id = $userId;
+                $result->subject_id = $assignment->subject_id;
                 $result->save();
             }
 
@@ -205,7 +204,7 @@ class AssignmentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function delete($id)
@@ -233,7 +232,7 @@ class AssignmentController extends Controller
             $subjectIds = DB::table('classes_subjects')->where('class_id', $classId)->pluck('subject_id');
             $subjects = Subject::whereIn('id', $subjectIds)->get();
 
-            $html =  view('pages.teacher.assignment.option_subject', compact('subjects'))->render();
+            $html = view('pages.teacher.assignment.option_subject', compact('subjects'))->render();
 
             return response([
                 'html' => $html

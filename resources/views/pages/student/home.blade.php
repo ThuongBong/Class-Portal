@@ -33,14 +33,17 @@
                                                             <li>
                                                                 <i class="la la-user-circle"></i>
                                                                 <span title="{{--{{$lecturer->email}}--}}">
-                                                                    Lecturers: {{--{{ $class1->users->email }}--}}
+                                                                    Lecturers:
+                                                                    {{($class->usersIsTeacher->first()->email)}}
                                                                 </span>
                                                             </li>
                                                             <li>
                                                                 <i class="las la-id-card"></i>
                                                                 <span title="Number of students: ">Number of students:
                                                                 {{--{{$class->lecturers->filter(function ($item) { return $item->role === 'student';})->map(function ($item) {return $item->fullname;})->join(' - ')}}--}}
+                                                                    {{$class->usersIsStudent->count()}}
                                                                 </span>
+
                                                             </li>
                                                         </ul>
                                                         <a class="view-detail text-decoration-none fs-14 mg-b-5" href="{{ url('class/' . $class->id) }}" title="Go to course">

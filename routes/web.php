@@ -48,9 +48,6 @@ Route::get('/', function () {
     }
 });
 
-//home
-Route::get('/home', [HomeController::class, 'index'])->name('home');
-
 //about us
 Route::get('/about-us', function (){
     return view('pages.about');

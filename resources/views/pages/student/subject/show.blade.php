@@ -152,10 +152,10 @@
 
                     <div class="modal-body">
                         <div class="form-group">
-                                                    <span>Please fill out the form below to discuss the matter with your teacher or student!
-                                                        <span class="red-color">Note:</span> Teacher can only reply if they receive a letter from a student,
-                                                        cannot actively send a letter first.
-                                                    </span>
+                            <span>Please fill out the form below to discuss the matter with your teacher or student!
+                                <span class="red-color">Note:</span> Teacher can only reply if they receive a letter from a student,
+                                cannot actively send a letter first.
+                            </span>
                         </div>
 
                         <div class="form-group {{ $errors->first('title') ? 'has-error' : '' }}">

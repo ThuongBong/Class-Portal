@@ -32,7 +32,7 @@
                                 @if (isset($result->user))
                                     <tr>
                                         <td style="vertical-align: middle">
-                                            {{ $key + 1 }}
+                                            {{ $key++ }}
                                         </td>
                                         <td style="vertical-align: middle">
                                             {{ isset($result->user) ? $result->user->first_name . ' '. $result->user->last_name : '' }}

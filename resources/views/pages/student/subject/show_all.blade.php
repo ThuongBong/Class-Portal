@@ -24,10 +24,10 @@
                                                         <ul class="bottom-course-sum none-list mg-0 fs-14 mg-b-15">
                                                             <li>
                                                                 <i class="las la-chalkboard-teacher"></i>Class:&nbsp;
-                                                                <a href="{{'class/'. $subject->classId}}"
+                                                                <a href="{{'class/'. $subject->classes->first()->id}}"
                                                                    class="course-code text-bold decoration-none"
-                                                                   title="{{ $subject->className }}">
-                                                                    {{ $subject->className }}
+                                                                   title="{{ $subject->classes->first()->name }}">
+                                                                    {{ $subject->classes->first()->name }}
                                                                 </a>
                                                             </li>
                                                             <li>
@@ -37,11 +37,12 @@
                                                                 </span>
                                                             </li>
                                                             <li>
-                                                                <i class="las la-id-card"></i>
-                                                                <span title="Number of students: ">Number of students: </span>
+                                                                <i class="la la-cubes"></i>
+                                                                <span title="Number of students: ">Number of assignments: {{$subject->assignments_count}}</span>
                                                             </li>
                                                         </ul>
-                                                        <a class="view-detail text-decoration-none fs-14 mg-b-5" href="#"
+                                                        <a class="view-detail text-decoration-none fs-14 mg-b-5"
+                                                           href="{{ route('student.assignment.show', $subject->id) }}"
                                                            title="View assignment">
                                                             View assignment <i class="las la-arrow-right"></i>
                                                         </a>

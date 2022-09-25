@@ -12,16 +12,18 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-//Add student (teacher add)
-Route::get('/class/{class_id}/students', [UserController::class, 'showAll']);
-Route::post('/class/{class_id}/student', [ClassController::class, 'addStudents']);
-Route::get('/remove/student/class/{id}', [ClassController::class, 'removeStudent'])->name('remove.student.class');
-
 //Class router teacher
-Route::get('/class/create', [ClassController::class, 'create']);
-Route::post('/class', [ClassController::class, 'store']);
-Route::put('/class/update/{id}', [ClassController::class, 'update']);
-Route::delete('/class/delete/{id}', [ClassController::class, 'destroy']);
+Route::group(['prefix' => 'class'], function() {
+    //add, delete student (teacher)
+    Route::get('/{class_id}/students', [UserController::class, 'showAll']);
+    Route::post('/{class_id}/student', [ClassController::class, 'addStudents']);
+    Route::get('/remove/student/{id}', [ClassController::class, 'removeStudent'])->name('remove.student.class');
+    //class
+    Route::get('/create', [ClassController::class, 'create']);
+    Route::post('/create', [ClassController::class, 'store']);
+    Route::put('/update/{id}', [ClassController::class, 'update']);
+    Route::delete('/delete/{id}', [ClassController::class, 'destroy']);
+});
 
 //Subject Router
 Route::group(['prefix' => 'subject'], function() {
@@ -34,7 +36,7 @@ Route::group(['prefix' => 'subject'], function() {
 });
 
 //Assignment Router
-Route::group(['prefix' => 'teacher/assignments', 'namespace' => 'Teacher'], function(){
+Route::group(['prefix' => 'assignments', 'namespace' => 'Teacher'], function(){
     //show list all
     Route::get('/', 'AssignmentController@index')->name('teacher.assignment.index');
     //create

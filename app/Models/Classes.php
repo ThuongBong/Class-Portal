@@ -74,6 +74,18 @@ class Classes extends Model
         return $this->belongsToMany(User::class,"classes_users","class_id","user_id" );
     }
 
+    public function usersIsStudent()
+    {
+        return $this->belongsToMany(User::class,"classes_users","class_id","user_id" )
+            ->where('users.role', 'student');
+    }
+
+    public function usersIsTeacher()
+    {
+        return $this->belongsToMany(User::class,"classes_users","class_id","user_id" )
+            ->where('users.role', 'teacher');
+    }
+
     /*public function class_user(){
         return $this->hasOne(classes_user::class, 'class_id', 'id');
     }
@@ -92,5 +104,8 @@ class Classes extends Model
         return $this->belongsToMany(Subject::class,"classes_subjects","class_id","subject_id");
     }
 
+    public function assignments(){
+        return $this->hasMany(Assignment::class, 'class_id', 'id');
+    }
 
 }

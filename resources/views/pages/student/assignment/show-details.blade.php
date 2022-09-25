@@ -115,15 +115,15 @@
                                             <p class="top text-lightbold">
                                                 Submission status:
                                             </p>
-                                            <span class="fs-14 text-lightbold {{ ($result->status == 1) ? 'my-submission-status submitted' : 'my-submission-status' }}">
-                                                {{ ($result->status == 1) ? 'Submitted' : 'Not Submit'}}
+                                            <span class="fs-14 text-lightbold {{ ($result && $result->status == 1) ? 'my-submission-status submitted' : 'my-submission-status' }}">
+                                                {{ ($result && $result->status == 1) ? 'Submitted' : 'Not Submit'}}
                                             </span>
                                         </div>
                                         <div class="mg-b-10">
                                             <p class="top text-lightbold">
                                                 Submission time:
                                             </p>
-                                            <span class="my-submission-time text-bold">{{ ($result->status == 1) ? $result->updated_at : '--' }}</span>
+                                            <span class="my-submission-time text-bold">{{ ($result && $result->status == 1) ? $result->updated_at : '--' }}</span>
                                         </div>
                                         <div class="mg-b-10">
                                             <p class="top text-lightbold">
@@ -150,7 +150,7 @@
 
                                 @else
                                     <!--da nop, nhung con time-->
-                                    @if( $result->status == 1 )
+                                    @if( $result && $result->status == 1  )
                                         <div class="submit-overview mg-b-30">
                                             <div class="mg-b-10">
                                                 <p class="top text-lightbold">
@@ -225,7 +225,11 @@
                                                     <a href="https://docs.google.com/document/d/1SwMoPeWEQX5KuUTZhSeA5FlMk-aIrUfEPW2uiUqvSYo/edit" target="_blank">
                                                         click here
                                                     </a>
-                                                    to create an answer. Then save the answer and output the link to paste in the box below. Thank you very muchhhh !!
+                                                    to create an answer or
+                                                    <a href="https://drive.google.com/drive/u/0/my-drive" target="_blank">
+                                                       click here
+                                                    </a>
+                                                    to upload your assignment directory. Then export the link to paste in the box below, thank you very muchhhh !!
                                                 </p>
                                                 <div class="form-group {{ $errors->first('source') ? 'has-error' : '' }}">
                                                     <input type="text" class="form-control" name="source" placeholder="https://..." value="{{ old('source') }}">

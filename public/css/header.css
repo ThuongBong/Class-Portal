@@ -7407,7 +7407,7 @@ label img {
 
 .activity-type-label, .activity-state-label {
     line-height: 1.2;
-    padding: 4px 8px;
+    padding: 10px 10px;
     border-radius: 8px;
     font-size: 0.75rem;
     color: var(--white-color);
@@ -7415,8 +7415,8 @@ label img {
     text-transform: unset;
     font-weight: normal;
     letter-spacing: .5px;
-    margin-right: 5px;
-    margin-bottom: 5px; }
+    margin-right: 50px;
+}
 .activity-type-label.syllabus, .activity-state-label.syllabus {
     background: var(--blue-light);
     color: var(--accent-color); }

@@ -33,7 +33,7 @@
                                                             <li>
                                                                 <i class="la la-book"></i>
                                                                 <span class="hyper-row">Subject:
-                                                                    <a href="/abc"
+                                                                    <a href="{{ route('student.assignment.show', $assignment->subject->id) }}"
                                                                        class="course-code text-bold decoration-none"
                                                                        title="{{ isset($assignment->subject) ? $assignment->subject->name : '' }}">
                                                                         {{ isset($assignment->subject) ? $assignment->subject->name : '' }}
@@ -51,14 +51,6 @@
                                                                 <span title="{{ !empty($assignment->due_date) ? formatTime($assignment->due_date) : '--' }}">
                                                                     Due Date: {{ !empty($assignment->due_date) ? formatTime($assignment->due_date) : '--' }}
                                                                 </span>
-                                                            </li>
-                                                            <li>
-                                                                <i class="la la-user-circle"></i>
-                                                                <span title=" ">Lecturers: </span>
-                                                            </li>
-                                                            <li>
-                                                                <i class="las la-id-card"></i>
-                                                                <span title="Number of students: ">Number of students: </span>
                                                             </li>
                                                         </ul>
                                                         <a class="view-detail text-decoration-none fs-14 mg-b-5" href="{{ route('student.assignment.show-details', $assignment->id) }}"

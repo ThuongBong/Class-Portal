@@ -181,21 +181,6 @@ class ClassController extends Controller
         }
     }
 
-    /*public function delete($id){
-
-        $class_user = Classes_User::find($id);
-        if (!$class_user) {
-            return redirect()->back()->with('error', 'Data does not exist');
-        }
-
-        try {
-            $class_user->delete();
-            return redirect()->back()->with('success', 'Delete successfully');
-        } catch (\Exception $exception) {
-            return redirect()->back()->with('error', 'There was an error that could not be deleted');
-        }
-    }*/
-
     public function addStudents(Request $request, $class_id)
     {
         foreach ($request->except(['_token']) as $student_id) {

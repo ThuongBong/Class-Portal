@@ -12,6 +12,9 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
+//home
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+
 //Student join class with code
 Route::get('/join/class/{classCode?}', [ClassController::class, 'joinClass'])->name('join.class');
 

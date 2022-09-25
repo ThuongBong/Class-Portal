@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Student;
 
+use App\Models\Classes;
+use App\Models\Classes_Subject;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -24,15 +26,16 @@ class AssignmentController extends Controller
                 $join->on('assignments.subject_id', '=', 'subjects.id');
             })
             ->join('classes','assignments.class_id','=','classes.id')
-            ->select('assignments.*', 'subjects.name', 'subjects.description as [subjectDescription]')
-            ->select('assignments.*', 'classes.name as [className]', 'classes.title as [classTitle]', 'classes.room')
+            ->select('assignments.*', 'subjects.name', 'subjects.description as subjectDescription')
+            ->select('assignments.*', 'classes.name as className', 'classes.title as classTitle', 'classes.room as classRoom')
             ->where('subject_id',$id)
             ->get();
-//      dd($assignments);
-
+        $subject = Subject::find($id);
 
         return view('pages.student.assignment.show',[
-            'assignments' => $assignments
+            'assignments' => $assignments,
+            'subject' => $subject,
+
         ]);
     }
 
@@ -58,6 +61,8 @@ class AssignmentController extends Controller
 
         $userId = Auth::user()->id;
         $result = Result::where(['user_id' => $userId, 'assignment_id' => $id])->first();
+
+        //dd($assignment);
 
         return view('pages.student.assignment.show-details', compact('assignment', 'result'));
     }

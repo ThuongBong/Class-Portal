@@ -264,7 +264,7 @@
                     <li class="col-12 col-md-6 col-lg-3">
                         <div class="cnt-block equal-hight" style="height: 349px; padding: 20px 20px">
                             <figure><img src="http://www.webcoderskull.com/img/team2.png" class="img-responsive" alt=""></figure>
-                            <h3><a href="http://www.webcoderskull.com/">Do Quang Minh</a></h3>
+                            <h3><a href="https://github.com/dominhtttb17">Do Quang Minh</a></h3>
                             <b>Team Member</b>
                             <p>FPT Aptech Student</p>
                             <ul class="follow-us clearfix">

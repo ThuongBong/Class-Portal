@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use App\Models\Classes;
+use App\Models\User;
 use App\Models\classes_user;
 use Illuminate\Http\Request;
 
@@ -27,11 +28,24 @@ class HomeController extends Controller
     {
         $recent_activity = array();
 
-        $classes = Auth::user()->classes()->get();
+        $user = User::query()->whereId(Auth::user()->id)
+            ->with(['classes' => function($q) {
+                return $q->with(['usersIsStudent', 'usersIsTeacher']);
+            }])
+            ->first();
+        // lấy class của user đang đăng nhập
+        $classes = $user->classes;
+
+//        dd($classes->toArray());
 
         /*$class1 = Classes::whereHas('users', function ($query){
             $query->where('user_id', '=', Auth::user()->id);
         });*/
+
+//        foreach ($classes  as $class){
+//            dd($class->pivot->pivotParent->email);
+//        }
+
 
 
         if (Auth::user()->role == 'teacher'){

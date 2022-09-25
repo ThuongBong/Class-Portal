@@ -51,7 +51,7 @@
                             </a>
                         </li>
                         <li class="menu-item user-guide-link">
-                            <a class="" href="https://faistatic.edunext.vn/assets/attachments/Huong_dan_KTXH_tren_EduNext_Sp22_Sinh_Vien.pdf" target="_blank" title="User Guide"><i class="las la-school"></i> User Guide</a>
+                            <a class="" href="{{ asset('uploads/user-guide/userguide_classportal.pdf') }}" target="_blank" title="User Guide"><i class="las la-school"></i> User Guide</a>
                         </li>
                     @endif
                 </ul>
@@ -64,7 +64,7 @@
                 </a>
             </li>
             <li class="user-guide-link">
-                <a class="" href="https://faistatic.edunext.vn/assets/attachments/Huong_dan_KTXH_tren_EduNext_Sp22_Sinh_Vien.pdf" target="_blank" title="User Guide">User Guide</a>
+                <a class="" href="{{ asset('uploads/user-guide/userguide_classportal.pdf') }}" target="_blank" title="User Guide">User Guide</a>
             </li>
             <li class="user-chat">
                 <div class="chat-icon">

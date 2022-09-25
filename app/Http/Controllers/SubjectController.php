@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Classes;
 use App\Models\Classes_Subject;
 use App\Models\Subject;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -22,15 +23,24 @@ class SubjectController extends Controller
     public function showAll()
     {
         $userId = Auth::user()->id;
-        $subjects =  DB::table('subjects')
-            ->join('classes_subjects','subjects.id','=','classes_subjects.subject_id')
-            ->join('classes_users', 'classes_subjects.class_id','=','classes_users.class_id')
-            ->join('classes', 'classes_subjects.class_id','=','classes.id')
-            ->where('classes_users.user_id',$userId)
-            ->select('subjects.*', 'classes.name as className', 'classes.id as classId')
-            ->get();
 
-        //dd($subjects->id);
+        $user = User::query()
+            ->with(['classes' => function($q) {
+                $q->with(['subjects']);
+            }])->whereId($userId)->first();
+
+        $arrSubjectId = [];
+
+        foreach($user->classes as $class) {
+            $arrSubjectId = array_merge($arrSubjectId, $class->subjects->pluck('id')->toArray());
+        }
+
+        $subjects = Subject::query()
+            ->with('classes')
+            ->withCount('assignments')
+            ->whereIn('id',$arrSubjectId)
+            ->get();
+        //dd($subjects, $arrSubjectId);
 
         if (Auth::user()->role == 'student'){
             return view('pages.student.subject.show_all', compact('subjects'));
