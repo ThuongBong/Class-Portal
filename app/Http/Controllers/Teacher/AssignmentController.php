@@ -10,8 +10,10 @@ use App\Models\Assignment;
 use App\Models\Subject;
 use App\Models\Classes;
 use App\Models\Result;
+use App\Models\ClassesUser;
 use App\Http\Requests\Teacher\AssignmentRequest;
 use Illuminate\Support\Facades\DB;
+use App\Helpers\MailHelper;
 
 
 class AssignmentController extends Controller
@@ -71,6 +73,7 @@ class AssignmentController extends Controller
     public function store(AssignmentRequest $request)
     {
         //
+        $currentUser = Auth::user();
         DB::beginTransaction();
         try {
             $data = $request->except('_token', 'submit');
@@ -87,25 +90,37 @@ class AssignmentController extends Controller
             $assignment = Assignment::create($data);
 
             if ($assignment) {
-                $userIds = DB::table('classes_users')->where('class_id', $assignment->class_id)->pluck('user_id');
+                $users = ClassesUser::with(['student' => function($query) {
+                    $query->where('role', 'student');
+                }])->where('class_id', $assignment->class_id)->get();
 
-                foreach($userIds as $userId) {
-                    $result = Result::where(['assignment_id' => $assignment->id, 'user_id' => $userId])->first();
+                foreach($users as $user) {
+                    $result = Result::where(['assignment_id' => $assignment->id, 'user_id' => $user->user_id])->first();
 
                     if (!$result) {
                         $result = new Result();
                     }
 
                     $result->assignment_id  = $assignment->id;
-                    $result->user_id  = $userId;
+                    $result->user_id  = $user->user_id;
                     $result->subject_id  = $assignment->subject_id;
                     $result->save();
+
+                    if (isset($user->student)) {
+                        $dataMail = [
+                            'email' => isset($user->student) ? $user->student->email : '',
+                            'name'  => isset($user->student) ? $user->student->name : '',
+                            'title' => $data['title'],
+                            'due_date' => !empty($data['due_date']) ? formatTime($data['due_date']) : '',
+                            'teacher' => $currentUser->name
+                        ];
+
+                        MailHelper::sendMail($dataMail);
+                    }
                 }
             }
 
-
             DB::commit();
-            return redirect()->route('class.detail', $assignment->class_id)->with('success', 'Successfully added new');
         } catch (\Exception $exception) {
             DB::rollBack();
             return redirect()->back()->with('error', 'An error occurred while saving data');
@@ -155,7 +170,7 @@ class AssignmentController extends Controller
     public function update(AssignmentRequest $request, $id)
     {
         //
-        $userId = Auth::user()->id;
+        $currentUser = Auth::user();
 
         DB::beginTransaction();
         try {
@@ -166,34 +181,46 @@ class AssignmentController extends Controller
             if($request->hasfile('source'))
             {
                 $file = $request->file('source');
-                $data['source'] = date('YmdHms'). $userId .$file->getClientOriginalName();
+                $data['source'] = date('YmdHms'). $currentUser->id .$file->getClientOriginalName();
                 $file->move(public_path().'/uploads/assignments/', $data['source']);
 
             }
 
             $assignment = Assignment::find($id);
 
-            $userIds = DB::table('classes_users')->where('class_id', $assignment->class_id)->pluck('user_id');
+            $users = ClassesUser::with(['student' => function($query) {
+                $query->where('role', 'student');
+            }])->where('class_id', $assignment->class_id)->get();
 
-            foreach($userIds as $userId) {
-                $result = Result::where(['assignment_id' => $assignment->id, 'user_id' => $userId])->first();
+            foreach($users as $user) {
+                $result = Result::where(['assignment_id' => $assignment->id, 'user_id' => $user->user_id])->first();
 
                 if (!$result) {
                     $result = new Result();
                 }
 
                 $result->assignment_id  = $assignment->id;
-                $result->user_id  = $userId;
+                $result->user_id  = $user->user_id;
                 $result->subject_id  = $assignment->subject_id;
                 $result->save();
+
+                if (isset($user->student)) {
+                    $dataMail = [
+                        'email' => isset($user->student) ? $user->student->email : '',
+                        'name'  => isset($user->student) ? $user->student->name : '',
+                        'title' => $data['title'],
+                        'due_date' => !empty($data['due_date']) ? formatTime($data['due_date']) : '',
+                        'teacher' => $currentUser->name
+                    ];
+
+                    MailHelper::sendMail($dataMail);
+                }
             }
 
             if (!$assignment) {
                 return redirect()->back()->with('error', 'Data does not exist');
             }
             $assignment->update($data);
-
-
             DB::commit();
             return redirect()->back()->with('success', 'Editing is successful');
         } catch (\Exception $exception) {
