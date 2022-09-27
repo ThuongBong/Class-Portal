@@ -93,7 +93,6 @@ class AssignmentController extends Controller
                 }
             }
 
-
             DB::commit();
             return redirect()->route('class.detail', $assignment->class_id)->with('success', 'Successfully added new');
         } catch (\Exception $exception) {
@@ -126,7 +125,7 @@ class AssignmentController extends Controller
         if (!$assignment) {
             return redirect()->route('class.detail', $assignment->class_id)->with('error', 'Data does not exist');
         }
-        return view('pages.teacher.assignment.edit', compact('assignment', 'class', 'subjects'));
+        return view('pages.teacher.assignment.edit', compact('assignment', 'class', 'subjects', 'classId'));
     }
     /**
      * Update the specified resource in storage.
@@ -173,14 +172,8 @@ class AssignmentController extends Controller
                 return redirect()->back()->with('error', 'Data does not exist');
             }
             $assignment->update($data);
-
-
             DB::commit();
-            return redirect()->back()->with('success', 'Editing is successful');
-        } catch (\Exception $exception) {
-            $assignment->update($data);
-            DB::commit();
-            return redirect()->back()->with('success', 'Editing is successful');
+            return redirect()->route('class.detail', $assignment->class_id)->with('success', 'Editing is successful');
         } catch (\Exception $exception) {
             DB::rollBack();
             return redirect()->back()->with('error', 'An error occurred while saving data');
