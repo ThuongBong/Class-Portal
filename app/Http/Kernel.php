@@ -52,7 +52,7 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
 
-        //khai bao middleware la IsAdmin
+        //khai bao middleware la CheckRole
         'is_teacher'=>CheckRole::class,
     ];
 }

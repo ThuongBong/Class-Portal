@@ -17,9 +17,9 @@
 
 <body class="identity-site">
 
-<h1 id="site-logo"> <img src="{{ asset('uploads/logo/logo-login.png') }}" alt="ClassPortal" style="width: 380px; height: 144px"/></h1>
-<main id="wrap-main-content">
+<h1 id="site-logo"><img src="{{ asset('uploads/logo/logo-login.png') }}" alt="ClassPortal" style="width: 380px; height: 144px"/></h1>
 
+<main id="wrap-main-content">
     <div class="identity-tabs">
         <a class="btn btn-secondary active" href="#">Login</a>
     </div>

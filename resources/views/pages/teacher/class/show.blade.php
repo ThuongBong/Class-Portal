@@ -53,42 +53,24 @@
                 </tr>
                 </thead>
                 <tbody>
-                {{--                @if (!$users->isEmpty())--}}
-                @foreach($users as $item)
-                    <tr>
-                        <th scope="row" style="vertical-align: middle">{{ $loop->iteration }}</th>
-                        <td style="vertical-align: middle">{{ $item->first_name }} {{ $item->last_name }}</td>
-                        @if (Auth::user()->role == 'teacher')
-                            <td style="vertical-align: middle">
-                                <a class="btn btn-danger btn-sm btn-delete btn-confirm-delete" href="{{ route('remove.student.class', $item->id) }}"
-                                   onclick="return confirm('You want delete student: {{$item->first_name}}')">
-                                    <i class="fas fa-trash"></i>
-                                </a>
-                            </td>
-                        @endif
-                    </tr>
-                    {{--                        @php $i++ @endphp--}}
-                @endforeach
-                {{--                @endif--}}
+                    @foreach($users as $item)
+                        <tr>
+                            <th scope="row" style="vertical-align: middle">{{ $loop->iteration }}</th>
+                            <td style="vertical-align: middle">{{ $item->first_name }} {{ $item->last_name }}</td>
+                            @if (Auth::user()->role == 'teacher')
+                                <td style="vertical-align: middle">
+                                    <a class="btn btn-danger btn-sm btn-delete btn-confirm-delete" href="{{ route('remove.student.class', $item->id) }}"
+                                       onclick="return confirm('You want delete student: {{$item->first_name}}')">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </td>
+                            @endif
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>
 
-        {{--@if (isset($assignments))--}}
-        {{--@if (count($assignments) > 0)--}}
-        {{--<div class="well">--}}
-        {{--<h4>Assignments</h4>--}}
-        {{--<div class="list-group">--}}
-        {{--@foreach ($assignments as $assignment)--}}
-        {{--<a href="{{ url('/subject/' . $subject_id . '/assignment/' . $assignment->id) }}" class="list-group-item list-group-item-info">--}}
-        {{--<h4 class="list-group-item-heading">{{ $assignment->title }}</h4>--}}
-        {{--<p class="list-group-item-text">Due Date: <u>{{ date('F jS Y \a\t h:i A', strtotime($assignment->due_date)) }}</u></p>--}}
-        {{--</a>--}}
-        {{--@endforeach--}}
-        {{--</div>--}}
-        {{--</div>--}}
-        {{--@endif--}}
-        {{--@endif--}}
     </div>
     <!--end side-content-->
 
@@ -224,36 +206,6 @@
         @endif
 
 
-        {{--        --}}{{--chuyển phần này qua subjects--}}
-
-        {{--        --}}{{--Lich su assignment da tao--}}
-        {{--        @if (isset($recent_activity) && count($recent_activity) > 0)--}}
-        {{--            <div class="panel panel-default">--}}
-        {{--                <div class="panel-heading">--}}
-        {{--                    <h4 class="panel-title">--}}
-        {{--                        Recent Assignment Activity--}}
-        {{--                    </h4>--}}
-        {{--                </div>--}}
-
-        {{--                <div class="panel-body">--}}
-        {{--                    <div class="col-xs-12 col-md-10 col-md-offset-1">--}}
-        {{--                        <div class="list-group">--}}
-        {{--                            @foreach ($recent_activity as $activity)--}}
-        {{--                                <a href="{{ url('/class/' . $activity->class_id . '/assignment/' . $activity->id) }}"--}}
-        {{--                                   class="list-group-item list-group-item-warning">--}}
-        {{--                                    <h4 class="list-group-item-heading">{{ $activity->title }}</h4>--}}
-        {{--                                    <p class="list-group-item-text">{{ $activity->description }}</p>--}}
-        {{--                                    <p class="list-group-item-text"><b>Due Date:</b>--}}
-        {{--                                        <u>{{ date('F jS Y \a\t h:i A', strtotime($activity->due_date)) }}</u>--}}
-        {{--                                    </p>--}}
-        {{--                                </a>--}}
-        {{--                            @endforeach--}}
-        {{--                        </div>--}}
-        {{--                    </div>--}}
-        {{--                </div>--}}
-        {{--            </div>--}}
-        {{--        @endif--}}
-
         {{-- add subject theo class--}}
         @if (Auth::user()->role == 'teacher' && Auth::user()->id == $instructor->id)
             <!-- Add Quizzes, Assignments, and Annoucements -->
@@ -265,44 +217,12 @@
                     </h4>
                 </div>
 
-                <div  id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labellledby="headingOne">
-                    <div class="btn-group col-md-offset-9">
-                        <select id="subject" name="subject" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <option value="">Select Option</option>
-                            <option value="new_Subject">Add new Subject </option>
-                        </select>
-                    </div>
-
-                    <!--form Subject-->
-                    <div id="forms">
-                        <div id="avai_subject" class="note" style="display: none">
-                            <form class="form-horizontal" role="form" method="POST" action="{{ url('/subject/save/') }}">
-                                {{ csrf_field() }}
-                                <div class="form-group">
-                                    <label>Subject</label>
-                                    <input type="hidden" name="class_id" value="{{$class_id}}"/>
-                                    <select name="subject_id" class="custom-select" required>
-                                        <option value="">choose</option>
-                                        @foreach($subjects as $items)
-                                            <option @if(old('subject_id') == $items->subject_id) selected @endif value="{{$items->id}}">
-                                                {{$items->name}}
-                                            </option>
-                                        @endforeach
-
-                                    </select>
-                                </div>
-                                <!-- Submit Button -->
-                                <div class="form-group">
-                                    <div class="col-md-4 col-md-offset-6">
-                                        <button type="submit" class="btn btn-primary">Submit</button>
-                                    </div>
-                                </div>
-
-                            </form>
-                        </div>
-
-                        <div id="new_subject" class="note" style="display: none">
-                            <form class="form-horizontal" role="form" method="POST" action="{{ url('/subject/new/save') }}">
+                <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labellledby="headingTwo">
+                    <div class="panel-body">
+                        <div class="col-xs-12 col-md-12">
+                            {{--start form--}}
+                            <form class="form-horizontal" role="form" method="POST"
+                                  action="{{ url('/subject/new/save') }}">
                                 {{ csrf_field() }}
                                 <input type="hidden" name="class_id" value="{{$class_id}}"/>
                                 <!--Name-->
@@ -341,23 +261,15 @@
                                 </div>
 
                             </form>
+                            {{--end form--}}
                         </div>
                     </div>
-                    <!--end form-->
                 </div>
+
             </div>
         @endif
 
         <div class="panel panel-default">
-            {{--            <div class="panel-heading" role="tab" id="headingOne">--}}
-            {{--                <h4 class="panel-title">--}}
-            {{--                    Subject--}}
-            {{--                </h4>--}}
-            {{--            </div>--}}
-            {{--                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"--}}
-            {{--                                aria-haspopup="true" aria-expanded="false">--}}
-            {{--                            Select Type <span class="caret"></span>--}}
-            {{--                        </button>--}}
             <table class="table table-hover text-nowrap">
                 <thead>
                 <tr>

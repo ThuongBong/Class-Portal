@@ -24,7 +24,7 @@ function customDate($endDate){
     $fromDate = Carbon::now();
     $toDate = Carbon::parse($endDate);
 
-    return  $fromDate->diffForHumans($toDate); //12 phút trước
+    return $fromDate->diffForHumans($toDate); //12 phút trước
 }
 
 if ( ! function_exists('safeTitle')) {
